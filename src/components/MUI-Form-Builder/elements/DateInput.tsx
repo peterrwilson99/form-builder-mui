@@ -4,16 +4,16 @@ import { Typography } from '@mui/material';
 
 interface DateInputProps {
     id: string | number;
-    question: string;
+    prompt: string;
     required?: boolean;
-    valueProp?: string;
+    defaultValue?: string;
     format?: 'time' | 'datetime-local';
     onChange: (id: string | number, value: string) => void;
     disabled?: boolean;
 }
 
-const DateInput: FC<DateInputProps> = ({ id, question, required, valueProp, format, onChange, disabled }) => {
-    const [value, setValue] = useState<string>(valueProp || '');
+const DateInput: FC<DateInputProps> = ({ id, prompt, required, defaultValue, format, onChange, disabled }) => {
+    const [value, setValue] = useState<string>(defaultValue || '');
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -21,15 +21,15 @@ const DateInput: FC<DateInputProps> = ({ id, question, required, valueProp, form
     };
 
     let type: TextFieldProps['type'] = "date";
-    let defaultValue = "2017-05-24";
+    let timeDefault = "2017-05-24";
     switch(format) {
         case "time":
             type = "time";
-            defaultValue = "07:30";
+            timeDefault = "07:30";
             break;
         case "datetime-local":
             type = "datetime-local";
-            defaultValue = "2017-05-24T10:30";
+            timeDefault = "2017-05-24T10:30";
             break;
         default:
             break;
@@ -38,13 +38,13 @@ const DateInput: FC<DateInputProps> = ({ id, question, required, valueProp, form
     return (
         <div className="my-4">
             <Typography variant="h6" className="mb-4">
-                {question}
+                {prompt}
             </Typography>
             <TextField
                 id={id.toString()}
-                label={question}
+                label={prompt}
                 type={type}
-                defaultValue={valueProp ?? defaultValue}
+                defaultValue={defaultValue ?? timeDefault}
                 value={value}
                 onChange={handleChange}
                 required={required}

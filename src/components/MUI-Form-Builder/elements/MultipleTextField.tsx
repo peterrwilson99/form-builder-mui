@@ -6,13 +6,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 interface MultipleTextFieldProps {
     id: string;
-    question: string;
+    prompt: string;
     required?: boolean;
     onChange: (id: string, values: string[]) => void;
     disabled?: boolean;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, question, required, onChange, disabled }) => {
+const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, prompt, required, onChange, disabled }) => {
     const [values, setValues] = useState<string[]>(['']);
 
     const handleAddField = () => {
@@ -32,7 +32,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, question, required,
 
     return (
         <div className="my-4">
-            <h6>{question}</h6>
+            <h6>{prompt}</h6>
             {values.map((value, index) => (
                 <div key={index} className="d-flex align-items-center my-4">
                     <TextField

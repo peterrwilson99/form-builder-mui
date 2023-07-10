@@ -3,18 +3,18 @@ import React, { FC, useState, ChangeEvent } from 'react'
 
 interface TextFieldProps {
     id: string;
-    question: string;
+    prompt: string;
     required?: boolean;
     variant: 'standard' | 'filled' | 'outlined';
-    valueProp: string;
+    defaultValue: string;
     multiline?: boolean;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const TextField: FC<TextFieldProps> = (props) => {
-    const { id, question, required, variant, valueProp, multiline, onChange, disabled } = props
-    const [value, setValue] = useState<string>(valueProp);
+    const { id, prompt, required, variant, defaultValue, multiline, onChange, disabled } = props
+    const [value, setValue] = useState<string>(defaultValue);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -24,11 +24,11 @@ const TextField: FC<TextFieldProps> = (props) => {
     return (
         <div className="my-4" >
             <Typography variant="h6" gutterBottom>
-                {question}
+                {prompt}
             </Typography>
             <MUITextField
-                id={question}
-                label={question}
+                id={prompt}
+                label={prompt}
                 required={required}
                 variant={variant}
                 value={value}

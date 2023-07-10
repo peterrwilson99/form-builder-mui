@@ -8,17 +8,17 @@ interface Option {
 
 interface SelectInputProps {
     id: string;
-    question: string;
+    prompt: string;
     required?: boolean;
-    valueProp: string;
+    defaultValue: string;
     options: Option[];
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
-    const { id, question, required, valueProp, options, onChange, disabled } = props
-    const [value, setValue] = useState<string>(valueProp);
+    const { id, prompt, required, defaultValue, options, onChange, disabled } = props
+    const [value, setValue] = useState<string>(defaultValue);
 
     const handleChange = (e: SelectChangeEvent) => {
         setValue(e.target.value);
@@ -28,16 +28,16 @@ const SelectInput: FC<SelectInputProps> = (props) => {
     return (
         <div className="my-4">
             <Typography variant="h6" gutterBottom>
-                {question}
+                {prompt}
             </Typography>
             <FormControl fullWidth required={required}>
-                <InputLabel id={id + "-label"}>{question}</InputLabel>
+                <InputLabel id={id + "-label"}>{prompt}</InputLabel>
                 <Select
                     labelId={id + "-label"}
                     id={id}
                     value={value}
                     onChange={handleChange}
-                    label={question}
+                    label={prompt}
                     disabled={disabled}
                 >
                     {(options ?? []).map((option, index) => (

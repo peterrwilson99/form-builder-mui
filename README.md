@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+# MUI Form Builder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MUI Form Builder is a web application that allows you to create and view forms using Material-UI components. It provides a user-friendly interface for building forms and a form viewer to display and interact with the created forms.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Form viewer to display and interact with the created forms
+- Support for various Material-UI form components such as text fields, radio buttons, checkboxes, select inputs, and more
+- Ability to customize properties of form components
+- Rearrange form components using up and down arrows
+- Delete form components
+- Save and load form configurations
+- Submit and handle form data
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Clone the repository:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   ```shell
+   git clone <repository-url>
+   ```
+2. Install the dependencies:
 
-### `npm test`
+    ```
+    cd mui-form-builder
+    npm install
+    ```
+3. Start the development server:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ```
+    npm start
+    ```
 
-### `npm run build`
+The application should now be running on http://localhost:3000.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Builder
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The builder interface allows you to create forms by dragging and dropping components from the toolbox onto the form canvas. You can customize the properties of each component by clicking on the settings icon. Components can be rearranged using the up and down arrows, and they can be deleted using the delete icon.
 
-### `npm run eject`
+### Viewer
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The viewer interface displays the created form. You can interact with the form inputs, select options, and submit the form. The submitted form data can be handled in the `handleSubmit` function.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Saving and Loading Form Configurations
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+You can save and load form configurations using the provided buttons. Saved configurations are stored in the local storage of the browser.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Customization
 
-## Learn More
+You can customize the form components and their properties by modifying the `Form1` configuration file. The `Form1` file contains an array of form elements, each representing a form component with its specific properties.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contributing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Acknowledgements
+
+- [Material-UI](https://mui.com) - UI library for React
+- [React Beautiful DND](https://github.com/atlassian/react-beautiful-dnd) - Drag and drop library for React
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
+
+## Contact
+
+For any inquiries, please contact [your-email@example.com](mailto:your-email@example.com).

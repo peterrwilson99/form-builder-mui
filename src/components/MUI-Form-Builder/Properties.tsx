@@ -8,8 +8,8 @@ interface OptionType {
 }
 
 interface PropertiesProps {
-  element: { id: string; type: string; [key: string]: any };
-  editElement: (id: string, properties: { [key: string]: any }) => void;
+  element: { id: number; type: string; [key: string]: any };
+  editElement: (id: number, properties: { [key: string]: any }) => void;
 }
 
 interface ComponentDetails {
@@ -114,17 +114,13 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
 };
 
 const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
-  const componentProperties = ComponentProperties[element.type] as any;
+  const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
   const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== 'id')));
 
-  const handleChange = (key: string) => (event: SelectChangeEvent | ChangeEvent<HTMLInputElement>) => {
-    let val;
-    if ('target' in event) {
-      // It's a React.ChangeEvent
-      val = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-    } else {
-      // It's a SelectChangeEvent
-      val = event.target.value;
+  const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement> ) => {
+    let val: string | boolean = event.target.value;
+    if (event.target.type === "checkbox") {
+        val = event.target.checked; // For checkboxes, use "checked" property instead
     }
     setProperties({
       ...properties,
@@ -136,18 +132,18 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
     if (element.id !== undefined) {
       editElement(element.id, properties);
     }
-  }, [properties]);
+  }, [editElement, element.id, properties]);
 
   return (
     <Box sx={{ minWidth: '400px' }} className="my-4">
       <Container className="m-auto">
         <Typography variant="h6" className="mt-8" gutterBottom>
-          {element.type ?? 'Question'} Properties
+          {element.type ?? 'prompt'} Properties
         </Typography>
         <Divider className="mb-2" />
         <form>
           {Object.entries(componentProperties).map(([key, value]) => {
-            const component = getComponent(value, properties[key], handleChange(key));
+            const component = getComponent(value as ComponentDetails, properties[key], handleChange(key));
             return component;
           })}
         </form>

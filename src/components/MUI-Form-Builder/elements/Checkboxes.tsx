@@ -8,13 +8,13 @@ interface OptionType {
 
 interface CheckboxesProps {
     id: string | number;
-    question: string;
+    prompt: string;
     options?: OptionType[];
     onChange: (id: string | number, value: Record<string, boolean>) => void;
     disabled?: boolean;
 }
 
-const Checkboxes: FC<CheckboxesProps> = ({ id, question, options, onChange, disabled }) => {
+const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, options, onChange, disabled }) => {
     const [value, setValue] = useState<Record<string, boolean>>({});
 
     const handleChange = (option: OptionType) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +26,7 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, question, options, onChange, disa
     return (
         <div className="my-4">
             <Typography variant="h6" gutterBottom>
-                {question}
+                {prompt}
             </Typography>
             {(options ?? []).map((option, index) => (
                 <FormControlLabel

@@ -7,20 +7,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CloseIcon from '@mui/icons-material/Close';
-
-import { Properties } from './Properties';
+import Properties from './Properties';
 
 interface Element {
     id: number;
     type: string;
     [key: string]: any; // This can be improved by defining more explicit types
-  }
-  
-  interface BuilderProps {
+}
+
+interface BuilderProps {
     form?: Element[];
     saveForm?: (form: Element[]) => void;
-  }
-  
+}
 
 
 const Builder: FC<BuilderProps> = (props) => {
@@ -28,7 +26,7 @@ const Builder: FC<BuilderProps> = (props) => {
     const [elements, setElements] = useState(form ?? [])
     const [nextId, setNextId] = useState(1);
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [activeElement, setActiveElement] = useState(null);
+    const [activeElement, setActiveElement] = useState(-1);
 
     const moveElementUp = (index: any) => {
         if (index === 0) {
@@ -52,8 +50,8 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
     
-    const onAddComponent = (componentType) => {
-        const componentPropertiesCurrent = ComponentDefaults[componentType];
+    const onAddComponent = (componentType: string) => {
+        const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
         console.log(componentPropertiesCurrent)
         const newElement = {
             id: nextId, // unique ID for DnD
@@ -65,7 +63,7 @@ const Builder: FC<BuilderProps> = (props) => {
         setNextId(nextId + 1); // increment nextId for future elements
     };
 
-    const editElement = (id, properties) => {
+    const editElement = (id: number, properties: any) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
         const elementToEdit = newElements[index];
@@ -77,14 +75,14 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
 
-    const deleteElement = (id) => {
+    const deleteElement = (id: number) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
         newElements.splice(index, 1);
         setElements(newElements);
     };
 
-    const openDrawer = (elementId) => {
+    const openDrawer = (elementId: number) => {
         const index = elements.findIndex(element => element.id === elementId);
         setActiveElement(index);
         setDrawerOpen(true);
@@ -97,7 +95,7 @@ const Builder: FC<BuilderProps> = (props) => {
         <div className="builder">
             <div className="form-preview">
                 {elements.map((element, index) => {
-                    const Component = Components[element.type];
+                    const Component = Components[element.type as keyof typeof Components];
                     
                     return (
                         <Paper elevation={2} sx={{ p: 1, my: 1 }} >
@@ -116,7 +114,7 @@ const Builder: FC<BuilderProps> = (props) => {
                                         <DeleteIcon />
                                     </IconButton>
                                 </div>
-                                <Component {...element} disabled={true}/>
+                                <Component {...element as any} disabled={true} />
                             </div>
                         </Paper>
                 );})}
@@ -135,9 +133,10 @@ const Builder: FC<BuilderProps> = (props) => {
                         <></>
                 }
             </Drawer>
-            <Button className="my-4" onClick={saveForm ?? (() => (console.log(elements)))} variant="outlined">
+            <Button className="my-4" onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
                 Save Form
             </Button>
+
         </div>
     );
 }

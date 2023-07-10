@@ -3,17 +3,17 @@ import React, { FC, useState, ChangeEvent } from 'react'
 
 interface NumberInputProps {
     id: string;
-    question: string;
+    prompt: string;
     required?: boolean;
     variant: 'standard' | 'outlined' | 'filled';
-    valueProp: string;
+    defaultValue: string;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const NumberInput: FC<NumberInputProps> = (props) => {
-    const { id, question, required, variant, valueProp, onChange, disabled } = props;
-    const [value, setValue] = useState<string>(valueProp);
+    const { id, prompt, required, variant, defaultValue, onChange, disabled } = props;
+    const [value, setValue] = useState<string>(defaultValue);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -23,11 +23,11 @@ const NumberInput: FC<NumberInputProps> = (props) => {
     return (
         <div className="my-4" >
             <Typography variant="h6" gutterBottom>
-                {question}
+                {prompt}
             </Typography>
             <MUITextField
-                id={question}
-                label={question}
+                id={prompt}
+                label={prompt}
                 required={required}
                 variant={variant}
                 type="number"
