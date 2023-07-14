@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import Toolbox from './Toolbox';
 import { ComponentDefaults, Components } from './elements/Components';
-import { Button, Drawer, IconButton, Paper } from '@mui/material';
+import { Box, Button, Drawer, IconButton, Paper } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -100,7 +100,7 @@ const Builder: FC<BuilderProps> = (props) => {
                     return (
                         <Paper elevation={2} sx={{ p: 1, my: 1 }} >
                             <div>
-                                <div className="flex justify-end mb-[-50px]">
+                                <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-35px"}}>
                                     <IconButton onClick={() => openDrawer(element.id)}> 
                                         <SettingsIcon />
                                     </IconButton>
@@ -113,11 +113,12 @@ const Builder: FC<BuilderProps> = (props) => {
                                     <IconButton onClick={() => deleteElement(element.id)}>
                                         <DeleteIcon />
                                     </IconButton>
-                                </div>
+                                </Box>
                                 <Component {...element as any} disabled={true} />
                             </div>
                         </Paper>
-                );})}
+                    );
+                })}
             </div>
             <div className="toolbox">
                 <Toolbox onAddComponent={onAddComponent}/>
@@ -133,7 +134,7 @@ const Builder: FC<BuilderProps> = (props) => {
                         <></>
                 }
             </Drawer>
-            <Button className="my-4" onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
+            <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
                 Save Form
             </Button>
 

@@ -1,4 +1,4 @@
-import { Typography, TypographyProps } from '@mui/material';
+import { Box, Typography, TypographyProps } from '@mui/material';
 import React, { FC } from 'react'
 
 interface HeaderProps {
@@ -8,11 +8,11 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ text, variant = 'h6' }) => {
     return (
-        <div className="my-4">
+        <Box sx={{marginY: "16px"}}>
             <Typography variant={variant} gutterBottom>
                 {text}
             </Typography>
-        </div>
+        </Box>
     )
 }
 

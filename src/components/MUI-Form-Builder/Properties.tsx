@@ -25,7 +25,7 @@ const SelectComponent = (
     handleChange: (event: SelectChangeEvent) => void
   ) => {
     return (
-      <FormControl className="my-4" fullWidth>
+      <FormControl sx={{marginY: "16px"}} fullWidth>
         <InputLabel id={`${label}-label`}>{label}</InputLabel>
         <Select
           labelId={`${label}-label`}
@@ -47,7 +47,7 @@ const SelectComponent = (
 const BooleanComponent = (label: string, value: boolean, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
     return (
         <FormControlLabel
-            className="my-4" 
+            sx={{marginY: "16px"}} 
             control={
                 <Checkbox checked={value} onChange={handleChange} />
             }
@@ -58,7 +58,7 @@ const BooleanComponent = (label: string, value: boolean, handleChange: (event: C
 
 const StringComponent = (label: string, value: string, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
     return (
-        <TextField className="my-4" variant="standard" label={label} value={value} onChange={handleChange} fullWidth />
+        <TextField sx={{marginY: "16px"}} variant="standard" label={label} value={value} onChange={handleChange} fullWidth />
     )
 };
 
@@ -85,7 +85,7 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
             {(options ?? []).map((option, index) => (
                 <TextField
                     key={index}
-                    className="my-4"
+                    sx={{marginY: "16px"}}
                     variant="standard"
                     value={option.label ?? option.value ?? option}
                     onChange={handleOptionChange(index)}
@@ -135,12 +135,12 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   }, [editElement, element.id, properties]);
 
   return (
-    <Box sx={{ minWidth: '400px' }} className="my-4">
-      <Container className="m-auto">
-        <Typography variant="h6" className="mt-8" gutterBottom>
+    <Box sx={{ minWidth: '400px', marginY: "16px" }}>
+      <Container sx={{margin: "auto"}}>
+        <Typography variant="h6" sx={{marginTop: "32px"}} gutterBottom>
           {element.type ?? 'prompt'} Properties
         </Typography>
-        <Divider className="mb-2" />
+        <Divider sx={{marginBottom: "8px"}} />
         <form>
           {Object.entries(componentProperties).map(([key, value]) => {
             const component = getComponent(value as ComponentDetails, properties[key], handleChange(key));

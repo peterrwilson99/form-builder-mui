@@ -1,4 +1,4 @@
-import { Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Typography, RadioGroup, FormControlLabel, Radio, Box } from '@mui/material';
 import React, { FC, useState, ChangeEvent } from 'react'
 
 interface Option {
@@ -26,7 +26,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
     };
 
     return (
-        <div className="my-4" >
+        <Box sx={{marginY: "16px"}} >
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
@@ -45,7 +45,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
                     />
                 ))}
             </RadioGroup>
-        </div>
+        </Box>
     )
 }
 

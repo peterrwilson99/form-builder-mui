@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FC } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 interface DateInputProps {
     id: string | number;
@@ -36,8 +36,8 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, required, defaultValue, for
     }
 
     return (
-        <div className="my-4">
-            <Typography variant="h6" className="mb-4">
+        <Box sx={{marginY: "16px"}}>
+            <Typography variant="h6" sx={{marginBottom: "16px"}}>
                 {prompt}
             </Typography>
             <TextField
@@ -55,7 +55,7 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, required, defaultValue, for
                 inputProps={format === "time" ? { step: 300 } : {}}
                 disabled={disabled}
             />
-        </div>
+        </Box>
     );
 }
 

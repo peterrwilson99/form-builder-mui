@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FC } from 'react';
-import { Typography, Checkbox, FormControlLabel } from '@mui/material';
+import { Typography, Checkbox, FormControlLabel, Box } from '@mui/material';
 
 interface OptionType {
     value: string;
@@ -24,7 +24,7 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, options, onChange, disabl
     };
 
     return (
-        <div className="my-4">
+        <Box sx={{marginY: "16px"}}>
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
@@ -44,7 +44,7 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, options, onChange, disabl
                     label={option.label}
                 />
             ))}
-        </div>
+        </Box>
     )
 }
 

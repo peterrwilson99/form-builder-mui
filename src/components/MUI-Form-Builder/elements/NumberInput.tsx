@@ -1,4 +1,4 @@
-import { Typography, TextField as MUITextField } from '@mui/material';
+import { Typography, TextField as MUITextField, Box } from '@mui/material';
 import React, { FC, useState, ChangeEvent } from 'react'
 
 interface NumberInputProps {
@@ -21,7 +21,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
     };
 
     return (
-        <div className="my-4" >
+        <Box sx={{marginY: "16px"}} >
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
@@ -36,7 +36,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
                 disabled={disabled}
                 fullWidth
             />
-        </div>
+        </Box>
     )
 }
 

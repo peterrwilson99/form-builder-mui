@@ -1,4 +1,4 @@
-import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from '@mui/material';
 import React, { FC, useState } from 'react'
 
 interface Option {
@@ -26,7 +26,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
     };
 
     return (
-        <div className="my-4">
+        <Box sx={{marginY: "16px"}}>
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
@@ -47,7 +47,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                     ))}
                 </Select>
             </FormControl>
-        </div>
+        </Box>
     )
 }
 

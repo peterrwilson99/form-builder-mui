@@ -33,6 +33,7 @@ const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
                     key={component}
                     icon={<Add />}
                     tooltipTitle={component}
+                    tooltipOpen
                     onClick={() => onAddComponent(component)}
                 />
             ))}

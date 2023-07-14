@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Typography } from '@mui/material';
 
 interface MultipleTextFieldProps {
     id: string;
@@ -31,10 +32,10 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, prompt, required, o
     };
 
     return (
-        <div className="my-4">
-            <h6>{prompt}</h6>
+        <Box sx={{marginY: "16px"}}>
+            <Typography variant="h6">{prompt}</Typography>
             {values.map((value, index) => (
-                <div key={index} className="d-flex align-items-center my-4">
+                <Box key={index} sx={{display: "flex", justifyContent: "center", marginY: "16px"}} className="d-flex align-items-center my-4">
                     <TextField
                         required={required}
                         value={value}
@@ -52,9 +53,9 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, prompt, required, o
                             <DeleteIcon />
                         </IconButton>
                     )}
-                </div>
+                </Box>
             ))}
-        </div>
+        </Box>
     );
 }
 

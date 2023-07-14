@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <Container maxWidth="md" className="text-left">
+      <Container maxWidth="md">
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label="Viewer" />
