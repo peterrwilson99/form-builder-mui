@@ -38,11 +38,13 @@ function App() {
           <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label="Viewer" />
             <Tab label="Builder" />
+            <Tab label="Builder of old Form" />
           </Tabs>
         </Box>
         <Box>
           {value === 0 && <Viewer form={form as Element[]} onSubmit={handleSubmit} />}
           {value === 1 && <Builder />}
+          {value === 2 && <Builder form={form} />}
         </Box>
       </Container>
     </div>
