@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { Components } from "./elements/Components";
 
 interface Element {
+  id: number;
   type: keyof typeof Components;
   [key: string]: any;
 }

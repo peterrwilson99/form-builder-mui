@@ -12,7 +12,7 @@ import Viewer from './Viewer';
 
 interface Element {
     id: number;
-    type: string;
+    type: keyof typeof Components;
     [key: string]: any; // This can be improved by defining more explicit types
 }
 
@@ -52,7 +52,7 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
     
-    const onAddComponent = (componentType: string) => {
+    const onAddComponent = (componentType: keyof typeof Components) => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
         console.log(componentPropertiesCurrent)
         const newElement = {
@@ -115,52 +115,61 @@ const Builder: FC<BuilderProps> = (props) => {
                     <ToggleButton value="preview" disabled={elements.length === 0}>Preview</ToggleButton>
                 </ToggleButtonGroup>
             </Box>
-            <div className="form-preview">
-                {elements.map((element, index) => {
-                    const Component = Components[element.type as keyof typeof Components];
-                    
-                    return (
-                        <Paper elevation={2} sx={{ p: 1, my: 1 }} >
-                            <div>
-                                <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-35px"}}>
-                                    <IconButton onClick={() => openDrawer(element.id)}> 
-                                        <SettingsIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
-                                        <ArrowUpwardIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => moveElementDown(index)} disabled={index === elements.length - 1}>
-                                        <ArrowDownwardIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => deleteElement(element.id)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Box>
-                                <Component {...element as any} disabled={true} />
-                            </div>
-                        </Paper>
-                    );
-                })}
-            </div>
-            <div className="toolbox">
-                <Toolbox onAddComponent={onAddComponent}/>
-            </div>
-            <Drawer anchor="right" open={drawerOpen} onClose={closeDrawer}>
-                <IconButton onClick={closeDrawer} style={{ position: 'absolute', left: 0, margin: '10px' }}>
-                    <CloseIcon />
-                </IconButton>
-                {
-                    elements[activeElement] ?
-                        <Properties element={elements[activeElement]} editElement={editElement} />
-                        :
-                        <></>
-                }
-            </Drawer>
-            <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
-                Save Form
-            </Button>
-            {/* <Viewer form={form} preview={true}/> */}
-
+            {mode === "builder" ?
+                <div>
+                    <div className="form-preview">
+                        {elements.map((element, index) => {
+                            const Component = Components[element.type as keyof typeof Components];
+                            
+                            return (
+                                <Paper elevation={2} sx={{ p: 1, my: 1 }} >
+                                    <div>
+                                        <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-35px"}}>
+                                            <IconButton onClick={() => openDrawer(element.id)}> 
+                                                <SettingsIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
+                                                <ArrowUpwardIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => moveElementDown(index)} disabled={index === elements.length - 1}>
+                                                <ArrowDownwardIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => deleteElement(element.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Box>
+                                        <Component {...element as any} disabled={true} />
+                                    </div>
+                                </Paper>
+                            );
+                        })}
+                    </div>
+                    <div className="toolbox">
+                        <Toolbox onAddComponent={onAddComponent}/>
+                    </div>
+                    <Drawer anchor="right" open={drawerOpen} onClose={closeDrawer}>
+                        <IconButton onClick={closeDrawer} style={{ position: 'absolute', left: 0, margin: '10px' }}>
+                            <CloseIcon />
+                        </IconButton>
+                        {
+                            elements[activeElement] ?
+                                <Properties element={elements[activeElement]} editElement={editElement} />
+                                :
+                                <></>
+                        }
+                    </Drawer>
+                    <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
+                        Save Form
+                    </Button>
+                </div>
+                :
+                <Viewer form={elements} preview={true}/>
+            }
+            {/* {mode === "preview" ? 
+                <Viewer form={elements} preview={true}/>
+                :
+                <></>
+            } */}
         </div>
     );
 }
