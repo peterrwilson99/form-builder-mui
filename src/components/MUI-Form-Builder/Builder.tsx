@@ -1,13 +1,14 @@
 import React, { FC, useState } from 'react'
 import Toolbox from './Toolbox';
 import { ComponentDefaults, Components } from './elements/Components';
-import { Box, Button, Drawer, IconButton, Paper } from '@mui/material';
+import { Box, Button, Drawer, IconButton, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CloseIcon from '@mui/icons-material/Close';
 import Properties from './Properties';
+import Viewer from './Viewer';
 
 interface Element {
     id: number;
@@ -27,6 +28,7 @@ const Builder: FC<BuilderProps> = (props) => {
     const [nextId, setNextId] = useState(1);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
+    const [mode, setMode] = useState("builder");
 
     const moveElementUp = (index: any) => {
         if (index === 0) {
@@ -87,12 +89,32 @@ const Builder: FC<BuilderProps> = (props) => {
         setActiveElement(index);
         setDrawerOpen(true);
     };
+
+    const handleModeChange = (
+        event: React.MouseEvent<HTMLElement>,
+        newMode: string,
+      ) => {
+        if(newMode !== null) {
+            setMode(newMode);
+        }
+      };
     
     
     const closeDrawer = () => setDrawerOpen(false);
 
     return (
         <div className="builder">
+            <Box className="preview" justifyContent="flex-end">
+                <ToggleButtonGroup
+                    color="primary"
+                    value={mode}
+                    exclusive
+                    onChange={handleModeChange}
+                    >
+                    <ToggleButton value="builder">Builder</ToggleButton>
+                    <ToggleButton value="preview" disabled={elements.length === 0}>Preview</ToggleButton>
+                </ToggleButtonGroup>
+            </Box>
             <div className="form-preview">
                 {elements.map((element, index) => {
                     const Component = Components[element.type as keyof typeof Components];
@@ -137,6 +159,7 @@ const Builder: FC<BuilderProps> = (props) => {
             <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
                 Save Form
             </Button>
+            {/* <Viewer form={form} preview={true}/> */}
 
         </div>
     );

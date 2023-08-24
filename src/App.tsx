@@ -42,7 +42,7 @@ function App() {
           </Tabs>
         </Box>
         <Box>
-          {value === 0 && <Viewer form={form as Element[]} onSubmit={handleSubmit} />}
+          {value === 0 && <Viewer form={form as Element[]} onSubmit={handleSubmit} preview={false} />}
           {value === 1 && <Builder />}
           {value === 2 && <Builder form={form} />}
         </Box>

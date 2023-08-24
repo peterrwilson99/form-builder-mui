@@ -11,9 +11,10 @@ interface Element {
 interface ViewerProps {
   form?: Element[];
   onSubmit?: (formValues: any) => void;
+  preview: Boolean;
 }
 
-const Viewer: FC<ViewerProps> = ({ form, onSubmit }) => {
+const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
   const [formValues, setFormValues] = useState({});
   const elements = form ?? [];
   const handleChange = (id: string, value: any) => {
@@ -34,11 +35,15 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit }) => {
     <form onSubmit={handleSubmit}>
       {elements.map((element, index) => {
         const Component = Components[element.type] as FC<any>;
-        return <Component key={index} onChange={handleChange} {...element} />;
+        return <Component key={index} onChange={handleChange} {...element} disabled={preview} />;
       })}
-      <Button type="submit" variant="outlined">
-        Submit
-      </Button>
+      {preview === false ? 
+        <Button type="submit" variant="outlined">
+          Submit
+        </Button>
+        :
+        <></>
+      }
     </form>
   );
 };
