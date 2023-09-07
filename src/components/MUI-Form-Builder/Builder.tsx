@@ -54,15 +54,14 @@ const Builder: FC<BuilderProps> = (props) => {
     
     const onAddComponent = (componentType: keyof typeof Components) => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
-        console.log(componentPropertiesCurrent)
         const newElement = {
-            id: nextId, // unique ID for DnD
+            id: nextId,
             type: componentType,
             ...componentPropertiesCurrent,
         };
-
+        
         setElements((oldElements) => [...oldElements, newElement]);
-        setNextId(nextId + 1); // increment nextId for future elements
+        setNextId(nextId + 1);
     };
 
     const editElement = (id: number, properties: any) => {

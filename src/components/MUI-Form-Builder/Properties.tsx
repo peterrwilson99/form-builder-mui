@@ -3,7 +3,7 @@ import { ComponentProperties } from './elements/Components';
 import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent } from '@mui/material';
 
 interface OptionType {
-  label?: string;
+  label?: string | number;
   value?: string | number;
 }
 
@@ -62,21 +62,21 @@ const StringComponent = (label: string, value: string, handleChange: (event: Cha
     )
 };
 
-const ArrayComponent = (label: string, value: OptionType[] | undefined, handleChange: (event: any) => void) => {
+const ArrayComponent = (label: string, value: OptionType[] | undefined, handleChange: (event: any) => void): any => {
     const [options, setOptions] = useState(value ?? [''] as OptionType[]);
 
     const handleOptionChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newOptions = [...options];
         newOptions[index] = { label: event.target.value, value: index };  // Ensure this is an OptionType object
         setOptions(newOptions);
-        const keyedOptions = newOptions.map((option, index) => ({ value: index, label: option.label ?? '' }));
-        console.log("keyedOptions", keyedOptions)
+        const keyedOptions = newOptions.map((option, index) => ({ value: option.label, label: option.label ?? '' }));
+        
         handleChange({ target: keyedOptions });  // Mimic event object structure for consistency
     };
     
 
     const handleAddOption = () => {
-        setOptions([...options, {label: '', value: options.length}]);
+        setOptions([...options, {label: '', value: ''}]);
     };
 
     return (
@@ -118,10 +118,11 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== 'id')));
 
   const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement> ) => {
-    let val: string | boolean = event.target.value;
+    let val: string | boolean | OptionType[] = event.target.value ?? event.target;
     if (event.target.type === "checkbox") {
         val = event.target.checked; // For checkboxes, use "checked" property instead
     }
+    
     setProperties({
       ...properties,
       [key]: val,

@@ -12,7 +12,7 @@ interface Element {
 }
 
 function App() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [formValues, setFormValues] = React.useState({});
   const [form, setForm] = React.useState(Form1);
 
