@@ -6,6 +6,7 @@ import { Form1 } from './components/Form1';
 import { Components } from "./components/MUI-Form-Builder/elements/Components";
 
 interface Element {
+  id: number;
   type: keyof typeof Components;
   [key: string]: any;
 }
@@ -42,9 +43,9 @@ function App() {
           </Tabs>
         </Box>
         <Box>
-          {value === 0 && <Viewer form={form as Element[]} onSubmit={handleSubmit} />}
+          {value === 0 && <Viewer form={form as Element[]} onSubmit={handleSubmit} preview={false} />}
           {value === 1 && <Builder />}
-          {value === 2 && <Builder form={form} />}
+          {value === 2 && <Builder form={form as Element[]} />}
         </Box>
       </Container>
     </div>

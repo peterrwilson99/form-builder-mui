@@ -4,7 +4,7 @@ import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 interface ToolboxProps {
-    onAddComponent: (component: string) => void;
+    onAddComponent: (component: keyof typeof Components) => void;
 }
 
 const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
@@ -34,7 +34,7 @@ const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
                     icon={<Add />}
                     tooltipTitle={component}
                     tooltipOpen
-                    onClick={() => onAddComponent(component)}
+                    onClick={() => onAddComponent(component as keyof typeof Components)}
                 />
             ))}
         </SpeedDial>
