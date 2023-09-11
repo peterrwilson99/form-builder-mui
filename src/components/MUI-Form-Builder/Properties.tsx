@@ -89,7 +89,7 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
     }
 
     return (
-        <div>
+        <Box>
             <InputLabel>{label}</InputLabel>
             {(options ?? []).map((option, index) => (
               <Box>
@@ -106,7 +106,7 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
               </Box>
             ))}
             <Button onClick={handleAddOption} variant="outlined">+ Add Option</Button>
-        </div>
+        </Box>
     );
 };
 
