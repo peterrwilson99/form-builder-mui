@@ -154,7 +154,7 @@ const Builder: FC<BuilderProps> = (props) => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Box className="controls" sx={{display: 'flex', flexDirection: 'column', }}>
+                    <Box className="controls" sx={{display: 'flex', flexDirection: 'column', marginTop: '1rem', position: 'sticky', top: '1rem', zIndex: 1}}>
                         <ToggleButtonGroup
                             color="primary"
                             orientation='vertical'
