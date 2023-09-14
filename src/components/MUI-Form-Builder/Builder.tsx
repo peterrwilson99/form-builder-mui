@@ -102,20 +102,20 @@ const Builder: FC<BuilderProps> = (props) => {
     const closeDrawer = () => setDrawerOpen(false);
 
     return (
-        <div className="builder">
-            <Grid container spacing={4}>
+        <Box className="builder" sx={{marginBottom: '2rem'}}>
+            <Grid container justifyContent={'space-between'}>
                 <Grid item xs={12} md={9}>
-                    <div className="workspace">
+                    <Box className="workspace">
                         {mode === "builder" ?
                             <React.Fragment>
-                                <div className="form-preview">
+                                <Box className="form-preview">
                                     {elements.map((element, index) => {
                                         const Component = Components[element.type as keyof typeof Components];
                     
                                         return (
                                             <Paper elevation={2} sx={{ p: 1, my: 1 }} >
-                                                <div>
-                                                    <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-35px"}}>
+                                                <Box>
+                                                    <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-25px"}}>
                                                         <IconButton onClick={() => openDrawer(element.id)}>
                                                             <SettingsIcon />
                                                         </IconButton>
@@ -130,11 +130,11 @@ const Builder: FC<BuilderProps> = (props) => {
                                                         </IconButton>
                                                     </Box>
                                                     <Component {...element as any} disabled={true} />
-                                                </div>
+                                                </Box>
                                             </Paper>
                                         );
                                     })}
-                                </div>
+                                </Box>
                     
                                 <Drawer anchor="right" open={drawerOpen} onClose={closeDrawer}>
                                     <IconButton onClick={closeDrawer} style={{ position: 'absolute', left: 0, margin: '10px' }}>
@@ -147,20 +147,17 @@ const Builder: FC<BuilderProps> = (props) => {
                                             <></>
                                     }
                                 </Drawer>
-                                <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
-                                    Save Form
-                                </Button>
                             </React.Fragment>
                             :
                             <Viewer form={elements} preview={true}/>
                         }
-                    </div>
+                    </Box>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Box className="controls">
+                    <Box className="controls" sx={{display: 'flex', flexDirection: 'column', }}>
                         <ToggleButtonGroup
-                            fullWidth
                             color="primary"
+                            orientation='vertical'
                             value={mode}
                             exclusive
                             onChange={handleModeChange}
@@ -175,7 +172,10 @@ const Builder: FC<BuilderProps> = (props) => {
                 </Grid>
                 
             </Grid>
-        </div>
+            <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
+                Save Form
+            </Button>
+        </Box>
     );
 }
 
