@@ -36,7 +36,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
     <form onSubmit={handleSubmit}>
       {elements.map((element, index) => {
         const Component = Components[element.type] as FC<any>;
-        return <Component key={index} onChange={handleChange} {...element} disabled={preview} />;
+        return <Component key={index} onChange={handleChange} {...element}/>;
       })}
       {preview === false ? 
         <Button type="submit" variant="outlined">

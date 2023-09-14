@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect, ChangeEvent } from 'react';
 import { ComponentProperties } from './elements/Components';
-import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent, IconButton, Grid } from '@mui/material';
 
 interface OptionType {
   label?: string | number;
@@ -79,21 +80,33 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
         setOptions([...options, {label: '', value: ''}]);
     };
 
+    const handleDeleteOption = (index: number) => () => { 
+      const newOptions = [...options];
+      newOptions.splice(index, 1);
+      setOptions(newOptions);
+      const keyedOptions = newOptions.map((option, index) => ({ value: option.label, label: option.label ?? '' }));
+      handleChange({ target: keyedOptions });  // Mimic event object structure for consistency
+    }
+
     return (
-        <div>
+        <Box>
             <InputLabel>{label}</InputLabel>
             {(options ?? []).map((option, index) => (
+              <Box>
                 <TextField
                     key={index}
-                    sx={{marginY: "16px"}}
+                    sx={{marginY: "16px", width: "90%"}}
                     variant="standard"
                     value={option.label ?? option.value ?? option}
                     onChange={handleOptionChange(index)}
-                    fullWidth
                 />
+                <IconButton onClick={handleDeleteOption(index)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
             ))}
             <Button onClick={handleAddOption} variant="outlined">+ Add Option</Button>
-        </div>
+        </Box>
     );
 };
 
