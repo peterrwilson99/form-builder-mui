@@ -12,20 +12,11 @@ interface Element {
 }
 
 function App() {
-  const [value, setValue] = useState(1);
-  const [formValues, setFormValues] = React.useState({});
-  const [form, setForm] = React.useState(Form1);
+  const [value, setValue] = useState(0);
+  const form = Form1 as Element[];
 
-  const handleChange = (id: string, value: any) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [id]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formValues);
+  const handleSubmit = (formSubmission: any) => {
+    console.log(formSubmission);
   };
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -43,9 +34,9 @@ function App() {
           </Tabs>
         </Box>
         <Box>
-          {value === 0 && <Viewer form={form as Element[]} onSubmit={handleSubmit} preview={false} />}
+          {value === 0 && <Viewer form={form} onSubmit={handleSubmit} preview={false} />}
           {value === 1 && <Builder />}
-          {value === 2 && <Builder form={form as Element[]} />}
+          {value === 2 && <Builder form={form} />}
         </Box>
       </Container>
     </div>

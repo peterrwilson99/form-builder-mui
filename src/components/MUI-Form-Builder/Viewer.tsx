@@ -25,10 +25,15 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const completedForm = form ?? [];
+    for(const id in formValues){
+      const index = completedForm.findIndex((element) => String(element.id) === id );
+      completedForm[index].value = formValues[id];
+    }
     if (onSubmit) {
-      onSubmit(formValues);
+      onSubmit(completedForm);
     }
   };
 
@@ -39,7 +44,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
         return <Component key={index} onChange={handleChange} {...element}/>;
       })}
       {!preview ? 
-        <Button type="submit" variant="outlined">
+        <Button type="submit" variant="outlined" >
           Submit
         </Button>
         :

@@ -17,7 +17,7 @@ export const Form1 = [
         prompt: "What is your name?",
         required: false,
         variant: "standard",
-        defaultValue: "",
+        value: "Peter Wilson",
         multiline: false
     },
     {
@@ -26,7 +26,7 @@ export const Form1 = [
         prompt: "What is your age?",
         required: false,
         variant: "standard",
-        defaultValue: "",
+        value: "23",
         multiline: false
     },
     {
@@ -35,7 +35,7 @@ export const Form1 = [
         prompt: "What is your address?",
         required: false,
         variant: "standard",
-        defaultValue: "",
+        value: "",
         multiline: true
     },
     {
@@ -43,7 +43,7 @@ export const Form1 = [
         type: "RadioInput",
         prompt: "Do you have any pets?",
         required: false,
-        defaultValue: "",
+        value: "",
         options: [
             { label: 'Yes', value: 'yes' },
             { label: 'No', value: 'no' },
@@ -54,7 +54,7 @@ export const Form1 = [
         type: "RadioInput",
         prompt: "Do you like coffee?",
         required: false,
-        defaultValue: "",
+        value: "",
         options: [
             { label: 'Yes', value: 'yes' },
             { label: 'No', value: 'no' },
@@ -65,7 +65,7 @@ export const Form1 = [
         type: "SelectInput",
         prompt: "What is your favorite fruit?",
         required: false,
-        defaultValue: "",
+        value: "",
         options: [
             { label: 'Apple', value: 'apple' },
             { label: 'Banana', value: 'banana' },
@@ -77,7 +77,7 @@ export const Form1 = [
         type: "SelectInput",
         prompt: "What is your preferred method of contact?",
         required: false,
-        defaultValue: "",
+        value: "",
         options: [
             { label: 'Email', value: 'email' },
             { label: 'Phone', value: 'phone' },
@@ -99,7 +99,7 @@ export const Form1 = [
         prompt: "When is your birthday?",
         required: true,
         format: "date", // can be "date", "time", or "datetime-local"
-        defaultValue: '2017-05-26'
+        value: '2017-05-26'
     },
     {
         id: 11,
@@ -107,7 +107,7 @@ export const Form1 = [
         prompt: "When do you usually wake up?",
         required: true,
         format: "time", // can be "date", "time", or "datetime-local"
-        defaultValue: '07:30'
+        value: '07:30'
     },
     {
         id: 12,
@@ -115,7 +115,7 @@ export const Form1 = [
         prompt: "When is your next appointment?",
         required: true,
         format: "datetime-local", // can be "date", "time", or "datetime-local"
-        defaultValue: '2017-05-24T10:30'
+        value: '2017-05-24T10:30'
     },
     {
         id: 14,
@@ -129,6 +129,6 @@ export const Form1 = [
         prompt: "How many pets do you have?",
         required: true,
         variant: "standard",
-        defaultValue: 0,
+        value: 0,
     }  
 ]
