@@ -6,14 +6,14 @@ interface DateInputProps {
     id: string | number;
     prompt: string;
     required?: boolean;
-    defaultValue?: string;
+    value?: string;
     format?: 'time' | 'datetime-local';
     onChange: (id: string | number, value: string) => void;
     disabled?: boolean;
 }
 
-const DateInput: FC<DateInputProps> = ({ id, prompt, required, defaultValue, format, onChange, disabled }) => {
-    const [value, setValue] = useState<string>(defaultValue || '');
+const DateInput: FC<DateInputProps> = ({ id, prompt, required, value, format, onChange, disabled }) => {
+    const [localValue, setValue] = useState<string>(value || '');
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -44,8 +44,7 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, required, defaultValue, for
                 id={id.toString()}
                 label={prompt}
                 type={type}
-                defaultValue={defaultValue ?? timeDefault}
-                value={value}
+                value={localValue ?? timeDefault}
                 onChange={handleChange}
                 required={required}
                 fullWidth

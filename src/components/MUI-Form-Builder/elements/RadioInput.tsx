@@ -10,15 +10,15 @@ interface RadioInputProps {
     id: string;
     prompt: string;
     required?: boolean;
-    defaultValue: string;
+    value: string;
     options: Option[];
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {
-    const { id, prompt, required, defaultValue, options, onChange, disabled } = props
-    const [value, setValue] = useState<string>(defaultValue);
+    const { id, prompt, required, value, options, onChange, disabled } = props
+    const [localValue, setValue] = useState<string>(value);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -32,7 +32,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
             </Typography>
             <RadioGroup
                 id={id}
-                value={value}
+                value={localValue}
                 onChange={handleChange}
             >
                 {(options ?? []).map((option, index) => (

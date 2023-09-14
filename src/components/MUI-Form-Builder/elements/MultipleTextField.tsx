@@ -7,14 +7,15 @@ import { Box, Typography } from '@mui/material';
 
 interface MultipleTextFieldProps {
     id: string;
+    value: string[];
     prompt: string;
     required?: boolean;
     onChange: (id: string, values: string[]) => void;
     disabled?: boolean;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, prompt, required, onChange, disabled }) => {
-    const [values, setValues] = useState<string[]>(['']);
+const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, required, onChange, disabled }) => {
+    const [values, setValues] = useState<string[]>(value ?? ['']);
 
     const handleAddField = () => {
         setValues([...values, '']);

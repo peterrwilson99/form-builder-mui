@@ -6,15 +6,15 @@ interface TextFieldProps {
     prompt: string;
     required?: boolean;
     variant: 'standard' | 'filled' | 'outlined';
-    defaultValue: string;
+    value: string;
     multiline?: boolean;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const TextField: FC<TextFieldProps> = (props) => {
-    const { id, prompt, required, variant, defaultValue, multiline, onChange, disabled } = props
-    const [value, setValue] = useState<string>(defaultValue);
+    const { id, prompt, required, variant, value, multiline, onChange, disabled } = props
+    const [localValue, setValue] = useState<string>(value);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -31,7 +31,7 @@ const TextField: FC<TextFieldProps> = (props) => {
                 label={prompt}
                 required={required}
                 variant={variant}
-                value={value}
+                value={localValue}
                 multiline={multiline}
                 onChange={handleChange}
                 disabled={disabled}

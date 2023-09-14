@@ -16,7 +16,7 @@ interface ViewerProps {
 }
 
 const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState([]);
   const elements = form ?? [];
   const handleChange = (id: string, value: any) => {
     setFormValues((prevValues) => ({
@@ -38,7 +38,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
         const Component = Components[element.type] as FC<any>;
         return <Component key={index} onChange={handleChange} {...element}/>;
       })}
-      {preview === false ? 
+      {!preview ? 
         <Button type="submit" variant="outlined">
           Submit
         </Button>
