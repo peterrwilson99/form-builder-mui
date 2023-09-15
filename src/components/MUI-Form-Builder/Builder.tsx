@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import Toolbox from './Toolbox';
 import { ComponentDefaults, Components } from './elements/Components';
 import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
@@ -25,7 +25,6 @@ interface BuilderProps {
 const Builder: FC<BuilderProps> = (props) => {
     const { form, saveForm } = props
     const [elements, setElements] = useState(form ?? [])
-    const [nextId, setNextId] = useState(1);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
@@ -54,6 +53,13 @@ const Builder: FC<BuilderProps> = (props) => {
     
     const onAddComponent = (componentType: keyof typeof Components) => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
+        // generate random id
+        let nextId = Math.floor(Math.random() * 1000000000);
+        do {
+            nextId = Math.floor(Math.random() * 1000000000);
+        }
+        while (elements.some((element) => element.id === nextId));
+
         const newElement = {
             id: nextId,
             type: componentType,
@@ -61,7 +67,6 @@ const Builder: FC<BuilderProps> = (props) => {
         };
         
         setElements((oldElements) => [...oldElements, newElement]);
-        setNextId(nextId + 1);
     };
 
     const editElement = (id: number, properties: any) => {
@@ -73,7 +78,6 @@ const Builder: FC<BuilderProps> = (props) => {
             elementToEdit[key] = value;
         }
         newElements[index] = elementToEdit;
-
         setElements(newElements);
     };
 

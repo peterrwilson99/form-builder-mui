@@ -10,11 +10,12 @@ interface MultipleTextFieldProps {
     value: string[];
     prompt: string;
     required?: boolean;
+    variant?: "standard" | "filled" | "outlined";
     onChange: (id: string, values: string[]) => void;
     disabled?: boolean;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, required, onChange, disabled }) => {
+const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, variant, required, onChange, disabled }) => {
     const [values, setValues] = useState<string[]>(value ?? ['']);
 
     useEffect(() => {
@@ -44,6 +45,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, requ
                     <TextField
                         required={required}
                         value={value}
+                        variant={variant ?? "standard"}
                         onChange={(event) => handleChange(index, event)}
                         fullWidth
                         disabled={disabled}
