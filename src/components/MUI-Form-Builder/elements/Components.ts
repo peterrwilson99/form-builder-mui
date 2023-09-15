@@ -77,25 +77,28 @@ export const Components = {
     'NumberInput': NumberInput,
 }
 
+// make type of keys in components
+export type ComponentKeys = keyof typeof Components;
+
 export const ComponentProperties = {
     'TextField': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         multiline: { type: 'boolean', label: 'Multiline?' },
+        value: { type: 'default', label: 'Default Value'},
     },
     'RadioInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
         options: { type: 'array', label: 'Options' },
+        value: { type: 'default', label: 'Default Value'},
     },
     'SelectInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
         options: { type: 'array', label: 'Options' },
+        value: { type: 'default', label: 'Default Value'},
     },
     'Header': {
         text: { type: 'string', label: 'Header Text' },
@@ -104,7 +107,6 @@ export const ComponentProperties = {
     'Checkboxes': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
         options: { 
             type: 'array', 
             label: 'Options',
@@ -116,11 +118,11 @@ export const ComponentProperties = {
                 },
             },
         },
+        value: { type: 'default', label: 'Default Value'},
     },
     'DateInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
         format: {
             type: 'select',
             label: 'Format',
@@ -130,18 +132,19 @@ export const ComponentProperties = {
                 { value: 'datetime-local', label: 'Datetime' },
             ],
         },
+        value: { type: 'default', label: 'Default Value'},
     },
     'MultipleTextField': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
+        value: { type: 'default', label: 'Default Value'},
     },
     'NumberInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        value: { type: 'string', label: 'Default Value'},
-        variant: { type: 'string', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
+        variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
+        value: { type: 'default', label: 'Default Value'},
     },
 
 }

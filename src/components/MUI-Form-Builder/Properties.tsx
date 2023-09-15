@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, ChangeEvent } from 'react';
-import { ComponentProperties } from './elements/Components';
+import { ComponentKeys, ComponentProperties, Components } from './elements/Components';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent, IconButton, Grid } from '@mui/material';
+import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent, IconButton } from '@mui/material';
 
 interface OptionType {
   label?: string | number;
@@ -31,6 +31,7 @@ const SelectComponent = (
         <Select
           labelId={`${label}-label`}
           value={value}
+          variant="standard"
           onChange={handleChange}
         >
           {(options ?? []).map((option, index) => {
@@ -110,6 +111,24 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
     );
 };
 
+const onChangeConverter = (id: string, value: any) => {
+  return { target: { id, value } } as ChangeEvent<HTMLInputElement>;
+};
+
+const DefaultComponent = (label: string, componentProps: any, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
+  const componentType: ComponentKeys = componentProps.type ?? 'TextField'
+  const Component = Components[componentType] as FC<any>;
+  return (
+      <Box>
+        <Divider sx={{marginY: "16px"}}/>
+        <Typography variant="h5" >
+          Set Default Value
+        </Typography>
+        <Component onChange={(id: string, value: any) => {handleChange(onChangeConverter(id, value))}} inPropertyPanel={true} {...componentProps}/>
+      </Box>
+    );
+};
+
 const getComponent = (details: ComponentDetails, value: any, handleChange: (event: any) => void) => {
     const { type, label, options } = details;
     switch(type) {
@@ -121,22 +140,24 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
             return StringComponent(label, value, handleChange);
         case 'array':
             return ArrayComponent(label, value, handleChange);
+        case 'default':
+            return DefaultComponent(label, value, handleChange);
         default:
             return <></>;
     }
 };
 
+
 const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
   const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== 'id')));
-
+  console.log(element, "is in properties");
   const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement> ) => {
     let val: string | boolean | OptionType[] = event.target.value ?? event.target;
     if (event.target.type === "checkbox") {
         val = event.target.checked; // For checkboxes, use "checked" property instead
     }
     
-    console.log("key", key, "val", val)
     setProperties({
       ...properties,
       [key]: val,
@@ -158,7 +179,8 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
         <Divider sx={{marginBottom: "8px"}} />
         <form>
           {Object.entries(componentProperties).map(([key, value]) => {
-            const component = getComponent(value as ComponentDetails, properties[key], handleChange(key));
+            const component_props = value.type === 'default' ? properties : properties[key]
+            const component = getComponent(value as ComponentDetails, component_props, handleChange(key));
             return component;
           })}
         </form>

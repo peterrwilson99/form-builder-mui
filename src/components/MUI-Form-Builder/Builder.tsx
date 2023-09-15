@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import Toolbox from './Toolbox';
 import { ComponentDefaults, Components } from './elements/Components';
 import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
@@ -25,10 +25,15 @@ interface BuilderProps {
 const Builder: FC<BuilderProps> = (props) => {
     const { form, saveForm } = props
     const [elements, setElements] = useState(form ?? [])
-    const [nextId, setNextId] = useState(1);
+    const [nextId, setNextId] = useState(Math.max(...elements.map(element => element.id)) + 1);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
+
+    useEffect(() => {
+        const max_id = Math.max(...elements.map(element => element.id));
+        setNextId(max_id + 1);
+    }, [elements])
 
     const moveElementUp = (index: any) => {
         if (index === 0) {
@@ -61,7 +66,6 @@ const Builder: FC<BuilderProps> = (props) => {
         };
         
         setElements((oldElements) => [...oldElements, newElement]);
-        setNextId(nextId + 1);
     };
 
     const editElement = (id: number, properties: any) => {
@@ -73,7 +77,6 @@ const Builder: FC<BuilderProps> = (props) => {
             elementToEdit[key] = value;
         }
         newElements[index] = elementToEdit;
-
         setElements(newElements);
     };
 

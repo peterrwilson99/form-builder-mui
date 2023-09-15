@@ -11,13 +11,14 @@ interface SelectInputProps {
     prompt: string;
     required?: boolean;
     value: string;
+    variant?: "standard" | "filled" | "outlined";
     options: Option[];
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
-    const { id, prompt, required, value, options, onChange, disabled } = props
+    const { id, prompt, required, value, variant, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 
     return (
         <Box sx={{marginY: "16px"}}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" sx={{marginBottom: "16px"}}>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>
@@ -40,6 +41,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                     labelId={id + "-label"}
                     id={id}
                     value={localValue}
+                    variant={variant ?? "standard"}
                     onChange={handleChange}
                     label={prompt}
                     disabled={disabled}

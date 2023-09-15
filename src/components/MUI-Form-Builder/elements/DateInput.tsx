@@ -45,7 +45,6 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, required, value, format, on
                 {prompt}
             </Typography>
             <TextField
-                id={id.toString()}
                 label={prompt}
                 type={type}
                 value={localValue ?? timeDefault}
