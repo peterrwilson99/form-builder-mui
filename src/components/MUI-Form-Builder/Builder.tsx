@@ -73,6 +73,7 @@ const Builder: FC<BuilderProps> = (props) => {
             elementToEdit[key] = value;
         }
         newElements[index] = elementToEdit;
+
         setElements(newElements);
     };
 

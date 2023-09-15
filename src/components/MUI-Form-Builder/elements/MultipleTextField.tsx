@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from 'react';
+import React, { FC, useState, useEffect, ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -7,14 +7,19 @@ import { Box, Typography } from '@mui/material';
 
 interface MultipleTextFieldProps {
     id: string;
+    value: string[];
     prompt: string;
     required?: boolean;
     onChange: (id: string, values: string[]) => void;
     disabled?: boolean;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, prompt, required, onChange, disabled }) => {
-    const [values, setValues] = useState<string[]>(['']);
+const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, required, onChange, disabled }) => {
+    const [values, setValues] = useState<string[]>(value ?? ['']);
+
+    useEffect(() => {
+        setValues(value ?? ['']);
+    }, [value]);
 
     const handleAddField = () => {
         setValues([...values, '']);

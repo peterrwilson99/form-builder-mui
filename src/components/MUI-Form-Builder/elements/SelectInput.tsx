@@ -1,5 +1,5 @@
 import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from '@mui/material';
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 
 interface Option {
     value: string;
@@ -10,15 +10,19 @@ interface SelectInputProps {
     id: string;
     prompt: string;
     required?: boolean;
-    defaultValue: string;
+    value: string;
     options: Option[];
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
-    const { id, prompt, required, defaultValue, options, onChange, disabled } = props
-    const [value, setValue] = useState<string>(defaultValue);
+    const { id, prompt, required, value, options, onChange, disabled } = props
+    const [localValue, setValue] = useState<string>(value);
+
+    useEffect(() => {
+        setValue(value);
+    }, [value])
 
     const handleChange = (e: SelectChangeEvent) => {
         setValue(e.target.value);
@@ -35,7 +39,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                 <Select
                     labelId={id + "-label"}
                     id={id}
-                    value={value}
+                    value={localValue}
                     onChange={handleChange}
                     label={prompt}
                     disabled={disabled}

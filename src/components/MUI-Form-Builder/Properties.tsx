@@ -136,6 +136,7 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
         val = event.target.checked; // For checkboxes, use "checked" property instead
     }
     
+    console.log("key", key, "val", val)
     setProperties({
       ...properties,
       [key]: val,

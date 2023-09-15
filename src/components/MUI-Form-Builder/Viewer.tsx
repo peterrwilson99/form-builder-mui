@@ -12,11 +12,12 @@ interface Element {
 interface ViewerProps {
   form?: Element[];
   onSubmit?: (formValues: any) => void;
-  preview: Boolean;
+  preview?: Boolean;
+  disabled?: boolean;
 }
 
-const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
-  const [formValues, setFormValues] = useState({});
+const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview, disabled }) => {
+  const [formValues, setFormValues] = useState([]);
   const elements = form ?? [];
   const handleChange = (id: string, value: any) => {
     setFormValues((prevValues) => ({
@@ -25,10 +26,15 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const completedForm = form ?? [];
+    for(const id in formValues){
+      const index = completedForm.findIndex((element) => String(element.id) === id );
+      completedForm[index].value = formValues[id];
+    }
     if (onSubmit) {
-      onSubmit(formValues);
+      onSubmit(completedForm);
     }
   };
 
@@ -36,10 +42,10 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, preview }) => {
     <form onSubmit={handleSubmit}>
       {elements.map((element, index) => {
         const Component = Components[element.type] as FC<any>;
-        return <Component key={index} onChange={handleChange} {...element}/>;
+        return <Component key={index} onChange={handleChange} disabled={disabled} {...element}/>;
       })}
-      {preview === false ? 
-        <Button type="submit" variant="outlined">
+      {!preview && !disabled ? 
+        <Button type="submit" variant="outlined" >
           Submit
         </Button>
         :
