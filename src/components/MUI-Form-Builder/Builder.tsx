@@ -25,7 +25,7 @@ interface BuilderProps {
 const Builder: FC<BuilderProps> = (props) => {
     const { form, saveForm } = props
     const [elements, setElements] = useState(form ?? [])
-    const [nextId, setNextId] = useState(Math.max(...elements.map(element => element.id)) + 1);
+    const [nextId, setNextId] = useState(elements ? Math.max(...elements.map(element => element.id)) + 1 : 1);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
