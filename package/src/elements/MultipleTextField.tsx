@@ -5,7 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Typography } from '@mui/material';
 
-interface MultipleTextFieldProps {
+export interface MultipleTextFieldProps {
     id: string;
     value: string[];
     prompt: string;

@@ -7,6 +7,16 @@ import DateInput from "./DateInput";
 import MultipleTextField from "./MultipleTextField";
 import NumberInput from "./NumberInput";
 
+export type { TextFieldProps } from "./TextField";
+export type { RadioInputProps } from "./RadioInput";
+export type { SelectInputProps } from "./SelectInput";
+export type { HeaderProps } from "./Header";
+export type { CheckboxesProps } from "./Checkboxes";
+export type { DateInputProps } from "./DateInput";
+export type { MultipleTextFieldProps } from "./MultipleTextField";
+export type { NumberInputProps } from "./NumberInput";
+
+
 export const ComponentDefaults = {
     'TextField': {
         prompt: "prompt text here",
