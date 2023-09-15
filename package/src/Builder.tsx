@@ -10,13 +10,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import Properties from './Properties';
 import Viewer from './Viewer';
 
-interface Element {
+export interface Element {
     id: number;
     type: keyof typeof Components;
     [key: string]: any; // This can be improved by defining more explicit types
 }
 
-interface BuilderProps {
+export interface BuilderProps {
     form?: Element[];
     saveForm?: (form: Element[]) => void;
 }
