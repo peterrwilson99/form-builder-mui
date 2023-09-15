@@ -88,13 +88,13 @@ export const ComponentProperties = {
     'RadioInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        defaultValue: { type: 'string', label: 'Default Value'},
+        defaultValue: { type: 'select', label: 'Default Value'},
         options: { type: 'array', label: 'Options' },
     },
     'SelectInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
-        defaultValue: { type: 'string', label: 'Default Value'},
+        defaultValue: { type: 'select', label: 'Default Value'},
         options: { type: 'array', label: 'Options' },
     },
     'Header': {

@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, ChangeEvent } from 'react';
 import { ComponentProperties } from './elements/Components';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent, IconButton, Grid } from '@mui/material';
+import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent, IconButton } from '@mui/material';
 
 interface OptionType {
   label?: string | number;
@@ -129,6 +129,12 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
 const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
   const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== 'id')));
+  // console.log(element)
+
+  if ((element.type === "RadioInput" || element.type === "SelectInput") && element.options) {
+    // append options array to defaultValue object
+    componentProperties.defaultValue.options = element.options
+  }
 
   const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement> ) => {
     let val: string | boolean | OptionType[] = event.target.value ?? event.target;
