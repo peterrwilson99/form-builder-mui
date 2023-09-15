@@ -25,15 +25,9 @@ interface BuilderProps {
 const Builder: FC<BuilderProps> = (props) => {
     const { form, saveForm } = props
     const [elements, setElements] = useState(form ?? [])
-    const [nextId, setNextId] = useState(elements ? Math.max(...elements.map(element => element.id)) + 1 : 1);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
-
-    useEffect(() => {
-        const max_id = Math.max(...elements.map(element => element.id));
-        setNextId(max_id + 1);
-    }, [elements])
 
     const moveElementUp = (index: any) => {
         if (index === 0) {
@@ -59,6 +53,13 @@ const Builder: FC<BuilderProps> = (props) => {
     
     const onAddComponent = (componentType: keyof typeof Components) => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
+        // generate random id
+        let nextId = Math.floor(Math.random() * 1000000000);
+        do {
+            nextId = Math.floor(Math.random() * 1000000000);
+        }
+        while (elements.some((element) => element.id === nextId));
+
         const newElement = {
             id: nextId,
             type: componentType,

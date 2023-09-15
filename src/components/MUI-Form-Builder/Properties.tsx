@@ -96,7 +96,7 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
               <Box>
                 <TextField
                     key={index}
-                    sx={{marginY: "16px", width: "90%"}}
+                    sx={{marginY: "16px", width: "85%"}}
                     variant="standard"
                     value={option.label ?? option.value ?? option}
                     onChange={handleOptionChange(index)}
@@ -151,7 +151,7 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
 const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
   const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== 'id')));
-  console.log(element, "is in properties");
+  
   const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement> ) => {
     let val: string | boolean | OptionType[] = event.target.value ?? event.target;
     if (event.target.type === "checkbox") {
