@@ -57,14 +57,16 @@ function App() {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example">
             <Tab label="Viewer" />
+            <Tab label="Viewer disabled" />
             <Tab label="Builder" />
             <Tab label="Builder of old Form" />
           </Tabs>
         </Box>
         <Box>
           {value === 0 && <Viewer form={form} onSubmit={handleSubmit} preview={false} />}
-          {value === 1 && <Builder saveForm = {saveForm} />}
-          {value === 2 && <Builder form={form} saveForm = {saveForm} />}
+          {value === 1 && <Viewer form={form} disabled={true} />}
+          {value === 2 && <Builder saveForm = {saveForm} />}
+          {value === 3 && <Builder form={form} saveForm = {saveForm} />}
         </Box>
       </Container>
     </div>
