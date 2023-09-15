@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Tabs, Tab, Box, Container } from '@mui/material';
 import Viewer from './components/MUI-Form-Builder/Viewer';
 import Builder from './components/MUI-Form-Builder/Builder';  // assuming Builder component is exported from here
-import { Form1 } from './components/Form1';
-import { Form1Filled } from './components/Form1Filled';
+import { Form1, FormExamples, FormExamplesKeys } from './components/FormExamples';
 import { Components } from "./components/MUI-Form-Builder/elements/Components";
 import {FormControl, InputLabel, Select, MenuItem} from "@mui/material";
 
@@ -18,19 +17,18 @@ function App() {
   const [form, setForm] = useState(Form1 as Element[]);
   const [formSelect, setFormSelect] = useState("Form1");
 
+  const saveForm = (builtForm: Element[]) => {
+    console.log(JSON.stringify(builtForm));
+  }
+
   const handleFormChange = (e: any) => {
-    if(e.target.value === "Form1"){
-      setForm(Form1 as Element[]);
-      setFormSelect("Form1");
-    }else if(e.target.value === "Form1Filled"){
-      setForm(Form1Filled as Element[]);
-      setFormSelect("Form1Filled");
-    }
+    setFormSelect(e.target.value);
+    
+    const selectedForm = FormExamples[e.target.value as FormExamplesKeys] as Element[] ?? [];
+    setForm(selectedForm);
   }
 
   const handleSubmit = (formSubmission: any) => {
-    console.log(formSubmission);
-    // save form to JSON file called recentForm.json in this directory
     console.log(JSON.stringify(formSubmission));
   };
 
@@ -49,12 +47,11 @@ function App() {
                   onChange={handleFormChange}
                   label="Select Form"
               >
-                <MenuItem value="Form1">
-                    Form1
-                </MenuItem>
-                <MenuItem value="Form1Filled">
-                    Form1Filled
-                </MenuItem>
+                {
+                  Object.keys(FormExamples).map((formExample: string, index: number) => (
+                      <MenuItem key={index} value={formExample}>{formExample}</MenuItem>
+                  ))
+                }
               </Select>
           </FormControl>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -66,8 +63,8 @@ function App() {
         </Box>
         <Box>
           {value === 0 && <Viewer form={form} onSubmit={handleSubmit} preview={false} />}
-          {value === 1 && <Builder />}
-          {value === 2 && <Builder form={form} />}
+          {value === 1 && <Builder saveForm = {saveForm} />}
+          {value === 2 && <Builder form={form} saveForm = {saveForm} />}
         </Box>
       </Container>
     </div>
