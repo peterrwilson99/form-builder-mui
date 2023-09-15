@@ -98,7 +98,7 @@ export const Form1 = [
     type: "DateInput",
     prompt: "When is your birthday?",
     required: true,
-    format: "date", // can be "date", "time", or "datetime-local"
+    format: "date",
     value: "2017-05-26",
   },
   {
@@ -106,7 +106,7 @@ export const Form1 = [
     type: "DateInput",
     prompt: "When do you usually wake up?",
     required: true,
-    format: "time", // can be "date", "time", or "datetime-local"
+    format: "time",
     value: "07:30",
   },
   {
@@ -114,7 +114,7 @@ export const Form1 = [
     type: "DateInput",
     prompt: "When is your next appointment?",
     required: true,
-    format: "datetime-local", // can be "date", "time", or "datetime-local"
+    format: "datetime-local",
     value: "2017-05-24T10:30",
   },
   {
@@ -147,7 +147,7 @@ export const Form1Filled = [
     prompt: "What is your name?",
     required: false,
     variant: "standard",
-    value: "Peter Wilson",
+    value: "Johnny Appleseed",
     multiline: false,
   },
   {
@@ -165,7 +165,7 @@ export const Form1Filled = [
     prompt: "What is your address?",
     required: false,
     variant: "standard",
-    value: "874 Colville Road",
+    value: "123 Applewood Street",
     multiline: true,
   },
   {
@@ -230,7 +230,7 @@ export const Form1Filled = [
     prompt: "When is your birthday?",
     required: true,
     format: "date",
-    value: "1999-12-11",
+    value: "1985-02-28",
   },
   {
     id: 11,

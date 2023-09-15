@@ -55,10 +55,10 @@ const Builder: FC<BuilderProps> = (props) => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
         // generate random id
         let nextId = Math.floor(Math.random() * 1000000000);
-        do {
+        // ensure no duplicate ids
+        while (elements.map((element) => element.id).includes(nextId)){
             nextId = Math.floor(Math.random() * 1000000000);
         }
-        while (elements.some((element) => element.id === nextId));
 
         const newElement = {
             id: nextId,
