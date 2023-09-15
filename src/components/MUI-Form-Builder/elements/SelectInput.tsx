@@ -1,5 +1,5 @@
 import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from '@mui/material';
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 
 interface Option {
     value: string;
@@ -19,6 +19,10 @@ interface SelectInputProps {
 const SelectInput: FC<SelectInputProps> = (props) => {
     const { id, prompt, required, value, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
+
+    useEffect(() => {
+        setValue(value);
+    }, [value])
 
     const handleChange = (e: SelectChangeEvent) => {
         setValue(e.target.value);

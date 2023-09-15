@@ -1,5 +1,5 @@
 import { Typography, TextField as MUITextField, Box } from '@mui/material';
-import React, { FC, useState, ChangeEvent } from 'react'
+import React, { FC, useState, ChangeEvent, useEffect } from 'react'
 
 interface NumberInputProps {
     id: string;
@@ -14,6 +14,10 @@ interface NumberInputProps {
 const NumberInput: FC<NumberInputProps> = (props) => {
     const { id, prompt, required, variant, value, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
+
+    useEffect(() => {
+        setValue(value);
+    }, [value])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);

@@ -1,5 +1,5 @@
 import { Typography, RadioGroup, FormControlLabel, Radio, Box } from '@mui/material';
-import React, { FC, useState, ChangeEvent } from 'react'
+import React, { FC, useState, useEffect, ChangeEvent } from 'react'
 
 interface Option {
     value: string;
@@ -19,6 +19,10 @@ interface RadioInputProps {
 const RadioInput: FC<RadioInputProps> = (props) => {
     const { id, prompt, required, value, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
+
+    useEffect(() => {
+        setValue(value);
+    }, [value])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);

@@ -1,5 +1,5 @@
 import { Typography, TextField as MUITextField, Box } from '@mui/material';
-import React, { FC, useState, ChangeEvent } from 'react'
+import React, { FC, useState, useEffect, ChangeEvent } from 'react'
 
 interface TextFieldProps {
     id: string;
@@ -15,6 +15,10 @@ interface TextFieldProps {
 const TextField: FC<TextFieldProps> = (props) => {
     const { id, prompt, required, variant, value, multiline, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
+
+    useEffect(() => {
+        setValue(value);
+    }, [value])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);

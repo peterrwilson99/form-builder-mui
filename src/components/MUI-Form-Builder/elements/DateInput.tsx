@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FC } from 'react';
+import React, { useState, useEffect, ChangeEvent, FC } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { Box, Typography } from '@mui/material';
 
@@ -13,7 +13,11 @@ interface DateInputProps {
 }
 
 const DateInput: FC<DateInputProps> = ({ id, prompt, required, value, format, onChange, disabled }) => {
-    const [localValue, setValue] = useState<string>(value || '');
+    const [localValue, setValue] = useState<string>(value ?? '');
+
+    useEffect(() => {
+        setValue(value ?? '');
+    }, [value])
     
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
