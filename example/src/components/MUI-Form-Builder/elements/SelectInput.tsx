@@ -45,6 +45,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                     onChange={handleChange}
                     label={prompt}
                     disabled={disabled}
+                    sx={{maxWidth: "400px", wordWrap: "break-word"}}
                 >
                     {(options ?? []).map((option, index) => (
                         <MenuItem key={index} value={option.value}>

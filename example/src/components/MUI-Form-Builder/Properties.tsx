@@ -96,7 +96,8 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
               <Box>
                 <TextField
                     key={index}
-                    sx={{marginY: "16px", width: "85%"}}
+                    sx={{marginY: "16px", width: "85%", maxWidth: "400px", overflowWrap: "break-word"}}
+                    multiline
                     variant="standard"
                     value={option.label ?? option.value ?? option}
                     onChange={handleOptionChange(index)}

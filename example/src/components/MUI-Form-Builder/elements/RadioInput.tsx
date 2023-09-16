@@ -46,6 +46,12 @@ const RadioInput: FC<RadioInputProps> = (props) => {
                         disabled={disabled}
                         control={<Radio disabled={disabled} required={required} />}
                         label={option.label}
+                        sx={{maxWidth: "400px",
+                            '& .MuiFormControlLabel-label': {
+                                maxWidth: '85%', // Max width for the label text
+                                wordWrap: 'break-word', // Allow text to wrap
+                              },
+                            }}
                     />
                 ))}
             </RadioGroup>
