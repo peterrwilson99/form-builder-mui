@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Move directories
-        run: cd package
       - name: Install Dependencies
+        working-directory: ./package
         run: npm install
       - name: Build
+        working-directory: ./package
         run: npm run build
 
 
