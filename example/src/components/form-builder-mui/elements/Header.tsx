@@ -1,7 +1,7 @@
 import { Box, Typography, TypographyProps } from '@mui/material';
 import React, { FC } from 'react'
 
-interface HeaderProps {
+export interface HeaderProps {
     text: string;
     variant?: TypographyProps['variant'];
 }

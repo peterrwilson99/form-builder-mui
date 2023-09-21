@@ -1,6 +1,6 @@
 # Form Builder Mui
 
-Form Builder Mui is a web application that allows you to create and view forms using React.js and Material-UI components. It provides a user-friendly interface for building forms and a form viewer to display and interact with the created forms.
+Form Builder Mui is a web application that allows you to create and view forms using Material-UI components. It provides a user-friendly interface for building forms and a form viewer to display and interact with the created forms.
 
 ## Features
 

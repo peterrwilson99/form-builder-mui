@@ -3,7 +3,7 @@ import { Components } from "./elements/Components";
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
-interface ToolboxProps {
+export interface ToolboxProps {
     onAddComponent: (component: keyof typeof Components) => void;
 }
 
