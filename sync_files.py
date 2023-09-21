@@ -13,22 +13,22 @@ def check_sync():
         error_str = 'package and example are not in sync\n'
         error_str += '# package files: ' + str(len(package_files)) + '\n'
         error_str += '# example files: ' + str(len(example_files)) + '\n'
-        error_str += '\n\n run python sync_files.py --package-to-example to sync package to example'
-        error_str += 'or run python sync_files.py --example-to-package to sync example to package'
+        error_str += '\n\n run `python3 sync_files.py --package-to-example` to sync package to example'
+        error_str += '\nor run `python3 sync_files.py --example-to-package` to sync example to package'
         raise AssertionError(error_str)
     for package_file in package_files:
         if package_file not in example_files:
             error_str = 'package and example are not in sync\n'
             error_str += 'package file not in example: ' + package_file
-            error_str += '\n\n run python sync_files.py --package-to-example to sync package to example'
-            error_str += 'or run python sync_files.py --example-to-package to sync example to package'
+            error_str += '\n\n run `python3 sync_files.py --package-to-example` to sync package to example'
+            error_str += '\nor run `python3 sync_files.py --example-to-package` to sync example to package'
             raise AssertionError(error_str)
     for example_file in example_files:
         if example_file not in package_files:
             error_str = 'package and example are not in sync\n'
             error_str += 'example file not in package: ' + example_file
-            error_str += '\n\n run python sync_files.py --package-to-example to sync package to example'
-            error_str += 'or run python sync_files.py --example-to-package to sync example to package'
+            error_str += '\n\n run `python3 sync_files.py --package-to-example` to sync package to example'
+            error_str += '\nor run `python3 sync_files.py --example-to-package` to sync example to package'
             raise AssertionError(error_str)
     
     for package_file in package_files:
@@ -41,8 +41,8 @@ def check_sync():
         if package_file_contents != example_file_contents:
             error_str = 'package and example are not in sync\n'
             error_str += 'package file ' + package_file_path.split('/')[-1].split('\\')[-1] + ' contents do not match example file ' + example_file_path.split('/')[-1].split('\\')[-1]
-            error_str += '\n\n run python sync_files.py --package-to-example to sync package to example'
-            error_str += 'or run python sync_files.py --example-to-package to sync example to package'
+            error_str += '\n\n run `python3 sync_files.py --package-to-example` to sync package to example'
+            error_str += '\nor run `python3 sync_files.py --example-to-package` to sync example to package'
             raise AssertionError(error_str)
     print('package and example are in sync')
 
