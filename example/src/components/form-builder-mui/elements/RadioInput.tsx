@@ -1,4 +1,4 @@
-import { Typography, RadioGroup, FormControlLabel, Radio, Box } from '@mui/material';
+import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from '@mui/material';
 import React, { FC, useState, useEffect, ChangeEvent } from 'react'
 
 export interface Option {
@@ -34,21 +34,31 @@ const RadioInput: FC<RadioInputProps> = (props) => {
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
-            <RadioGroup
-                id={id}
-                value={localValue}
-                onChange={handleChange}
-            >
-                {(options ?? []).map((option, index) => (
-                    <FormControlLabel
-                        key={index}
-                        value={option.value}
-                        disabled={disabled}
-                        control={<Radio disabled={disabled} required={required} />}
-                        label={option.label}
-                    />
-                ))}
-            </RadioGroup>
+            <FormControl fullWidth required={required}>
+                <FormLabel component="legend">{prompt}</FormLabel>
+                <RadioGroup
+                    id={id}
+                    value={localValue}
+                    onChange={handleChange}
+                >
+                    {(options ?? []).map((option, index) => (
+                        <FormControlLabel
+                            key={index}
+                            value={option.value}
+                            disabled={disabled}
+                            control={<Radio disabled={disabled}/>}
+                            label={option.label}
+                            sx={{maxWidth: "400px",
+                                 width: "90%",
+                                '& .MuiFormControlLabel-label': {
+                                    maxWidth: '95%', // Max width for the label text
+                                    wordWrap: 'break-word', // Allow text to wrap
+                                },
+                                }}
+                        />
+                    ))}
+                </RadioGroup>
+            </FormControl>
         </Box>
     )
 }

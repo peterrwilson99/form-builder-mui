@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, FC } from 'react';
-import { Typography, Checkbox, FormControlLabel, Box } from '@mui/material';
+import { Typography, Checkbox, FormControlLabel, Box, FormControl, FormLabel } from '@mui/material';
 
 export interface OptionType {
     value: string;
@@ -13,9 +13,10 @@ export interface CheckboxesProps {
     value?: Record<string, boolean>;
     onChange: (id: string | number, value: Record<string, boolean>) => void;
     disabled?: boolean;
+    required?: boolean;
 }
 
-const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange, disabled }) => {
+const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange, disabled, required }) => {
     const [localValue, setValue] = useState<Record<string, boolean>>(value ?? {});
 
     useEffect(() => {
@@ -29,26 +30,36 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange,
     };
 
     return (
-        <Box sx={{marginY: "16px"}}>
+        <Box sx={{marginY: "16px", maxWidth: "400px"}}>
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
-            {(options ?? []).map((option, index) => (
-                <FormControlLabel
-                    key={index}
-                    disabled={disabled}
-                    control={
-                        <Checkbox
-                            checked={localValue[option.value] || false}
-                            onChange={handleChange(option)}
-                            name={option.label}
-                            disabled={disabled}
-                            color="primary"
-                        />
-                    }
-                    label={option.label}
-                />
-            ))}
+            <FormControl fullWidth required={required}>
+                <FormLabel component="legend">{prompt}</FormLabel>
+                {(options ?? []).map((option, index) => (
+                    <FormControlLabel
+                        key={index}
+                        disabled={disabled}
+                        control={
+                            <Checkbox
+                                checked={localValue[option.value] || false}
+                                onChange={handleChange(option)}
+                                name={option.label}
+                                disabled={disabled}
+                                color="primary"
+                            />
+                        }
+                        label={option.label}
+                        sx={{maxWidth: "400px",
+                            width: "90%",
+                            '& .MuiFormControlLabel-label': {
+                                maxWidth: '95%', // Max width for the label text
+                                wordWrap: 'break-word', // Allow text to wrap
+                                },
+                            }}
+                    />
+                ))}
+            </FormControl>
         </Box>
     )
 }
