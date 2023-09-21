@@ -1,6 +1,6 @@
-# MUI Form Builder
+# Form Builder Mui Testing Environment
 
-MUI Form Builder is a web application that allows you to create and view forms using Material-UI components. It provides a user-friendly interface for building forms and a form viewer to display and interact with the created forms.
+Form Builder Mui is a web application that allows you to create and view forms using Material-UI components. It provides a user-friendly interface for building forms and a form viewer to display and interact with the created forms.
 
 ## Features
 
@@ -22,7 +22,7 @@ MUI Form Builder is a web application that allows you to create and view forms u
 2. Install the dependencies:
 
     ```
-    cd form-builder-ts
+    cd form-builder-mui/example
     npm install
     ```
 3. Start the development server:
