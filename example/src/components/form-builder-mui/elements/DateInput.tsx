@@ -25,15 +25,17 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, required, value, format, on
     };
 
     let type: TextFieldProps['type'] = "date";
-    let timeDefault = "2017-05-24";
+    const date = new Date();
+    let timeDefault = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    
     switch(format) {
         case "time":
             type = "time";
-            timeDefault = "07:30";
+            timeDefault = `${date.getHours()}:${date.getMinutes()}`;
             break;
         case "datetime-local":
             type = "datetime-local";
-            timeDefault = "2017-05-24T10:30";
+            timeDefault = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}`;
             break;
         default:
             break;
