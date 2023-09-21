@@ -1,12 +1,12 @@
 import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from '@mui/material';
 import React, { FC, useState, useEffect } from 'react'
 
-interface Option {
+export interface Option {
     value: string;
     label: string;
 }
 
-interface SelectInputProps {
+export interface SelectInputProps {
     id: string;
     prompt: string;
     required?: boolean;

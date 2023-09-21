@@ -2,13 +2,13 @@ import React, { FC, FormEvent, useState } from "react";
 import { Button } from "@mui/material";
 import { Components } from "./elements/Components";
 
-interface Element {
+export interface Element {
   id: number;
   type: keyof typeof Components;
   [key: string]: any;
 }
 
-interface ViewerProps {
+export interface ViewerProps {
   form?: Element[];
   onSubmit?: (formValues: any) => void;
   onSubmitPartial?: (formValues: any) => void;

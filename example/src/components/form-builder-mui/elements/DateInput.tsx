@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent, FC } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { Box, Typography } from '@mui/material';
 
-interface DateInputProps {
+export interface DateInputProps {
     id: string | number;
     prompt: string;
     required?: boolean;

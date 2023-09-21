@@ -1,0 +1,17 @@
+# run a workflow that runs the sync_files.py script
+# should run on pull requests and pushes to master
+name: Sync Files
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Sync Files
+        run: python3 sync_files.py
+
+
