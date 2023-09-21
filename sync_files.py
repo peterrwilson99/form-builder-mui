@@ -10,33 +10,32 @@ def check_sync():
     package_files = os.listdir(package_dir)
     example_files = os.listdir(example_dir)
     if len(package_files) != len(example_files):
-        print('package and example are not in sync')
-        print('# package files: ', len(package_files))
-        print('# example files: ', len(example_files))
-        return
+        error_str = 'package and example are not in sync\n'
+        error_str += '# package files: ' + str(len(package_files)) + '\n'
+        error_str += '# example files: ' + str(len(example_files)) + '\n'
+        return AssertionError(error_str)
     for package_file in package_files:
         if package_file not in example_files:
-            print('package and example are not in sync')
-            print('package file not in example: ', package_file)
-            return
+            error_str = 'package and example are not in sync\n'
+            error_str += 'package file not in example: ' + package_file
+            return AssertionError(error_str)
     for example_file in example_files:
         if example_file not in package_files:
-            print('package and example are not in sync')
-            print('example file not in package: ', example_file)
-            return
+            error_str = 'package and example are not in sync\n'
+            error_str += 'example file not in package: ' + example_file
+            return AssertionError(error_str)
     
-    # check the contents of each file are the same
     for package_file in package_files:
         package_file_path = os.path.join(package_dir, package_file)
         example_file_path = os.path.join(example_dir, package_file)
+        if os.path.isdir(example_file_path) or os.path.isdir(package_file_path):
+            continue
         package_file_contents = open(package_file_path, 'r').read()
         example_file_contents = open(example_file_path, 'r').read()
-        # get file name from package_file_path
-        file_name = package_file_path.split('/')[-1].split('\\')[-1]
         if package_file_contents != example_file_contents:
-            print('package and example are not in sync')
-            print('package file', package_file_path.split('/')[-1].split('\\')[-1], 'contents do not match example file', example_file_path.split('/')[-1].split('\\')[-1])
-            return
+            error_str = 'package and example are not in sync\n'
+            error_str += 'package file ' + package_file_path.split('/')[-1].split('\\')[-1] + ' contents do not match example file ' + example_file_path.split('/')[-1].split('\\')[-1]
+            return AssertionError(error_str)
     print('package and example are in sync')
 
 def sync_package_to_example_folders():
