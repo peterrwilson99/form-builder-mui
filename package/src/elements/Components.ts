@@ -17,7 +17,7 @@ export type { MultipleTextFieldProps } from "./MultipleTextField";
 export type { NumberInputProps } from "./NumberInput";
 
 
-const ComponentDefaults = {
+export const ComponentDefaults = {
     'TextField': {
         prompt: "prompt text here",
         required: false,
