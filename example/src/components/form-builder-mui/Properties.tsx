@@ -3,17 +3,17 @@ import { ComponentKeys, ComponentProperties, Components } from './elements/Compo
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography, SelectChangeEvent, IconButton } from '@mui/material';
 
-interface OptionType {
+export interface OptionType {
   label?: string | number;
   value?: string | number;
 }
 
-interface PropertiesProps {
+export interface PropertiesProps {
   element: { id: number; type: string; [key: string]: any };
   editElement: (id: number, properties: { [key: string]: any }) => void;
 }
 
-interface ComponentDetails {
+export interface ComponentDetails {
   type: string;
   label: string;
   options?: OptionType[];

@@ -10,13 +10,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import Properties from './Properties';
 import Viewer from './Viewer';
 
-interface Element {
+export interface Element {
     id: number;
     type: keyof typeof Components;
     [key: string]: any; // This can be improved by defining more explicit types
 }
 
-interface BuilderProps {
+export interface BuilderProps {
     form?: Element[];
     saveForm?: (form: Element[]) => void;
 }
@@ -142,15 +142,19 @@ const Builder: FC<BuilderProps> = (props) => {
                                 </Box>
                     
                                 <Drawer anchor="right" open={drawerOpen} onClose={closeDrawer}>
-                                    <IconButton onClick={closeDrawer} style={{ position: 'absolute', left: 0, margin: '10px' }}>
-                                        <CloseIcon />
-                                    </IconButton>
-                                    {
-                                        elements[activeElement] ?
-                                            <Properties element={elements[activeElement]} editElement={editElement} />
-                                            :
-                                            <></>
-                                    }
+                                    <Box sx={{marginTop: '3.5rem'}}>
+                                        <Box sx={{marginBottom: '3rem'}}>
+                                            <IconButton onClick={closeDrawer} sx={{ position: 'absolute', left: 0, margin: '10px'}}>
+                                                <CloseIcon />
+                                            </IconButton>
+                                        </Box>
+                                        {
+                                            elements[activeElement] ?
+                                                <Properties element={elements[activeElement]} editElement={editElement} />
+                                                :
+                                                <></>
+                                        }
+                                    </Box>
                                 </Drawer>
                             </React.Fragment>
                             :

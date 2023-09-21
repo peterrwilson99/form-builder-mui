@@ -1,12 +1,12 @@
 import React, { useState, useEffect, ChangeEvent, FC } from 'react';
 import { Typography, Checkbox, FormControlLabel, Box } from '@mui/material';
 
-interface OptionType {
+export interface OptionType {
     value: string;
     label: string;
 }
 
-interface CheckboxesProps {
+export interface CheckboxesProps {
     id: string | number;
     prompt: string;
     options?: OptionType[];

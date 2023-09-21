@@ -1,19 +1,18 @@
 import { Typography, TextField as MUITextField, Box } from '@mui/material';
-import React, { FC, useState, useEffect, ChangeEvent } from 'react'
+import React, { FC, useState, ChangeEvent, useEffect } from 'react'
 
-interface TextFieldProps {
+export interface NumberInputProps {
     id: string;
     prompt: string;
     required?: boolean;
-    variant: 'standard' | 'filled' | 'outlined';
+    variant: 'standard' | 'outlined' | 'filled';
     value: string;
-    multiline?: boolean;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
 }
 
-const TextField: FC<TextFieldProps> = (props) => {
-    const { id, prompt, required, variant, value, multiline, onChange, disabled } = props
+const NumberInput: FC<NumberInputProps> = (props) => {
+    const { id, prompt, required, variant, value, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
@@ -35,8 +34,8 @@ const TextField: FC<TextFieldProps> = (props) => {
                 label={prompt}
                 required={required}
                 variant={variant}
+                type="number"
                 value={localValue}
-                multiline={multiline}
                 onChange={handleChange}
                 disabled={disabled}
                 fullWidth
@@ -45,4 +44,4 @@ const TextField: FC<TextFieldProps> = (props) => {
     )
 }
 
-export default TextField
+export default NumberInput

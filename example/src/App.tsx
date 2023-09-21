@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Box, Container } from '@mui/material';
-import Viewer from './components/MUI-Form-Builder/Viewer';
-import Builder from './components/MUI-Form-Builder/Builder';  // assuming Builder component is exported from here
+import Viewer from './components/form-builder-mui/Viewer';
+import Builder from './components/form-builder-mui/Builder';  // assuming Builder component is exported from here
 import { Form1, FormExamples, FormExamplesKeys } from './components/FormExamples';
-import { Components } from "./components/MUI-Form-Builder/elements/Components";
+import { Components } from "./components/form-builder-mui/elements/Components";
 import {FormControl, InputLabel, Select, MenuItem} from "@mui/material";
 
 interface Element {
