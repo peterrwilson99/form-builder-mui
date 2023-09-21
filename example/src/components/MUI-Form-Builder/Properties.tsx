@@ -60,7 +60,9 @@ const BooleanComponent = (label: string, value: boolean, handleChange: (event: C
 
 const StringComponent = (label: string, value: string, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
     return (
-        <TextField sx={{marginY: "16px"}} variant="standard" label={label} value={value} onChange={handleChange} fullWidth />
+      <Box sx={{display: "flex", maxWidth: "400px", width: "100%"}}>
+        <TextField sx={{flex: 1, marginY: "16px"}} variant="standard" label={label} value={value} onChange={handleChange} multiline/>
+      </Box>
     )
 };
 
@@ -93,10 +95,10 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
         <Box>
             <InputLabel>{label}</InputLabel>
             {(options ?? []).map((option, index) => (
-              <Box>
+              <Box sx={{display: "flex", maxWidth: "400px", width: "100%"}}>
                 <TextField
                     key={index}
-                    sx={{marginY: "16px", width: "85%", maxWidth: "400px", overflowWrap: "break-word"}}
+                    sx={{flex: 1, marginY: "16px",  overflowWrap: "break-word"}}
                     multiline
                     variant="standard"
                     value={option.label ?? option.value ?? option}
@@ -172,7 +174,7 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   }, [editElement, element.id, properties]);
 
   return (
-    <Box sx={{ minWidth: '400px', marginY: "16px" }}>
+    <Box sx={{ minWidth: '400px', maxWidth: "400px", marginY: "16px" }}>
       <Container sx={{margin: "auto"}}>
         <Typography variant="h6" sx={{marginTop: "32px"}} gutterBottom>
           {element.type ?? 'prompt'} Properties

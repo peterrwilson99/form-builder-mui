@@ -9,7 +9,7 @@ export interface HeaderProps {
 const Header: FC<HeaderProps> = ({ text, variant = 'h6' }) => {
     return (
         <Box sx={{marginY: "16px"}}>
-            <Typography variant={variant} gutterBottom>
+            <Typography variant={variant} gutterBottom sx={{wordWrap: "break-word", overflowWrap: "break-word", maxWidth: "100%"}}>
                 {text}
             </Typography>
         </Box>
