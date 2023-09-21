@@ -174,7 +174,7 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   }, [editElement, element.id, properties]);
 
   return (
-    <Box sx={{ minWidth: '400px', maxWidth: "400px", marginY: "16px" }}>
+    <Box sx={{ minWidth: {xs: '100vw', sm: '400px'}, maxWidth: "400px", marginY: "16px" }}>
       <Container sx={{margin: "auto"}}>
         <Typography variant="h6" sx={{marginTop: "32px"}} gutterBottom>
           {element.type ?? 'prompt'} Properties

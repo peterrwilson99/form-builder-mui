@@ -51,7 +51,7 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange,
                         }
                         label={option.label}
                         sx={{maxWidth: "400px",
-                             width: "90%",
+                            width: "90%",
                             '& .MuiFormControlLabel-label': {
                                 maxWidth: '95%', // Max width for the label text
                                 wordWrap: 'break-word', // Allow text to wrap
