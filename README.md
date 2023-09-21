@@ -56,7 +56,7 @@ function FormBuilderExample({ form }) {
 
   return (
     <Box>
-      <Builder form={form ?? []} onSave={handleSave} />
+      <Builder form={form ?? []} saveForm={handleSave} />
     </Box>
   );
 }
