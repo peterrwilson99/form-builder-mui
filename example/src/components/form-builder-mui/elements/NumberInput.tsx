@@ -1,7 +1,7 @@
 import { Typography, TextField as MUITextField, Box } from '@mui/material';
 import React, { FC, useState, ChangeEvent, useEffect } from 'react'
 
-interface NumberInputProps {
+export interface NumberInputProps {
     id: string;
     prompt: string;
     required?: boolean;

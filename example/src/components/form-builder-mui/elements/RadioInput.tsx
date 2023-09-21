@@ -1,12 +1,12 @@
 import { Typography, RadioGroup, FormControlLabel, Radio, Box } from '@mui/material';
 import React, { FC, useState, useEffect, ChangeEvent } from 'react'
 
-interface Option {
+export interface Option {
     value: string;
     label: string;
 }
 
-interface RadioInputProps {
+export interface RadioInputProps {
     id: string;
     prompt: string;
     required?: boolean;

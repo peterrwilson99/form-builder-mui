@@ -1,7 +1,7 @@
 import { Typography, TextField as MUITextField, Box } from '@mui/material';
 import React, { FC, useState, useEffect, ChangeEvent } from 'react'
 
-interface TextFieldProps {
+export interface TextFieldProps {
     id: string;
     prompt: string;
     required?: boolean;
