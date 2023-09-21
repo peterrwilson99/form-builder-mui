@@ -18,12 +18,12 @@ def check_sync():
         if package_file not in example_files:
             error_str = 'package and example are not in sync\n'
             error_str += 'package file not in example: ' + package_file
-            return AssertionError(error_str)
+            raise AssertionError(error_str)
     for example_file in example_files:
         if example_file not in package_files:
             error_str = 'package and example are not in sync\n'
             error_str += 'example file not in package: ' + example_file
-            return AssertionError(error_str)
+            raise AssertionError(error_str)
     
     for package_file in package_files:
         package_file_path = os.path.join(package_dir, package_file)
@@ -35,7 +35,7 @@ def check_sync():
         if package_file_contents != example_file_contents:
             error_str = 'package and example are not in sync\n'
             error_str += 'package file ' + package_file_path.split('/')[-1].split('\\')[-1] + ' contents do not match example file ' + example_file_path.split('/')[-1].split('\\')[-1]
-            return AssertionError(error_str)
+            raise AssertionError(error_str)
     print('package and example are in sync')
 
 def sync_package_to_example_folders():
