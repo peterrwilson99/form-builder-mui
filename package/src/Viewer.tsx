@@ -58,11 +58,11 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, preview, dis
       })}
       {!preview && !disabled ? 
         <React.Fragment>
-          <Button type="submit" variant="outlined" >
+          <Button type="submit" variant="outlined" sx={{marginBottom: '1rem'}} >
             Submit
           </Button>
           {onSubmitPartial ?
-            <Button variant="outlined" onClick={handleSave} sx={{marginLeft: '1rem'}} color="secondary" >
+            <Button variant="outlined" onClick={handleSave} sx={{marginLeft: '1rem', marginBottom: '1rem'}} color="secondary" >
               Save
             </Button>
             :

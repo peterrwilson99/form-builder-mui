@@ -30,7 +30,7 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange,
     };
 
     return (
-        <Box sx={{marginY: "16px", maxWidth: "400px"}}>
+        <Box sx={{marginY: "2.5rem", maxWidth: "400px"}}>
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>

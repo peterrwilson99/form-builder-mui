@@ -25,7 +25,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
     };
 
     return (
-        <Box sx={{marginY: "16px"}} >
+        <Box sx={{marginY: "2.5rem"}} >
             <Typography variant="h6" gutterBottom>
                 {prompt}
             </Typography>
