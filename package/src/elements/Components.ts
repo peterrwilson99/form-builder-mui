@@ -30,10 +30,8 @@ export const ComponentDefaults = {
         required: false,
         value: "",
         options: [
-            { label: 'Option1', value: 'Option1' },
-            { label: 'Option2', value: 'Option2' },
-            { label: 'Option3', value: 'Option3' },
-            { label: 'Option4', value: 'Option4' },
+            { label: 'Yes', value: 'Yes' },
+            { label: 'No', value: 'No' },
         ]
     },
     'SelectInput': {
