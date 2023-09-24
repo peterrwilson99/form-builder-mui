@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CloseIcon from '@mui/icons-material/Close';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Properties from './Properties';
 import Viewer from './Viewer';
 
@@ -69,6 +70,26 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements((oldElements) => [...oldElements, newElement]);
     };
 
+    const duplicateComponent = (id: number) => {
+        const newElements = [...elements];
+        const index = newElements.findIndex((element) => element.id === id);
+        const elementToDuplicate: any = newElements[index];
+        delete elementToDuplicate.id; // remove id so it can be regenerated
+        // generate random id
+        let nextId = Math.floor(Math.random() * 1000000000);
+        // ensure no duplicate ids
+        while (elements.map((element) => element.id).includes(nextId)){
+            nextId = Math.floor(Math.random() * 1000000000);
+        }
+        const newElement: Element = {
+            id: nextId,
+            ...elementToDuplicate,
+        };
+        newElements.splice(index + 1, 0, newElement);
+        setElements(newElements);
+    };
+
+
     const editElement = (id: number, properties: any) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
@@ -123,6 +144,9 @@ const Builder: FC<BuilderProps> = (props) => {
                                                     <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-25px"}}>
                                                         <IconButton onClick={() => openDrawer(element.id)}>
                                                             <SettingsIcon />
+                                                        </IconButton>
+                                                        <IconButton onClick={() => duplicateComponent(element.id)}>
+                                                            <ContentCopyIcon />
                                                         </IconButton>
                                                         <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
                                                             <ArrowUpwardIcon />
