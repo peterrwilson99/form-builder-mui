@@ -23,7 +23,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, vari
         return Array(parseInt(min)).fill('');
     }
     const [values, setValues] = useState<string[]>(defaultValues);
-    console.log(values)
+    
     useEffect(() => {
         setValues(value ?? defaultValues);
     }, [value, min]);

@@ -168,7 +168,9 @@ const Builder: FC<BuilderProps> = (props) => {
                                                             </IconButton>
                                                         </Tooltip>
                                                     </Box>
-                                                    <Component {...element as any} disabled={true} />
+                                                    <Box onClick={() => openDrawer(element.id)} sx={{cursor: 'pointer'}}>
+                                                        <Component {...element as any} disabled={true} />
+                                                    </Box>
                                                 </Box>
                                             </Paper>
                                         );
