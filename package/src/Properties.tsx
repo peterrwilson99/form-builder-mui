@@ -66,6 +66,20 @@ const StringComponent = (label: string, value: string, handleChange: (event: Cha
     )
 };
 
+const NumberComponent = (label: string, value: number, handleChange: (event: ChangeEvent<HTMLInputElement>) => void, min: number | undefined, max: number | undefined) => {
+    // ForcingNumberValidation: forcing min and max validation, could be cleaned up in the future
+    min = min !== undefined && min < 1 ? 1 : min;
+    max = max !== undefined && max < 1 ? 1 : max;
+    const minParsed = label.toLowerCase().includes('min') ? 1 : min;
+    const maxParsed = label.toLowerCase().includes('max') ? undefined : max;
+
+    return (
+      <Box sx={{display: "flex", maxWidth: "400px", width: "100%"}}>
+        <TextField sx={{flex: 1, marginY: "16px"}} variant="standard" type="number" label={label} value={value} onChange={handleChange} InputProps={{inputProps:{min: minParsed ?? 1, max: maxParsed}}}/>
+      </Box>
+    )
+};
+
 const ArrayComponent = (label: string, value: OptionType[] | undefined, handleChange: (event: any) => void): any => {
     const [options, setOptions] = useState(value ?? [''] as OptionType[]);
 
@@ -132,7 +146,7 @@ const DefaultComponent = (label: string, componentProps: any, handleChange: (eve
     );
 };
 
-const getComponent = (details: ComponentDetails, value: any, handleChange: (event: any) => void) => {
+const getComponent = (details: ComponentDetails, value: any, handleChange: (event: any) => void, min: number | undefined, max: number | undefined) => {
     const { type, label, options } = details;
     switch(type) {
         case 'select':
@@ -143,6 +157,8 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
             return StringComponent(label, value, handleChange);
         case 'array':
             return ArrayComponent(label, value, handleChange);
+        case 'number':
+            return NumberComponent(label, value, handleChange, min, max);
         case 'default':
             return DefaultComponent(label, value, handleChange);
         default:
@@ -154,11 +170,23 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
 const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
   const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
   const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== 'id')));
-  
+
   const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement> ) => {
     let val: string | boolean | OptionType[] = event.target.value ?? event.target;
     if (event.target.type === "checkbox") {
         val = event.target.checked; // For checkboxes, use "checked" property instead
+    }
+
+      // ForcingNumberValidation: want to check if the minimum value is less than max, set it to max and vice versa
+    switch(key) {
+      case 'min':
+        val = properties.max !== undefined && val > properties.max ? properties.max : val;
+        break;
+      case 'max':
+        val = properties.min !== undefined && val < properties.min ? properties.min : val;
+        break;
+      default: 
+        break;
     }
     
     setProperties({
@@ -183,7 +211,9 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
         <form>
           {Object.entries(componentProperties).map(([key, value]) => {
             const component_props = value.type === 'default' ? properties : properties[key]
-            const component = getComponent(value as ComponentDetails, component_props, handleChange(key));
+            const max: number | undefined = properties.max ?? undefined;
+            const min: number | undefined = properties.min ?? undefined;
+            const component = getComponent(value as ComponentDetails, component_props, handleChange(key), min, max);
             return component;
           })}
         </form>
