@@ -13,14 +13,20 @@ export interface MultipleTextFieldProps {
     variant?: "standard" | "filled" | "outlined";
     onChange: (id: string, values: string[]) => void;
     disabled?: boolean;
+    min?: string;
+    max?: string;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, variant, required, onChange, disabled }) => {
-    const [values, setValues] = useState<string[]>(value ?? ['']);
-
+const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, variant, required, onChange, disabled, max, min }) => {
+    const defaultValues = () => {
+        if (!min) return [''];
+        return Array(parseInt(min)).fill('');
+    }
+    const [values, setValues] = useState<string[]>(defaultValues);
+    console.log(values)
     useEffect(() => {
-        setValues(value ?? ['']);
-    }, [value]);
+        setValues(value ?? defaultValues);
+    }, [value, min]);
 
     const handleAddField = () => {
         setValues([...values, '']);
@@ -51,12 +57,14 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, vari
                         disabled={disabled}
                     />
                     {index === values.length - 1 && (
-                        <IconButton color="primary" disabled={disabled} onClick={handleAddField}>
+                        // strict comparison is not working for some reason
+                        <IconButton color="primary" disabled={disabled || ((max && values.length >= parseInt(max)) || undefined)} onClick={handleAddField}>
                             <AddCircleOutlineIcon />
                         </IconButton>
                     )}
                     {index > 0 && index === values.length - 1 && (
-                        <IconButton color="secondary" disabled={disabled} onClick={() => handleRemoveField(index)}>
+                        // same as above, strict comparison not working
+                        <IconButton color="secondary" disabled={disabled || ((min && values.length <= parseInt(min)) || undefined)} onClick={() => handleRemoveField(index)}>
                             <DeleteIcon />
                         </IconButton>
                     )}

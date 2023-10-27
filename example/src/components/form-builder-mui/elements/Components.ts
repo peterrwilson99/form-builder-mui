@@ -146,6 +146,8 @@ export const ComponentProperties = {
         prompt: { type: 'string', label: 'Form prompt Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
+        min: { type: 'number', label: 'Minimum Amount of Lines' },
+        max: { type: 'number', label: 'Maximum Amount of Lines' },
         value: { type: 'default', label: 'Default Value'},
     },
     'NumberInput': {

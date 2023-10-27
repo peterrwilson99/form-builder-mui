@@ -66,6 +66,14 @@ const StringComponent = (label: string, value: string, handleChange: (event: Cha
     )
 };
 
+const NumberComponent = (label: string, value: number, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
+    return (
+      <Box sx={{display: "flex", maxWidth: "400px", width: "100%"}}>
+        <TextField sx={{flex: 1, marginY: "16px"}} variant="standard" type="number" label={label} value={value} onChange={handleChange} InputProps={{inputProps:{min: 0}}}/>
+      </Box>
+    )
+};
+
 const ArrayComponent = (label: string, value: OptionType[] | undefined, handleChange: (event: any) => void): any => {
     const [options, setOptions] = useState(value ?? [''] as OptionType[]);
 
@@ -143,6 +151,8 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
             return StringComponent(label, value, handleChange);
         case 'array':
             return ArrayComponent(label, value, handleChange);
+        case 'number':
+            return NumberComponent(label, value, handleChange);
         case 'default':
             return DefaultComponent(label, value, handleChange);
         default:
