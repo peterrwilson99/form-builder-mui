@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import Toolbox from './Toolbox';
 import { ComponentDefaults, Components } from './elements/Components';
-import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -142,23 +142,35 @@ const Builder: FC<BuilderProps> = (props) => {
                                             <Paper elevation={2} sx={{ p: 1, my: 1 }} >
                                                 <Box>
                                                     <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-25px"}}>
-                                                        <IconButton onClick={() => openDrawer(element.id)}>
-                                                            <SettingsIcon />
-                                                        </IconButton>
-                                                        <IconButton onClick={() => duplicateComponent(element.id)}>
-                                                            <ContentCopyIcon />
-                                                        </IconButton>
-                                                        <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
-                                                            <ArrowUpwardIcon />
-                                                        </IconButton>
-                                                        <IconButton onClick={() => moveElementDown(index)} disabled={index === elements.length - 1}>
-                                                            <ArrowDownwardIcon />
-                                                        </IconButton>
-                                                        <IconButton onClick={() => deleteElement(element.id)}>
-                                                            <DeleteIcon />
-                                                        </IconButton>
+                                                        <Tooltip title="Properties" placement="top">
+                                                            <IconButton onClick={() => openDrawer(element.id)}>
+                                                                <SettingsIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Duplicate" placement="top">
+                                                            <IconButton onClick={() => duplicateComponent(element.id)}>
+                                                                <ContentCopyIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Move Up" placement="top">
+                                                            <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
+                                                                <ArrowUpwardIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Move Down" placement="top">
+                                                            <IconButton onClick={() => moveElementDown(index)} disabled={index === elements.length - 1}>
+                                                                <ArrowDownwardIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip title="Delete" placement="top">
+                                                            <IconButton onClick={() => deleteElement(element.id)}>
+                                                                <DeleteIcon />
+                                                            </IconButton>
+                                                        </Tooltip>
                                                     </Box>
-                                                    <Component {...element as any} disabled={true} />
+                                                    <Box onClick={() => openDrawer(element.id)} sx={{cursor: 'pointer'}}>
+                                                        <Component {...element as any} disabled={true} />
+                                                    </Box>
                                                 </Box>
                                             </Paper>
                                         );
