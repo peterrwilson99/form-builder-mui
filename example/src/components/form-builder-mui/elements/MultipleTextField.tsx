@@ -9,6 +9,7 @@ export interface MultipleTextFieldProps {
     id: string;
     value: string[];
     prompt: string;
+    label?: string;
     required?: boolean;
     variant?: "standard" | "filled" | "outlined";
     onChange: (id: string, values: string[]) => void;
@@ -17,7 +18,7 @@ export interface MultipleTextFieldProps {
     max?: string;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, variant, required, onChange, disabled, max, min }) => {
+const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, label, variant, required, onChange, disabled, max, min }) => {
     const defaultValues = () => {
         if (!min) return [''];
         return Array(parseInt(min)).fill('');
@@ -45,12 +46,13 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, vari
 
     return (
         <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="h6">{prompt}</Typography>
+            <Typography variant="body1" fontStyle={'italic'} gutterBottom>{prompt}</Typography>
             {values.map((value, index) => (
                 <Box key={index} sx={{display: "flex", justifyContent: "center", marginY: "16px"}} className="d-flex align-items-center my-4">
                     <TextField
                         required={required}
                         value={value}
+                        label={prompt}
                         variant={variant ?? "standard"}
                         onChange={(event) => handleChange(index, event)}
                         fullWidth

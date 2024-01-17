@@ -91,6 +91,7 @@ export type ComponentKeys = keyof typeof Components;
 export const ComponentProperties = {
     'TextField': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         multiline: { type: 'boolean', label: 'Multiline?' },
@@ -98,12 +99,14 @@ export const ComponentProperties = {
     },
     'RadioInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { type: 'array', label: 'Options' },
         value: { type: 'default', label: 'Default Value'},
     },
     'SelectInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { type: 'array', label: 'Options' },
         value: { type: 'default', label: 'Default Value'},
@@ -114,6 +117,7 @@ export const ComponentProperties = {
     },
     'Checkboxes': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { 
             type: 'array', 
@@ -130,6 +134,7 @@ export const ComponentProperties = {
     },
     'DateInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         format: {
             type: 'select',
@@ -144,6 +149,7 @@ export const ComponentProperties = {
     },
     'MultipleTextField': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         min: { type: 'number', label: 'Minimum Amount of Lines' },
@@ -152,6 +158,7 @@ export const ComponentProperties = {
     },
     'NumberInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         value: { type: 'default', label: 'Default Value'},

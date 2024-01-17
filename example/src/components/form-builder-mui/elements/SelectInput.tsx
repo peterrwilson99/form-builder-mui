@@ -9,6 +9,7 @@ export interface Option {
 export interface SelectInputProps {
     id: string;
     prompt: string;
+    label?: string;
     required?: boolean;
     value: string;
     variant?: "standard" | "filled" | "outlined";
@@ -18,7 +19,7 @@ export interface SelectInputProps {
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
-    const { id, prompt, required, value, variant, options, onChange, disabled } = props
+    const { id, prompt, label, required, value, variant, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
@@ -32,11 +33,11 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 
     return (
         <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="h6" sx={{marginBottom: "16px"}}>
+            <Typography variant="body1" fontStyle={'italic'} sx={{ marginBottom: "16px" }}>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>
-                <InputLabel id={id + "-label"}>{prompt}</InputLabel>
+                <InputLabel id={id + "-label"}>{label}</InputLabel>
                 <Select
                     labelId={id + "-label"}
                     id={id}

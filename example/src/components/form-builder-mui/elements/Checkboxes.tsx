@@ -9,6 +9,7 @@ export interface OptionType {
 export interface CheckboxesProps {
     id: string | number;
     prompt: string;
+    label?: string;
     options?: OptionType[];
     value?: Record<string, boolean>;
     onChange: (id: string | number, value: Record<string, boolean>) => void;
@@ -16,7 +17,7 @@ export interface CheckboxesProps {
     required?: boolean;
 }
 
-const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange, disabled, required }) => {
+const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, label, value, options, onChange, disabled, required }) => {
     const [localValue, setValue] = useState<Record<string, boolean>>(value ?? {});
 
     useEffect(() => {
@@ -31,11 +32,11 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, value, options, onChange,
 
     return (
         <Box sx={{marginY: "2.5rem", maxWidth: "400px"}}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="body1" fontStyle={'italic'} gutterBottom>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>
-                <FormLabel component="legend">{prompt}</FormLabel>
+                <FormLabel component="legend">{label}</FormLabel>
                 {(options ?? []).map((option, index) => (
                     <FormControlLabel
                         key={index}
