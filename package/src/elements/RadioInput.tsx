@@ -1,5 +1,5 @@
 import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from '@mui/material';
-import React, { FC, useState, useEffect, ChangeEvent } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 
 export interface Option {
     value: string;
@@ -9,6 +9,7 @@ export interface Option {
 export interface RadioInputProps {
     id: string;
     prompt: string;
+    label?: string;
     required?: boolean;
     value: string;
     options: Option[];
@@ -17,36 +18,36 @@ export interface RadioInputProps {
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {
-    const { id, prompt, required, value, options, onChange, disabled } = props
+    const { id, prompt, label, required, value, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
         setValue(value);
     }, [value])
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-        onChange(id, e.target.value);
+    const handleChange = (e: any) => {
+        const newValue = e.target.value === localValue ? "" : e.target.value;
+        setValue(newValue);
+        onChange(id, newValue);
     };
 
     return (
         <Box sx={{marginY: "2.5rem"}} >
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="body1" fontStyle={'italic'} gutterBottom>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>
-                <FormLabel component="legend">{prompt}</FormLabel>
+                <FormLabel component="legend">{label}</FormLabel>
                 <RadioGroup
                     id={id}
                     value={localValue}
-                    onChange={handleChange}
                 >
                     {(options ?? []).map((option, index) => (
                         <FormControlLabel
                             key={index}
                             value={option.value}
                             disabled={disabled}
-                            control={<Radio disabled={disabled}/>}
+                            control={<Radio disabled={disabled} onClick={handleChange}/>}
                             label={option.label}
                             sx={{maxWidth: "400px",
                                  width: "90%",

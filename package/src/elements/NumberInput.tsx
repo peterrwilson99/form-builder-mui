@@ -4,6 +4,7 @@ import React, { FC, useState, ChangeEvent, useEffect } from 'react'
 export interface NumberInputProps {
     id: string;
     prompt: string;
+    label?: string;
     required?: boolean;
     variant: 'standard' | 'outlined' | 'filled';
     value: string;
@@ -12,7 +13,7 @@ export interface NumberInputProps {
 }
 
 const NumberInput: FC<NumberInputProps> = (props) => {
-    const { id, prompt, required, variant, value, onChange, disabled } = props;
+    const { id, prompt, label, required, variant, value, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
@@ -26,12 +27,12 @@ const NumberInput: FC<NumberInputProps> = (props) => {
 
     return (
         <Box sx={{marginY: "2.5rem"}} >
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="body1" fontStyle={'italic'} gutterBottom>
                 {prompt}
             </Typography>
             <MUITextField
                 id={prompt}
-                label={prompt}
+                label={label}
                 required={required}
                 variant={variant}
                 type="number"
