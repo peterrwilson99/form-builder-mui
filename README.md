@@ -45,6 +45,7 @@ The Builder component is responsible for creating and customizing forms. Here ar
 
 - `form`: Can be null or can contain a form to be used as a template for the next form.
 - `saveForm`: A callback function that takes one argument—an array containing the form's elements. If not provided, the form will be logged to the console upon saving.
+- `scrollToNewElement`: A boolean indicating whether the page should scroll to the newly added form element, defaults to true.
 
 *Example usage*
 ```js
