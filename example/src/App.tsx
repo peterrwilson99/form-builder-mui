@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Box, Container } from '@mui/material';
 import Viewer from './components/form-builder-mui/Viewer';
-import Builder from './components/form-builder-mui/Builder';  // assuming Builder component is exported from here
+import Builder from './components/form-builder-mui/Builder';
 import { Form1, FormExamples, FormExamplesKeys } from './components/FormExamples';
 import { Components } from "./components/form-builder-mui/elements/Components";
 import {FormControl, InputLabel, Select, MenuItem} from "@mui/material";
@@ -65,7 +65,7 @@ function App() {
         <Box>
           {value === 0 && <Viewer form={form} onSubmit={handleSubmit} onSubmitPartial={handleSubmit} preview={false} />}
           {value === 1 && <Viewer form={form} disabled={true} />}
-          {value === 2 && <Builder saveForm = {saveForm} />}
+          {value === 2 && <Builder saveForm={saveForm}/>}
           {value === 3 && <Builder form={form} saveForm = {saveForm} />}
         </Box>
       </Container>

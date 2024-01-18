@@ -5,6 +5,7 @@ import { Box, Typography } from '@mui/material';
 export interface DateInputProps {
     id: string | number;
     prompt: string;
+    label?: string;
     required?: boolean;
     value?: string;
     format?: 'time' | 'datetime-local';
@@ -12,7 +13,7 @@ export interface DateInputProps {
     disabled?: boolean;
 }
 
-const DateInput: FC<DateInputProps> = ({ id, prompt, required, value, format, onChange, disabled }) => {
+const DateInput: FC<DateInputProps> = ({ id, prompt, label, required, value, format, onChange, disabled }) => {
     const [localValue, setValue] = useState<string>(value ?? '');
 
     useEffect(() => {
@@ -43,11 +44,11 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, required, value, format, on
 
     return (
         <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="h6" sx={{marginBottom: "16px"}}>
+            <Typography variant="body1" fontStyle={'italic'} sx={{marginBottom: "16px"}}>
                 {prompt}
             </Typography>
             <TextField
-                label={prompt}
+                label={label}
                 type={type}
                 value={localValue ?? timeDefault}
                 onChange={handleChange}

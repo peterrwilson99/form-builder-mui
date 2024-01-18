@@ -6,6 +6,7 @@ import Checkboxes from "./Checkboxes";
 import DateInput from "./DateInput";
 import MultipleTextField from "./MultipleTextField";
 import NumberInput from "./NumberInput";
+import Divider from "./Divider";
 
 export type { TextFieldProps } from "./TextField";
 export type { RadioInputProps } from "./RadioInput";
@@ -47,6 +48,14 @@ export const ComponentDefaults = {
     'Header': {
         text: "Header text here",
         variant: "h6",
+        bold: false,
+        italic: false,
+        underline: false,
+    },
+    'Divider': {
+        variant: "fullWidth",
+        text: "",
+        textAlign: "center",
     },
     'Checkboxes': {
         prompt: "prompt text here",
@@ -79,6 +88,7 @@ export const Components = {
     'RadioInput': RadioInput,
     'SelectInput': SelectInput,
     'Header': Header,
+    'Divider': Divider,
     'Checkboxes': Checkboxes,
     'DateInput': DateInput,
     'MultipleTextField': MultipleTextField,
@@ -91,6 +101,7 @@ export type ComponentKeys = keyof typeof Components;
 export const ComponentProperties = {
     'TextField': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         multiline: { type: 'boolean', label: 'Multiline?' },
@@ -98,12 +109,14 @@ export const ComponentProperties = {
     },
     'RadioInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { type: 'array', label: 'Options' },
         value: { type: 'default', label: 'Default Value'},
     },
     'SelectInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { type: 'array', label: 'Options' },
         value: { type: 'default', label: 'Default Value'},
@@ -111,9 +124,18 @@ export const ComponentProperties = {
     'Header': {
         text: { type: 'string', label: 'Header Text' },
         variant: { type: 'select', label: 'Variant', options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body1', 'body2', 'subtitle1', 'subtitle2', 'p'] },
+        bold: { type: 'boolean', label: 'Bold?' },
+        italic: { type: 'boolean', label: 'Italic?' },
+        underline: { type: 'boolean', label: 'Underline?' },
+    },
+    'Divider': {
+        variant: { type: 'select', label: 'Variant', options: ['fullWidth', 'inset', 'middle'] },
+        text: { type: 'string', label: 'Divider Text' },
+        textAlign: { type: 'select', label: 'Text Align', options: ['left', 'center', 'right'] },
     },
     'Checkboxes': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { 
             type: 'array', 
@@ -130,6 +152,7 @@ export const ComponentProperties = {
     },
     'DateInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         format: {
             type: 'select',
@@ -144,6 +167,7 @@ export const ComponentProperties = {
     },
     'MultipleTextField': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         min: { type: 'number', label: 'Minimum Amount of Lines' },
@@ -152,6 +176,7 @@ export const ComponentProperties = {
     },
     'NumberInput': {
         prompt: { type: 'string', label: 'Form prompt Text'},
+        label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         value: { type: 'default', label: 'Default Value'},

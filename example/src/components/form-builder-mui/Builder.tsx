@@ -20,11 +20,12 @@ export interface Element {
 export interface BuilderProps {
     form?: Element[];
     saveForm?: (form: Element[]) => void;
+    scrollToNewElement?: boolean;
 }
 
 
 const Builder: FC<BuilderProps> = (props) => {
-    const { form, saveForm } = props
+    const { form, saveForm, scrollToNewElement = true } = props
     const [elements, setElements] = useState(form ?? [])
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
@@ -68,7 +69,20 @@ const Builder: FC<BuilderProps> = (props) => {
         };
         
         setElements((oldElements) => [...oldElements, newElement]);
+        // scroll to element in view
+        // wait for 100 ms then scroll to element
+        if(!scrollToNewElement) return;
+        setTimeout(() => {
+            scrollToElement(nextId);
+        }, 50);
     };
+
+    const scrollToElement = (id: number) => {
+        const element = document.getElementById(id.toString());
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 
     const duplicateComponent = (id: number) => {
         const newElements = [...elements];
@@ -122,7 +136,7 @@ const Builder: FC<BuilderProps> = (props) => {
         if(newMode !== null) {
             setMode(newMode);
         }
-      };
+    };
     
     
     const closeDrawer = () => setDrawerOpen(false);
@@ -139,7 +153,7 @@ const Builder: FC<BuilderProps> = (props) => {
                                         const Component = Components[element.type as keyof typeof Components];
                     
                                         return (
-                                            <Paper elevation={2} sx={{ p: 1, my: 1 }} >
+                                            <Paper elevation={2} sx={{ p: 1, my: 1 }} id={element.id.toString()}>
                                                 <Box>
                                                     <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-25px"}}>
                                                         <Tooltip title="Properties" placement="top">
@@ -199,7 +213,7 @@ const Builder: FC<BuilderProps> = (props) => {
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Box className="controls" sx={{display: 'flex', flexDirection: 'column', marginTop: '1rem', position: 'sticky', top: '1rem', zIndex: 1}}>
+                    <Box className="controls" sx={{display: 'flex', flexDirection: 'column', marginTop: '1rem', position: 'sticky', top: '5rem', zIndex: 1}}>
                         <ToggleButtonGroup
                             color="primary"
                             orientation='vertical'
