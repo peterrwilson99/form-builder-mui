@@ -1,5 +1,5 @@
 import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from '@mui/material';
-import React, { FC, useState, useEffect, ChangeEvent } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 
 export interface Option {
     value: string;
@@ -25,9 +25,10 @@ const RadioInput: FC<RadioInputProps> = (props) => {
         setValue(value);
     }, [value])
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-        onChange(id, e.target.value);
+    const handleChange = (e: any) => {
+        const newValue = e.target.value === localValue ? "" : e.target.value;
+        setValue(newValue);
+        onChange(id, newValue);
     };
 
     return (
@@ -40,14 +41,13 @@ const RadioInput: FC<RadioInputProps> = (props) => {
                 <RadioGroup
                     id={id}
                     value={localValue}
-                    onChange={handleChange}
                 >
                     {(options ?? []).map((option, index) => (
                         <FormControlLabel
                             key={index}
                             value={option.value}
                             disabled={disabled}
-                            control={<Radio disabled={disabled}/>}
+                            control={<Radio disabled={disabled} onClick={handleChange}/>}
                             label={option.label}
                             sx={{maxWidth: "400px",
                                  width: "90%",
