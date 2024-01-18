@@ -20,11 +20,12 @@ export interface Element {
 export interface BuilderProps {
     form?: Element[];
     saveForm?: (form: Element[]) => void;
+    scrollToNewElement?: boolean;
 }
 
 
 const Builder: FC<BuilderProps> = (props) => {
-    const { form, saveForm } = props
+    const { form, saveForm, scrollToNewElement = true } = props
     const [elements, setElements] = useState(form ?? [])
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
@@ -70,6 +71,7 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements((oldElements) => [...oldElements, newElement]);
         // scroll to element in view
         // wait for 100 ms then scroll to element
+        if(!scrollToNewElement) return;
         setTimeout(() => {
             scrollToElement(nextId);
         }, 50);

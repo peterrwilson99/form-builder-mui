@@ -65,7 +65,7 @@ function App() {
         <Box>
           {value === 0 && <Viewer form={form} onSubmit={handleSubmit} onSubmitPartial={handleSubmit} preview={false} />}
           {value === 1 && <Viewer form={form} disabled={true} />}
-          {value === 2 && <Builder saveForm = {saveForm} />}
+          {value === 2 && <Builder saveForm={saveForm}/>}
           {value === 3 && <Builder form={form} saveForm = {saveForm} />}
         </Box>
       </Container>
