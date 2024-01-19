@@ -20,14 +20,16 @@ export type { NumberInputProps } from "./NumberInput";
 
 export const ComponentDefaults = {
     'TextField': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
         variant: "standard",
         value: "",
         multiline: false
     },
     'RadioInput': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
         value: "",
         options: [
@@ -36,7 +38,8 @@ export const ComponentDefaults = {
         ]
     },
     'SelectInput': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
         value: "",
         options: [
@@ -58,7 +61,8 @@ export const ComponentDefaults = {
         textAlign: "center",
     },
     'Checkboxes': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
         options: [
             { label: 'Option1', value: 'Option1' },
@@ -67,17 +71,20 @@ export const ComponentDefaults = {
         ]
     },
     'DateInput': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
         format: "datetime-local",
         value: "",
     },
     'MultipleTextField': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
     },
     'NumberInput': {
-        prompt: "prompt text here",
+        prompt: "Question text here",
+        additional: "Additional question text here",
         required: false,
         variant: "standard",
     },
@@ -100,7 +107,8 @@ export type ComponentKeys = keyof typeof Components;
 
 export const ComponentProperties = {
     'TextField': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
@@ -108,14 +116,16 @@ export const ComponentProperties = {
         value: { type: 'default', label: 'Default Value'},
     },
     'RadioInput': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { type: 'array', label: 'Options' },
         value: { type: 'default', label: 'Default Value'},
     },
     'SelectInput': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { type: 'array', label: 'Options' },
@@ -127,6 +137,8 @@ export const ComponentProperties = {
         bold: { type: 'boolean', label: 'Bold?' },
         italic: { type: 'boolean', label: 'Italic?' },
         underline: { type: 'boolean', label: 'Underline?' },
+        divider: { type: 'boolean', label: 'Divider?' },
+        border: { type: 'boolean', label: 'Border?' },
     },
     'Divider': {
         variant: { type: 'select', label: 'Variant', options: ['fullWidth', 'inset', 'middle'] },
@@ -134,7 +146,8 @@ export const ComponentProperties = {
         textAlign: { type: 'select', label: 'Text Align', options: ['left', 'center', 'right'] },
     },
     'Checkboxes': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         options: { 
@@ -151,7 +164,8 @@ export const ComponentProperties = {
         value: { type: 'default', label: 'Default Value'},
     },
     'DateInput': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         format: {
@@ -166,7 +180,8 @@ export const ComponentProperties = {
         value: { type: 'default', label: 'Default Value'},
     },
     'MultipleTextField': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
@@ -175,7 +190,8 @@ export const ComponentProperties = {
         value: { type: 'default', label: 'Default Value'},
     },
     'NumberInput': {
-        prompt: { type: 'string', label: 'Form prompt Text'},
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },

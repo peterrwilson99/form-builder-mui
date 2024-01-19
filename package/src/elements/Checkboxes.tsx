@@ -9,6 +9,7 @@ export interface OptionType {
 export interface CheckboxesProps {
     id: string | number;
     prompt: string;
+    additional?: string;
     label?: string;
     options?: OptionType[];
     value?: Record<string, boolean>;
@@ -17,7 +18,7 @@ export interface CheckboxesProps {
     required?: boolean;
 }
 
-const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, label, value, options, onChange, disabled, required }) => {
+const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value, options, onChange, disabled, required }) => {
     const [localValue, setValue] = useState<Record<string, boolean>>(value ?? {});
 
     useEffect(() => {
@@ -34,6 +35,9 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, label, value, options, on
         <Box sx={{marginY: "2.5rem", maxWidth: "400px"}}>
             <Typography variant="body1" gutterBottom>
                 {prompt}
+            </Typography>
+            <Typography variant="subtitle2" gutterBottom>
+                {additional}
             </Typography>
             <FormControl fullWidth required={required}>
                 <FormLabel component="legend">{label}</FormLabel>

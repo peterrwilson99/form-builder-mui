@@ -3,13 +3,14 @@ export const Form1 = [
     id: 8,
     type: "Header",
     text: "Section 1: About you!",
-    variant: "h2",
+    variant: "h3",
   },
   {
     id: 16,
     type: "Header",
     variant: "p",
     text: "Please fill out the following information:",
+    divider: true,
   },
   {
     id: 1,

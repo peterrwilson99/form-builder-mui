@@ -4,6 +4,7 @@ import React, { FC, useState, useEffect, ChangeEvent } from 'react'
 export interface TextFieldProps {
     id: string;
     prompt: string;
+    additional?: string;
     label?: string;
     required?: boolean;
     variant: 'standard' | 'filled' | 'outlined';
@@ -14,7 +15,7 @@ export interface TextFieldProps {
 }
 
 const TextField: FC<TextFieldProps> = (props) => {
-    const { id, prompt, label, required, variant, value, multiline, onChange, disabled } = props
+    const { id, prompt, additional, label, required, variant, value, multiline, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
@@ -30,6 +31,9 @@ const TextField: FC<TextFieldProps> = (props) => {
         <Box sx={{marginY: "2.5rem"}} >
             <Typography variant="body1" gutterBottom>
                 {prompt}
+            </Typography>
+            <Typography variant="subtitle2" gutterBottom>
+                {additional}
             </Typography>
             <MUITextField
                 id={prompt}

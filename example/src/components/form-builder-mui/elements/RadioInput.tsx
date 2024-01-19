@@ -9,6 +9,7 @@ export interface Option {
 export interface RadioInputProps {
     id: string;
     prompt: string;
+    additional?: string;
     label?: string;
     required?: boolean;
     value: string;
@@ -18,7 +19,7 @@ export interface RadioInputProps {
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {
-    const { id, prompt, label, required, value, options, onChange, disabled } = props
+    const { id, prompt, additional, label, required, value, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
     useEffect(() => {
@@ -35,6 +36,9 @@ const RadioInput: FC<RadioInputProps> = (props) => {
         <Box sx={{marginY: "2.5rem"}} >
             <Typography variant="body1" gutterBottom>
                 {prompt}
+            </Typography>
+            <Typography variant="subtitle2" gutterBottom>
+                {additional}
             </Typography>
             <FormControl fullWidth required={required}>
                 <FormLabel component="legend">{label}</FormLabel>
