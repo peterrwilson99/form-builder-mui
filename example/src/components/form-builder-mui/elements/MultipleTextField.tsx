@@ -46,7 +46,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, labe
 
     return (
         <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="body1" fontStyle={'italic'} gutterBottom>{prompt}</Typography>
+            <Typography variant="body1" gutterBottom>{prompt}</Typography>
             {values.map((value, index) => (
                 <Box key={index} sx={{display: "flex", justifyContent: "center", marginY: "16px"}} className="d-flex align-items-center my-4">
                     <TextField

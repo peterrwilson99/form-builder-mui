@@ -27,7 +27,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
 
     return (
         <Box sx={{marginY: "2.5rem"}} >
-            <Typography variant="body1" fontStyle={'italic'} gutterBottom>
+            <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
             <MUITextField

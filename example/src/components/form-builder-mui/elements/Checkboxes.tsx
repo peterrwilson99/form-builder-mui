@@ -32,7 +32,7 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, label, value, options, on
 
     return (
         <Box sx={{marginY: "2.5rem", maxWidth: "400px"}}>
-            <Typography variant="body1" fontStyle={'italic'} gutterBottom>
+            <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>

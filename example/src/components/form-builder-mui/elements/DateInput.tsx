@@ -44,7 +44,7 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, label, required, value, for
 
     return (
         <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="body1" fontStyle={'italic'} sx={{marginBottom: "16px"}}>
+            <Typography variant="body1" sx={{marginBottom: "16px"}}>
                 {prompt}
             </Typography>
             <TextField

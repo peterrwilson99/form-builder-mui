@@ -33,7 +33,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 
     return (
         <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="body1" fontStyle={'italic'} sx={{ marginBottom: "16px" }}>
+            <Typography variant="body1" sx={{ marginBottom: "16px" }}>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>

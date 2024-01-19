@@ -33,7 +33,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
 
     return (
         <Box sx={{marginY: "2.5rem"}} >
-            <Typography variant="body1" fontStyle={'italic'} gutterBottom>
+            <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
             <FormControl fullWidth required={required}>
