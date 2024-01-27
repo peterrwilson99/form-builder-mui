@@ -7,6 +7,7 @@ import DateInput from "./DateInput";
 import MultipleTextField from "./MultipleTextField";
 import NumberInput from "./NumberInput";
 import Divider from "./Divider";
+import MultipleSelectField from "./MultipleSelectField";
 
 export type { TextFieldProps } from "./TextField";
 export type { RadioInputProps } from "./RadioInput";
@@ -31,6 +32,7 @@ export const ComponentDefaults = {
         prompt: "Question text here",
         additional: "Additional question text here",
         required: false,
+        variant: "standard",
         value: "",
         options: [
             { label: 'Yes', value: 'Yes' },
@@ -82,6 +84,18 @@ export const ComponentDefaults = {
         additional: "Additional question text here",
         required: false,
     },
+    'MultipleSelectField': {
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        variant: "standard",
+        value: [""],
+        options: [
+            { label: 'Option1', value: 'Option1' },
+            { label: 'Option2', value: 'Option2' },
+            { label: 'Option3', value: 'Option3' },
+        ]
+    },
     'NumberInput': {
         prompt: "Question text here",
         additional: "Additional question text here",
@@ -100,6 +114,7 @@ export const Components = {
     'DateInput': DateInput,
     'MultipleTextField': MultipleTextField,
     'NumberInput': NumberInput,
+    'MultipleSelectField': MultipleSelectField,
 }
 
 // make type of keys in components
@@ -183,6 +198,17 @@ export const ComponentProperties = {
         prompt: { type: 'string', label: 'Question Prompt'},
         additional: { type: 'string', label: 'Additional Text' },
         label: { type: 'string', label: 'Label Text'},
+        required: { type: 'boolean', label: 'Required Field?' },
+        variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
+        min: { type: 'number', label: 'Minimum Amount of Lines' },
+        max: { type: 'number', label: 'Maximum Amount of Lines' },
+        value: { type: 'default', label: 'Default Value'},
+    },
+    'MultipleSelectField': {
+        prompt: { type: 'string', label: 'Question Prompt'},
+        additional: { type: 'string', label: 'Additional Text' },
+        label: { type: 'string', label: 'Label Text'},
+        options: { type: 'array', label: 'Options' },
         required: { type: 'boolean', label: 'Required Field?' },
         variant: { type: 'select', label: 'Variant', options: ['standard', 'filled', 'outlined'] },
         min: { type: 'number', label: 'Minimum Amount of Lines' },
