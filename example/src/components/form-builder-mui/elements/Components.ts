@@ -55,7 +55,6 @@ export const ComponentDefaults = {
         variant: "h6",
         bold: false,
         italic: false,
-        underline: false,
     },
     'Divider': {
         variant: "fullWidth",
@@ -149,11 +148,10 @@ export const ComponentProperties = {
     'Header': {
         text: { type: 'string', label: 'Header Text' },
         variant: { type: 'select', label: 'Variant', options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body1', 'body2', 'subtitle1', 'subtitle2', 'p'] },
-        bold: { type: 'boolean', label: 'Bold?' },
-        italic: { type: 'boolean', label: 'Italic?' },
-        underline: { type: 'boolean', label: 'Underline?' },
-        divider: { type: 'boolean', label: 'Divider?' },
-        border: { type: 'boolean', label: 'Border?' },
+        bold: { type: 'boolean', label: 'Bold' },
+        italic: { type: 'boolean', label: 'Italic' },
+        divider: { type: 'boolean', label: 'Divider' },
+        border: { type: 'boolean', label: 'Bottom Border' },
     },
     'Divider': {
         variant: { type: 'select', label: 'Variant', options: ['fullWidth', 'inset', 'middle'] },
