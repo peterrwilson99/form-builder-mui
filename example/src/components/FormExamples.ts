@@ -398,11 +398,101 @@ export const BuiltFormFilled = [
     },
 ];
 
+export const MultiSelectExample = [
+    {
+        id: 360706019,
+        type: "SelectInput",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        value: "",
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+    {
+        id: 965944908,
+        type: "MultipleSelectField",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        variant: "standard",
+        value: [""],
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+    {
+        id: 701160759,
+        type: "MultipleSelectField",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        variant: "standard",
+        value: [""],
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+];
+
+export const MultiSelectFilled = [
+    {
+        id: 360706019,
+        type: "SelectInput",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        value: "Option2",
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+    {
+        id: 965944908,
+        type: "MultipleSelectField",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        variant: "standard",
+        value: ["Option1", "Option2", "Option3"],
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+    {
+        id: 701160759,
+        type: "MultipleSelectField",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        variant: "standard",
+        value: ["Option2"],
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+];
+
 export const FormExamples = {
     Form1,
     Form1Filled,
     BuiltForm,
     BuiltFormFilled,
+    MultiSelectExample,
+    MultiSelectFilled,
 };
 
 // create an interface with the keys of FormExamples
