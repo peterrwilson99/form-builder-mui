@@ -1,9 +1,9 @@
-import { FC, useState, useEffect } from 'react';
-import IconButton from '@mui/material/IconButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
-import { Option } from './SelectInput';
+import { FC, useState, useEffect } from "react";
+import IconButton from "@mui/material/IconButton";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Option } from "./SelectInput";
 
 export interface MultipleSelectFieldProps {
     id: string;
@@ -20,27 +20,40 @@ export interface MultipleSelectFieldProps {
     max?: string;
 }
 
-const MultipleSelectField: FC<MultipleSelectFieldProps> = ({ id, value, prompt, additional, label, variant, required, options, onChange, disabled, max, min }) => {
+const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
+    id,
+    value,
+    prompt,
+    additional,
+    label,
+    variant,
+    required,
+    options,
+    onChange,
+    disabled,
+    max,
+    min,
+}) => {
     const defaultValues = () => {
-        if (!min) return [''];
-        return Array(parseInt(min)).fill('');
-    }
+        if (!min) return [""];
+        return Array(parseInt(min)).fill("");
+    };
     const [values, setValues] = useState<string[]>(defaultValues);
-    
+
     useEffect(() => {
         setValues(value ?? defaultValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, min]);
 
     const handleAddField = () => {
-        setValues([...values, '']);
-    }
+        setValues([...values, ""]);
+    };
 
     const handleRemoveField = (index: number) => {
         const newValues = values.filter((value, idx) => idx !== index);
         setValues(newValues);
         onChange(id, newValues);
-    }
+    };
 
     const handleChange = (index: number, event: SelectChangeEvent<string>) => {
         const newValues = [...values];
@@ -50,28 +63,38 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({ id, value, prompt, 
     };
 
     return (
-        <Box sx={{marginY: "2.5rem"}}>
-            <Typography variant="body1" gutterBottom>{prompt}</Typography>
+        <Box sx={{ marginY: "2.5rem" }}>
+            <Typography variant="body1" gutterBottom>
+                {prompt}
+            </Typography>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
             {values.map((localValue, index) => (
-                <Box key={index} sx={{display: "flex", justifyContent: "center", marginY: "16px"}} className="d-flex align-items-center my-4">
+                <Box
+                    key={index}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginY: "16px",
+                    }}
+                    className="d-flex align-items-center my-4"
+                >
                     <FormControl fullWidth required={required}>
-                        <InputLabel id={id + "-label"}>{label}</InputLabel>
+                        <InputLabel id={(id as string) + "-" + index + "-label"}>{label}</InputLabel>
                         <Select
-                            labelId={id + "-label"}
-                            id={id}
+                            labelId={(id as string) + "-" + index + "-label"}
+                            id={(id as string) + "-" + index}
                             value={localValue}
                             variant={variant ?? "standard"}
                             onChange={(event) => handleChange(index, event)}
                             label={prompt}
                             disabled={disabled}
                             fullWidth
-                            sx={{wordWrap: "break-word"}}
+                            sx={{ wordWrap: "break-word" }}
                         >
-                            {(options ?? []).map((option, index) => (
-                                <MenuItem key={index} value={option.value}>
+                            {(options ?? []).map((option, idx) => (
+                                <MenuItem key={idx} value={option.value}>
                                     {option.label}
                                 </MenuItem>
                             ))}
@@ -79,13 +102,17 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({ id, value, prompt, 
                     </FormControl>
                     {index === values.length - 1 && (
                         // strict comparison is not working for some reason
-                        <IconButton color="primary" disabled={disabled || ((max && values.length >= parseInt(max)) || undefined)} onClick={handleAddField}>
+                        <IconButton color="primary" disabled={disabled || (max && values.length >= parseInt(max)) || undefined} onClick={handleAddField}>
                             <AddCircleOutlineIcon />
                         </IconButton>
                     )}
                     {index > 0 && index === values.length - 1 && (
                         // same as above, strict comparison not working
-                        <IconButton color="secondary" disabled={disabled || ((min && values.length <= parseInt(min)) || undefined)} onClick={() => handleRemoveField(index)}>
+                        <IconButton
+                            color="secondary"
+                            disabled={disabled || (min && values.length <= parseInt(min)) || undefined}
+                            onClick={() => handleRemoveField(index)}
+                        >
                             <DeleteIcon />
                         </IconButton>
                     )}
@@ -93,6 +120,6 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({ id, value, prompt, 
             ))}
         </Box>
     );
-}
+};
 
 export default MultipleSelectField;

@@ -1,15 +1,15 @@
-import React, { FC, useState } from 'react'
-import Toolbox from './Toolbox';
-import { ComponentDefaults, Components } from './elements/Components';
-import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import CloseIcon from '@mui/icons-material/Close';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import Properties from './Properties';
-import Viewer from './Viewer';
+import React, { FC, useState } from "react";
+import Toolbox from "./Toolbox";
+import { ComponentDefaults, Components } from "./elements/Components";
+import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Properties from "./Properties";
+import Viewer from "./Viewer";
 
 export interface Element {
     id: number;
@@ -23,10 +23,9 @@ export interface BuilderProps {
     scrollToNewElement?: boolean;
 }
 
-
 const Builder: FC<BuilderProps> = (props) => {
-    const { form, saveForm, scrollToNewElement = true } = props
-    const [elements, setElements] = useState(form ?? [])
+    const { form, saveForm, scrollToNewElement = true } = props;
+    const [elements, setElements] = useState(form ?? []);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
@@ -41,7 +40,7 @@ const Builder: FC<BuilderProps> = (props) => {
         newElements[index - 1] = element;
         setElements(newElements);
     };
-    
+
     const moveElementDown = (index: any) => {
         if (index === elements.length - 1) {
             return; // Already at the bottom
@@ -52,13 +51,13 @@ const Builder: FC<BuilderProps> = (props) => {
         newElements[index + 1] = element;
         setElements(newElements);
     };
-    
+
     const onAddComponent = (componentType: keyof typeof Components) => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
         // generate random id
         let nextId = Math.floor(Math.random() * 1000000000);
         // ensure no duplicate ids
-        while (elements.map((element) => element.id).includes(nextId)){
+        while (elements.map((element) => element.id).includes(nextId)) {
             nextId = Math.floor(Math.random() * 1000000000);
         }
 
@@ -67,22 +66,22 @@ const Builder: FC<BuilderProps> = (props) => {
             type: componentType,
             ...componentPropertiesCurrent,
         };
-        
+
         setElements((oldElements) => [...oldElements, newElement]);
         // scroll to element in view
         // wait for 100 ms then scroll to element
-        if(!scrollToNewElement) return;
+        if (!scrollToNewElement) return;
         setTimeout(() => {
             scrollToElement(nextId);
         }, 50);
     };
 
     const scrollToElement = (id: number) => {
-        const element = document.getElementById(id.toString());
+        const element = document.getElementById(id ? id.toString() : "");
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-    }
+    };
 
     const duplicateComponent = (id: number) => {
         const newElements = [...elements];
@@ -92,7 +91,7 @@ const Builder: FC<BuilderProps> = (props) => {
         // generate random id
         let nextId = Math.floor(Math.random() * 1000000000);
         // ensure no duplicate ids
-        while (elements.map((element) => element.id).includes(nextId)){
+        while (elements.map((element) => element.id).includes(nextId)) {
             nextId = Math.floor(Math.random() * 1000000000);
         }
         const newElement: Element = {
@@ -103,13 +102,12 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
 
-
     const editElement = (id: number, properties: any) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
         const elementToEdit = newElements[index];
-        
-        for(const [key, value] of Object.entries(properties)) {
+
+        for (const [key, value] of Object.entries(properties)) {
             elementToEdit[key] = value;
         }
         newElements[index] = elementToEdit;
@@ -124,118 +122,154 @@ const Builder: FC<BuilderProps> = (props) => {
     };
 
     const openDrawer = (elementId: number) => {
-        const index = elements.findIndex(element => element.id === elementId);
+        const index = elements.findIndex((element) => element.id === elementId);
         setActiveElement(index);
         setDrawerOpen(true);
     };
 
-    const handleModeChange = (
-        event: React.MouseEvent<HTMLElement>,
-        newMode: string,
-      ) => {
-        if(newMode !== null) {
+    const handleModeChange = (event: React.MouseEvent<HTMLElement>, newMode: string) => {
+        if (newMode !== null) {
             setMode(newMode);
         }
     };
-    
-    
+
     const closeDrawer = () => setDrawerOpen(false);
 
     return (
-        <Box className="builder" sx={{marginBottom: '2rem'}}>
-            <Grid container justifyContent={'space-between'}>
+        <Box className="builder" sx={{ marginBottom: "2rem" }}>
+            <Grid container justifyContent={"space-between"}>
                 <Grid item xs={12} md={9}>
                     <Box className="workspace">
-                        {mode === "builder" ?
+                        {mode === "builder" ? (
                             <React.Fragment>
                                 <Box className="form-preview">
                                     {elements.map((element, index) => {
                                         const Component = Components[element.type as keyof typeof Components];
-                    
                                         return (
-                                            <Paper elevation={2} sx={{ p: 1, my: 1 }} id={element.id.toString()}>
+                                            <Paper elevation={2} sx={{ p: 1, my: 1 }} key={index} id={element.id ? element.id.toString() : ""}>
                                                 <Box>
-                                                    <Box sx={{display: "flex", justifyContent: "end", marginBottom: "-25px"}}>
+                                                    <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            justifyContent: "end",
+                                                            marginBottom: "-25px",
+                                                        }}
+                                                    >
                                                         <Tooltip title="Properties" placement="top">
-                                                            <IconButton onClick={() => openDrawer(element.id)}>
-                                                                <SettingsIcon />
-                                                            </IconButton>
+                                                            <span>
+                                                                <IconButton onClick={() => openDrawer(element.id)}>
+                                                                    <SettingsIcon />
+                                                                </IconButton>
+                                                            </span>
                                                         </Tooltip>
                                                         <Tooltip title="Duplicate" placement="top">
-                                                            <IconButton onClick={() => duplicateComponent(element.id)}>
-                                                                <ContentCopyIcon />
-                                                            </IconButton>
+                                                            <span>
+                                                                <IconButton onClick={() => duplicateComponent(element.id)}>
+                                                                    <ContentCopyIcon />
+                                                                </IconButton>
+                                                            </span>
                                                         </Tooltip>
                                                         <Tooltip title="Move Up" placement="top">
-                                                            <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
-                                                                <ArrowUpwardIcon />
-                                                            </IconButton>
+                                                            <span>
+                                                                <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
+                                                                    <ArrowUpwardIcon />
+                                                                </IconButton>
+                                                            </span>
                                                         </Tooltip>
                                                         <Tooltip title="Move Down" placement="top">
-                                                            <IconButton onClick={() => moveElementDown(index)} disabled={index === elements.length - 1}>
-                                                                <ArrowDownwardIcon />
-                                                            </IconButton>
+                                                            <span>
+                                                                <IconButton onClick={() => moveElementDown(index)} disabled={index === elements.length - 1}>
+                                                                    <ArrowDownwardIcon />
+                                                                </IconButton>
+                                                            </span>
                                                         </Tooltip>
                                                         <Tooltip title="Delete" placement="top">
-                                                            <IconButton onClick={() => deleteElement(element.id)}>
-                                                                <DeleteIcon />
-                                                            </IconButton>
+                                                            <span>
+                                                                <IconButton onClick={() => deleteElement(element.id)}>
+                                                                    <DeleteIcon />
+                                                                </IconButton>
+                                                            </span>
                                                         </Tooltip>
                                                     </Box>
-                                                    <Box onClick={() => openDrawer(element.id)} sx={{cursor: 'pointer'}}>
-                                                        <Component {...element as any} disabled={true} />
+                                                    <Box
+                                                        onClick={() => openDrawer(element.id)}
+                                                        sx={{
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        <Component {...(element as any)} disabled={true} />
                                                     </Box>
                                                 </Box>
                                             </Paper>
                                         );
                                     })}
                                 </Box>
-                    
+
                                 <Drawer anchor="right" open={drawerOpen} onClose={closeDrawer}>
-                                    <Box sx={{marginTop: '3.5rem'}}>
-                                        <Box sx={{marginBottom: '3rem'}}>
-                                            <IconButton onClick={closeDrawer} sx={{ position: 'absolute', left: 0, margin: '10px'}}>
+                                    <Box sx={{ marginTop: "3.5rem" }}>
+                                        <Box sx={{ marginBottom: "3rem" }}>
+                                            <IconButton
+                                                onClick={closeDrawer}
+                                                sx={{
+                                                    position: "absolute",
+                                                    left: 0,
+                                                    margin: "10px",
+                                                }}
+                                            >
                                                 <CloseIcon />
                                             </IconButton>
                                         </Box>
-                                        {
-                                            elements[activeElement] ?
-                                                <Properties element={elements[activeElement]} editElement={editElement} />
-                                                :
-                                                <></>
-                                        }
+                                        {elements[activeElement] ? <Properties element={elements[activeElement]} editElement={editElement} /> : <></>}
                                     </Box>
                                 </Drawer>
                             </React.Fragment>
-                            :
-                            <Viewer form={elements} preview={true}/>
-                        }
+                        ) : (
+                            <Viewer form={elements} preview={true} />
+                        )}
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <Box className="controls" sx={{display: 'flex', flexDirection: 'column', marginTop: '1rem', position: 'sticky', top: '5rem', zIndex: 1}}>
-                        <ToggleButtonGroup
-                            color="primary"
-                            orientation='vertical'
-                            value={mode}
-                            exclusive
-                            onChange={handleModeChange}
-                        >
+                    <Box
+                        className="controls"
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            marginTop: "1rem",
+                            position: "sticky",
+                            top: "5rem",
+                            zIndex: 1,
+                        }}
+                    >
+                        <ToggleButtonGroup color="primary" orientation="vertical" value={mode} exclusive onChange={handleModeChange}>
                             <ToggleButton value="builder">Builder</ToggleButton>
-                            <ToggleButton value="preview" disabled={elements.length === 0}>Preview</ToggleButton>
+                            <ToggleButton value="preview" disabled={elements.length === 0}>
+                                Preview
+                            </ToggleButton>
                         </ToggleButtonGroup>
-                        <Box className="toolbox" sx={{display: "flex", justifyContent: 'flex-end', paddingTop: 2}}>
-                            <Toolbox onAddComponent={onAddComponent}/>
+                        <Box
+                            className="toolbox"
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                paddingTop: 2,
+                            }}
+                        >
+                            <Toolbox onAddComponent={onAddComponent} />
                         </Box>
                     </Box>
                 </Grid>
-                
             </Grid>
-            <Button sx={{marginY: "16px"}} onClick={() => { saveForm ? saveForm(elements) : console.log(elements) }} variant="outlined">
+            <Button
+                sx={{ marginY: "16px" }}
+                onClick={() => {
+                    saveForm ? saveForm(elements) : console.log(elements);
+                }}
+                variant="outlined"
+            >
                 Save Form
             </Button>
         </Box>
     );
-}
+};
 
-export default Builder
+export default Builder;
