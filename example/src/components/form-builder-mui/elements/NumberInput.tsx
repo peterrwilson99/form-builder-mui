@@ -22,8 +22,9 @@ const NumberInput: FC<NumberInputProps> = (props) => {
     }, [value])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-        onChange(id, e.target.value);
+        const value = String(Number(e.target.value));
+        setValue(value);
+        onChange(id, value);
     };
 
     return (
