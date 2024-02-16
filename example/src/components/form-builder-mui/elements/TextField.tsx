@@ -18,10 +18,6 @@ const TextField: FC<TextFieldProps> = (props) => {
     const { id, prompt, additional, label, required, variant, value, multiline, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
-    useEffect(() => {
-        setValue(value);
-    }, [value])
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
         onChange(id, e.target.value);

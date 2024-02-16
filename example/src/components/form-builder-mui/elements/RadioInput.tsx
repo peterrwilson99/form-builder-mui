@@ -22,10 +22,6 @@ const RadioInput: FC<RadioInputProps> = (props) => {
     const { id, prompt, additional, label, required, value, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
-    useEffect(() => {
-        setValue(value);
-    }, [value])
-
     const handleChange = (e: any) => {
         const newValue = e.target.value === localValue ? "" : e.target.value;
         setValue(newValue);

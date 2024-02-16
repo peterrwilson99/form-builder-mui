@@ -21,10 +21,6 @@ export interface CheckboxesProps {
 const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value, options, onChange, disabled, required }) => {
     const [localValue, setValue] = useState<Record<string, boolean>>(value ?? {});
 
-    useEffect(() => {
-        setValue(value ?? {});
-    }, [value])
-
     const handleChange = (option: OptionType) => (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = { ...localValue, [option.value]: event.target.checked };
         setValue(newValue);

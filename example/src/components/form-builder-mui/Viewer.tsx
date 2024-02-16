@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, FormEvent, useCallback, useEffect, useState } from "react";
+import React, { FC, FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Button, debounce } from "@mui/material";
 import { Components } from "./elements/Components";
 
@@ -26,21 +26,34 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, preview, dis
   const [formValues, setFormValues] = useState<FormValues>({});
   const [triggerAutosave, setTriggerAutosave] = useState(false);
   const elements = form ?? [] as Element[];
+  const formValuesRef = useRef(formValues); // Create a ref for formValues
 
-  const handleChange = (id: string, value: any) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [id]: value,
-    }));
-    setTriggerAutosave(true);
-  };
+    // Update the ref whenever formValues changes
+    useEffect(() => {
+      formValuesRef.current = formValues;
+    }, [formValues]);
+
+    const handleChange = (id: string, value: any) => {
+      setFormValues((prevValues) => {
+        const updatedValues = {
+          ...prevValues,
+          [id]: value,
+        };
+        return updatedValues;
+      });
+      setTriggerAutosave(true);
+    };
+
+  const autoSave = React.useMemo(() => {
+    return debounce(() => handleSave(undefined, formValuesRef.current), 3000);
+  }, []);
 
   React.useEffect(() => {
     if(triggerAutosave && !preview && !disabled && onSubmitPartial){
-      autoSave(formValues);
+      autoSave();
       setTriggerAutosave(false);
     }
-  }, [triggerAutosave]);
+  }, [triggerAutosave, autoSave, handleChange]);
 
   const getCompletedForm = (formValuesProp: FormValues | undefined) => {
     const completedForm = form ?? [];
@@ -67,11 +80,6 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, preview, dis
     }
   };
 
-  const autoSave = React.useMemo(() => {
-    return debounce((formValuesProp) => handleSave(undefined, formValuesProp), 2000);
-  }, []);
-
-  
   return (
     <form onSubmit={handleSubmit}>
       {elements.map((element, index) => {

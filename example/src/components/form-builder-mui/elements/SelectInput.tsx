@@ -23,10 +23,6 @@ const SelectInput: FC<SelectInputProps> = (props) => {
     const { id, prompt, additional, label, required, value, variant, options, onChange, disabled } = props
     const [localValue, setValue] = useState<string>(value);
 
-    useEffect(() => {
-        setValue(value);
-    }, [value])
-
     const handleChange = (e: SelectChangeEvent) => {
         setValue(e.target.value);
         onChange(id, e.target.value);
