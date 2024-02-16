@@ -1,25 +1,39 @@
-import { FC, useState, useEffect, ChangeEvent } from "react";
-import TextField from "@mui/material/TextField";
+import { FC, useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Option } from "./SelectInput";
 
-export interface MultipleTextFieldProps {
+export interface MultipleSelectFieldProps {
     id: string;
-    value: string[];
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
+    value: string[];
     variant?: "standard" | "filled" | "outlined";
+    options: Option[];
     onChange: (id: string, values: string[]) => void;
     disabled?: boolean;
     min?: string;
     max?: string;
 }
 
-const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, additional, label, variant, required, onChange, disabled, max, min }) => {
+const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
+    id,
+    value,
+    prompt,
+    additional,
+    label,
+    variant,
+    required,
+    options,
+    onChange,
+    disabled,
+    max,
+    min,
+}) => {
     const defaultValues = () => {
         if (!min) return [""];
         return Array(parseInt(min)).fill("");
@@ -33,7 +47,6 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
 
     const handleAddField = () => {
         setValues([...values, ""]);
-        onChange(id, [...values, ""]);
     };
 
     const handleRemoveField = (index: number) => {
@@ -42,7 +55,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
         onChange(id, newValues);
     };
 
-    const handleChange = (index: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (index: number, event: SelectChangeEvent<string>) => {
         const newValues = [...values];
         newValues[index] = event.target.value;
         setValues(newValues);
@@ -57,7 +70,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
-            {values.map((value, index) => (
+            {values.map((localValue, index) => (
                 <Box
                     key={index}
                     sx={{
@@ -67,15 +80,26 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
                     }}
                     className="d-flex align-items-center my-4"
                 >
-                    <TextField
-                        required={required}
-                        value={value}
-                        label={label}
-                        variant={variant ?? "standard"}
-                        onChange={(event) => handleChange(index, event)}
-                        fullWidth
-                        disabled={disabled}
-                    />
+                    <FormControl fullWidth required={required}>
+                        <InputLabel id={(id as string) + "-" + index + "-label"}>{label}</InputLabel>
+                        <Select
+                            labelId={(id as string) + "-" + index + "-label"}
+                            id={(id as string) + "-" + index}
+                            value={localValue}
+                            variant={variant ?? "standard"}
+                            onChange={(event) => handleChange(index, event)}
+                            label={prompt}
+                            disabled={disabled}
+                            fullWidth
+                            sx={{ wordWrap: "break-word" }}
+                        >
+                            {(options ?? []).map((option, idx) => (
+                                <MenuItem key={idx} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     {index === values.length - 1 && (
                         // strict comparison is not working for some reason
                         <IconButton color="primary" disabled={disabled || (max && values.length >= parseInt(max)) || undefined} onClick={handleAddField}>
@@ -98,4 +122,4 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
     );
 };
 
-export default MultipleTextField;
+export default MultipleSelectField;
