@@ -1,5 +1,5 @@
-import React, { useState, useEffect, ChangeEvent, FC } from 'react';
-import { Typography, Checkbox, FormControlLabel, Box, FormControl, FormLabel } from '@mui/material';
+import React, { useState, ChangeEvent, FC } from "react";
+import { Typography, Checkbox, FormControlLabel, Box, FormControl, FormLabel, FormGroup, FormHelperText } from "@mui/material";
 
 export interface OptionType {
     value: string;
@@ -19,54 +19,58 @@ export interface CheckboxesProps {
 }
 
 const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value, options, onChange, disabled, required }) => {
+    const [valuesChanged, setValuesChanged] = useState<boolean>(false);
     const [localValue, setValue] = useState<Record<string, boolean>>(value ?? {});
-
-    useEffect(() => {
-        setValue(value ?? {});
-    }, [value])
 
     const handleChange = (option: OptionType) => (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = { ...localValue, [option.value]: event.target.checked };
+        setValuesChanged(true);
         setValue(newValue);
         onChange(id, newValue);
     };
 
+    const error = Object.values(localValue).filter((v) => v).length === 0 && required && valuesChanged;
+
     return (
-        <Box sx={{marginY: "2.5rem", maxWidth: "400px"}}>
+        <Box sx={{ marginY: "2.5rem", maxWidth: "400px" }}>
             <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
-            <FormControl fullWidth required={required}>
+            <FormControl fullWidth error={error} required={true}>
                 <FormLabel component="legend">{label}</FormLabel>
-                {(options ?? []).map((option, index) => (
-                    <FormControlLabel
-                        key={index}
-                        disabled={disabled}
-                        control={
-                            <Checkbox
-                                checked={localValue[option.value] || false}
-                                onChange={handleChange(option)}
-                                name={option.label}
-                                disabled={disabled}
-                                color="primary"
-                            />
-                        }
-                        label={option.label}
-                        sx={{maxWidth: "400px",
-                            width: "90%",
-                            '& .MuiFormControlLabel-label': {
-                                maxWidth: '95%', // Max width for the label text
-                                wordWrap: 'break-word', // Allow text to wrap
+                <FormGroup>
+                    {(options ?? []).map((option, index) => (
+                        <FormControlLabel
+                            key={index}
+                            disabled={disabled}
+                            control={
+                                <Checkbox
+                                    checked={localValue[option.value] || false}
+                                    onChange={handleChange(option)}
+                                    name={option.label}
+                                    disabled={disabled}
+                                    color="primary"
+                                />
+                            }
+                            label={option.label}
+                            sx={{
+                                maxWidth: "400px",
+                                width: "90%",
+                                "& .MuiFormControlLabel-label": {
+                                    maxWidth: "95%", // Max width for the label text
+                                    wordWrap: "break-word", // Allow text to wrap
                                 },
                             }}
-                    />
-                ))}
+                        />
+                    ))}
+                    {required ? <FormHelperText>{error ? "Please select at least one value" : ""}</FormHelperText> : <></>}
+                </FormGroup>
             </FormControl>
         </Box>
-    )
-}
+    );
+};
 
 export default Checkboxes;

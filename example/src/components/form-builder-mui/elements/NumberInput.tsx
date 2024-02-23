@@ -1,5 +1,5 @@
-import { Typography, TextField as MUITextField, Box } from '@mui/material';
-import React, { FC, useState, ChangeEvent, useEffect } from 'react'
+import { Typography, TextField as MUITextField, Box } from "@mui/material";
+import { FC, useState, ChangeEvent } from "react";
 
 export interface NumberInputProps {
     id: string;
@@ -7,7 +7,7 @@ export interface NumberInputProps {
     additional?: string;
     label?: string;
     required?: boolean;
-    variant: 'standard' | 'outlined' | 'filled';
+    variant: "standard" | "outlined" | "filled";
     value: string;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
@@ -17,10 +17,6 @@ const NumberInput: FC<NumberInputProps> = (props) => {
     const { id, prompt, additional, label, required, variant, value, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
 
-    useEffect(() => {
-        setValue(value);
-    }, [value])
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = String(Number(e.target.value));
         setValue(value);
@@ -28,7 +24,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
     };
 
     return (
-        <Box sx={{marginY: "2.5rem"}} >
+        <Box sx={{ marginY: "2.5rem" }}>
             <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
@@ -47,7 +43,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
                 fullWidth
             />
         </Box>
-    )
-}
+    );
+};
 
-export default NumberInput
+export default NumberInput;

@@ -38,7 +38,7 @@ export const Form1 = [
         id: 4,
         type: "RadioInput",
         prompt: "Do you have any pets?",
-        required: false,
+        required: true,
         value: "",
         options: [
             { label: "Yes", value: "yes" },
@@ -84,6 +84,7 @@ export const Form1 = [
         id: 9,
         type: "Checkboxes",
         prompt: "Which of the following apply?",
+        required: true,
         options: [
             { label: "Option 1", value: "1" },
             { label: "Option 2", value: "2" },
@@ -486,6 +487,83 @@ export const MultiSelectFilled = [
     },
 ];
 
+export const AllRequiredForm = [
+    {
+        id: 657835370,
+        type: "TextField",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: true,
+        variant: "standard",
+        value: "",
+        multiline: false,
+    },
+    {
+        id: 665425360,
+        type: "RadioInput",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: true,
+        variant: "standard",
+        value: "",
+        options: [
+            { label: "Yes", value: "Yes" },
+            { label: "No", value: "No" },
+        ],
+    },
+    {
+        id: 653202968,
+        type: "SelectInput",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: true,
+        value: "",
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+    { id: 561825932, type: "MultipleTextField", prompt: "Question text here", additional: "Additional question text here", required: true },
+    {
+        id: 400009549,
+        type: "DateInput",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        format: "datetime-local",
+        value: "",
+    },
+    {
+        id: 951932084,
+        type: "Checkboxes",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+    { id: 664657980, type: "MultipleTextField", prompt: "Question text here", additional: "Additional question text here", required: false },
+    { id: 623426052, type: "NumberInput", prompt: "Question text here", additional: "Additional question text here", required: false, variant: "standard" },
+    {
+        id: 766878479,
+        type: "MultipleSelectField",
+        prompt: "Question text here",
+        additional: "Additional question text here",
+        required: false,
+        variant: "standard",
+        value: [""],
+        options: [
+            { label: "Option1", value: "Option1" },
+            { label: "Option2", value: "Option2" },
+            { label: "Option3", value: "Option3" },
+        ],
+    },
+];
+
 export const FormExamples = {
     Form1,
     Form1Filled,
@@ -493,6 +571,7 @@ export const FormExamples = {
     BuiltFormFilled,
     MultiSelectExample,
     MultiSelectFilled,
+    AllRequiredForm,
 };
 
 // create an interface with the keys of FormExamples

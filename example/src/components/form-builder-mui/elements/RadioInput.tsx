@@ -1,5 +1,5 @@
-import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from '@mui/material';
-import React, { FC, useState, useEffect } from 'react'
+import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from "@mui/material";
+import { FC, useState } from "react";
 
 export interface Option {
     value: string;
@@ -19,12 +19,8 @@ export interface RadioInputProps {
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {
-    const { id, prompt, additional, label, required, value, options, onChange, disabled } = props
+    const { id, prompt, additional, label, required, value, options, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
-
-    useEffect(() => {
-        setValue(value);
-    }, [value])
 
     const handleChange = (e: any) => {
         const newValue = e.target.value === localValue ? "" : e.target.value;
@@ -33,39 +29,37 @@ const RadioInput: FC<RadioInputProps> = (props) => {
     };
 
     return (
-        <Box sx={{marginY: "2.5rem"}} >
+        <Box sx={{ marginY: "2.5rem" }}>
             <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
-            <FormControl fullWidth required={required}>
+            <FormControl fullWidth>
                 <FormLabel component="legend">{label}</FormLabel>
-                <RadioGroup
-                    id={id}
-                    value={localValue}
-                >
+                <RadioGroup id={id} value={localValue}>
                     {(options ?? []).map((option, index) => (
                         <FormControlLabel
                             key={index}
                             value={option.value}
                             disabled={disabled}
-                            control={<Radio disabled={disabled} onClick={handleChange}/>}
+                            control={<Radio required={required} disabled={disabled} onClick={handleChange} />}
                             label={option.label}
-                            sx={{maxWidth: "400px",
-                                 width: "90%",
-                                '& .MuiFormControlLabel-label': {
-                                    maxWidth: '95%', // Max width for the label text
-                                    wordWrap: 'break-word', // Allow text to wrap
+                            sx={{
+                                maxWidth: "400px",
+                                width: "90%",
+                                "& .MuiFormControlLabel-label": {
+                                    maxWidth: "95%", // Max width for the label text
+                                    wordWrap: "break-word", // Allow text to wrap
                                 },
-                                }}
+                            }}
                         />
                     ))}
                 </RadioGroup>
             </FormControl>
         </Box>
-    )
-}
+    );
+};
 
-export default RadioInput
+export default RadioInput;
