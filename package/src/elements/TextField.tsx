@@ -1,5 +1,5 @@
-import { Typography, TextField as MUITextField, Box } from '@mui/material';
-import React, { FC, useState, useEffect, ChangeEvent } from 'react'
+import { Typography, TextField as MUITextField, Box } from "@mui/material";
+import { FC, useState, ChangeEvent } from "react";
 
 export interface TextFieldProps {
     id: string;
@@ -7,7 +7,7 @@ export interface TextFieldProps {
     additional?: string;
     label?: string;
     required?: boolean;
-    variant: 'standard' | 'filled' | 'outlined';
+    variant: "standard" | "filled" | "outlined";
     value: string;
     multiline?: boolean;
     onChange: (id: string, value: string) => void;
@@ -15,12 +15,8 @@ export interface TextFieldProps {
 }
 
 const TextField: FC<TextFieldProps> = (props) => {
-    const { id, prompt, additional, label, required, variant, value, multiline, onChange, disabled } = props
+    const { id, prompt, additional, label, required, variant, value, multiline, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
-
-    useEffect(() => {
-        setValue(value);
-    }, [value])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -28,7 +24,7 @@ const TextField: FC<TextFieldProps> = (props) => {
     };
 
     return (
-        <Box sx={{marginY: "2.5rem"}} >
+        <Box sx={{ marginY: "2.5rem" }}>
             <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
@@ -47,7 +43,7 @@ const TextField: FC<TextFieldProps> = (props) => {
                 fullWidth
             />
         </Box>
-    )
-}
+    );
+};
 
-export default TextField
+export default TextField;

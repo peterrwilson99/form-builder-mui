@@ -56,7 +56,6 @@ const BooleanComponent = (label: string, value: boolean, handleChange: (event: C
 };
 
 const StringComponent = (label: string, value: string, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
-  console.log(value)
     return (
         <Box sx={{ display: "flex", maxWidth: "400px", width: "100%" }}>
             <TextField sx={{ flex: 1, marginY: "16px" }} variant="standard" label={label} value={value} onChange={handleChange} multiline />
