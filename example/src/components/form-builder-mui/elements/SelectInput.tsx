@@ -1,5 +1,5 @@
-import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from '@mui/material';
-import React, { FC, useState, useEffect } from 'react'
+import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
+import { FC, useState } from "react";
 
 export interface Option {
     value: string;
@@ -20,7 +20,7 @@ export interface SelectInputProps {
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
-    const { id, prompt, additional, label, required, value, variant, options, onChange, disabled } = props
+    const { id, prompt, additional, label, required, value, variant, options, onChange, disabled } = props;
     const [localValue, setValue] = useState<string>(value);
 
     const handleChange = (e: SelectChangeEvent) => {
@@ -29,7 +29,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
     };
 
     return (
-        <Box sx={{marginY: "2.5rem"}}>
+        <Box sx={{ marginY: "2.5rem" }}>
             <Typography variant="body1" gutterBottom>
                 {prompt}
             </Typography>
@@ -47,7 +47,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                     label={prompt}
                     disabled={disabled}
                     fullWidth
-                    sx={{wordWrap: "break-word"}}
+                    sx={{ wordWrap: "break-word" }}
                 >
                     {(options ?? []).map((option, index) => (
                         <MenuItem key={index} value={option.value}>
@@ -57,7 +57,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                 </Select>
             </FormControl>
         </Box>
-    )
-}
+    );
+};
 
-export default SelectInput
+export default SelectInput;

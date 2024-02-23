@@ -22,7 +22,11 @@ function App() {
     const saveForm = (builtForm: Element[]) => {
         console.log(JSON.stringify(builtForm));
         // paste the form to clipboard
-        navigator.clipboard.writeText(JSON.stringify(builtForm));
+        try {
+            if (navigator && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(JSON.stringify(builtForm));
+        } catch (e) {
+            console.error(e);
+        }
         setAlert("info");
         setOpen(true);
     };
@@ -71,7 +75,7 @@ function App() {
                     </Tabs>
                 </Box>
                 <Box>
-                    {value === 0 && <Viewer form={form} onSubmit={handleSubmit} onSubmitPartial={saveForm} preview={false} />}
+                    {value === 0 && <Viewer form={form} onSubmit={handleSubmit} onSubmitPartial={saveForm} onAutoSave={saveForm} preview={false} />}
                     {value === 1 && <Viewer form={form} disabled={true} />}
                     {value === 2 && <Builder saveForm={saveForm} />}
                     {value === 3 && <Builder form={form} saveForm={saveForm} />}

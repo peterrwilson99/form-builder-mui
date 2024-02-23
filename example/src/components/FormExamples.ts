@@ -38,7 +38,7 @@ export const Form1 = [
         id: 4,
         type: "RadioInput",
         prompt: "Do you have any pets?",
-        required: false,
+        required: true,
         value: "",
         options: [
             { label: "Yes", value: "yes" },
@@ -84,6 +84,7 @@ export const Form1 = [
         id: 9,
         type: "Checkboxes",
         prompt: "Which of the following apply?",
+        required: true,
         options: [
             { label: "Option 1", value: "1" },
             { label: "Option 2", value: "2" },
