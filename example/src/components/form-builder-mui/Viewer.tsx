@@ -37,6 +37,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
     }, [formValues]);
 
     const handleChange = (id: string, value: any) => {
+        setErrorText("");
         setFormValues((prevValues) => {
             const updatedValues = {
                 ...prevValues,
@@ -59,7 +60,6 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
     }, [triggerAutosave, autoSave, handleChange]);
 
     const getCompletedForm = (formValuesProp: FormValues | undefined) => {
-        setErrorText("");
         const completedForm = form ?? [];
         const curFormValues = formValuesProp ?? formValues;
         for (const id in curFormValues) {
@@ -70,20 +70,25 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
     };
 
     const isComplete = (completedForm: Element[]) => {
-        return completedForm.every((element) => {
-            if (element.value === false) return true;
-            return element.value;
-        });
+        const requiredElements = completedForm.filter((element) => element.required);
+        for (const element of requiredElements) {
+            if (element.value === false || element.value === 0) continue;
+
+            if (!element.value) {
+                return false;
+            }
+        }
+        return true;
     };
 
     const handleSubmit = (e: FormEvent | undefined) => {
         if (e) e.preventDefault();
+        setErrorText("");
         const completedForm = getCompletedForm(undefined);
         if (onSubmit && isComplete(completedForm)) {
             onSubmit(completedForm);
         } else {
             setErrorText("Please complete missing required fields");
-            console.log("error in form");
         }
     };
     const handleSave = (e: FormEvent | undefined, formValuesProp?: FormValues | undefined) => {
