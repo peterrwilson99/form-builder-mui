@@ -69,7 +69,7 @@ const Builder: FC<BuilderProps> = (props) => {
 
         setElements((oldElements) => [...oldElements, newElement]);
         // scroll to element in view
-        // wait for 100 ms then scroll to element
+        // wait for 50 ms then scroll to element
         if (!scrollToNewElement) return;
         setTimeout(() => {
             scrollToElement(nextId);
@@ -86,18 +86,19 @@ const Builder: FC<BuilderProps> = (props) => {
     const duplicateComponent = (id: number) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
-        const elementToDuplicate: any = newElements[index];
-        delete elementToDuplicate.id; // remove id so it can be regenerated
+        if (index === -1) {
+            console.log("Element not found! Returning...");
+            return;
+        }
+        const elementToDuplicate: any = { ...newElements[index] };
         // generate random id
         let nextId = Math.floor(Math.random() * 1000000000);
         // ensure no duplicate ids
         while (elements.map((element) => element.id).includes(nextId)) {
             nextId = Math.floor(Math.random() * 1000000000);
         }
-        const newElement: Element = {
-            id: nextId,
-            ...elementToDuplicate,
-        };
+        const newElement: Element = elementToDuplicate;
+        newElement.id = nextId;
         newElements.splice(index + 1, 0, newElement);
         setElements(newElements);
     };
@@ -105,6 +106,10 @@ const Builder: FC<BuilderProps> = (props) => {
     const editElement = (id: number, properties: any) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
+        if (index === -1) {
+            console.log("Element not found! Returning...");
+            return;
+        }
         const elementToEdit = newElements[index];
 
         for (const [key, value] of Object.entries(properties)) {
@@ -117,12 +122,20 @@ const Builder: FC<BuilderProps> = (props) => {
     const deleteElement = (id: number) => {
         const newElements = [...elements];
         const index = newElements.findIndex((element) => element.id === id);
+        if (index === -1) {
+            console.log("Element not found! Returning...");
+            return;
+        }
         newElements.splice(index, 1);
         setElements(newElements);
     };
 
     const openDrawer = (elementId: number) => {
         const index = elements.findIndex((element) => element.id === elementId);
+        if (index === -1) {
+            console.log("Element not found! Returning...");
+            return;
+        }
         setActiveElement(index);
         setDrawerOpen(true);
     };
