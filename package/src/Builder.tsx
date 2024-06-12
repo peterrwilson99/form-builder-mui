@@ -259,12 +259,20 @@ const Builder: FC<BuilderProps> = (props) => {
                                 Preview
                             </ToggleButton>
                         </ToggleButtonGroup>
+                        <Button
+                            sx={{ marginY: "16px" }}
+                            onClick={() => {
+                                saveForm ? saveForm(elements) : console.log(elements);
+                            }}
+                            variant="outlined"
+                        >
+                            Save Form
+                        </Button>
                         <Box
                             className="toolbox"
                             sx={{
                                 display: "flex",
                                 justifyContent: "flex-end",
-                                paddingTop: 2,
                             }}
                         >
                             <Toolbox onAddComponent={onAddComponent} />
@@ -272,15 +280,6 @@ const Builder: FC<BuilderProps> = (props) => {
                     </Box>
                 </Grid>
             </Grid>
-            <Button
-                sx={{ marginY: "16px" }}
-                onClick={() => {
-                    saveForm ? saveForm(elements) : console.log(elements);
-                }}
-                variant="outlined"
-            >
-                Save Form
-            </Button>
         </Box>
     );
 };
