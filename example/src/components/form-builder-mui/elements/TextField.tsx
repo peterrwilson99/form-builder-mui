@@ -1,6 +1,6 @@
 import { Typography, TextField as MUITextField, Box } from "@mui/material";
 import { FC, useState, ChangeEvent } from "react";
-import QuestionPromptText from "../components/QuestionPromptText"
+import QuestionPromptText from "../helperComponents/QuestionPromptText"
 
 export interface TextFieldProps {
     id: string;

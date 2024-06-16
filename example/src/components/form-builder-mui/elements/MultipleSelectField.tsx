@@ -4,7 +4,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { Option } from "./SelectInput";
-import QuestionPromptText from "../components/QuestionPromptText";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface MultipleSelectFieldProps {
     id: string;

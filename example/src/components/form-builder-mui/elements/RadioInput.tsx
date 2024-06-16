@@ -1,6 +1,6 @@
 import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from "@mui/material";
 import { FC, useState } from "react";
-import QuestionPromptText from "../components/QuestionPromptText";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface Option {
     value: string;

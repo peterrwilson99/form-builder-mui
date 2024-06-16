@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FC } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { Box, Typography } from '@mui/material';
-import QuestionPromptText from '../components/QuestionPromptText';
+import QuestionPromptText from '../helperComponents/QuestionPromptText';
 
 export interface DateInputProps {
     id: string | number;

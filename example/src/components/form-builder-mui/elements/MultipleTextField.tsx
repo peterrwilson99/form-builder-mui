@@ -4,7 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Typography } from "@mui/material";
-import QuestionPromptText from "../components/QuestionPromptText";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface MultipleTextFieldProps {
     id: string;
