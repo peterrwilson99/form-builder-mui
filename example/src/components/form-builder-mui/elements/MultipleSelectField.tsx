@@ -4,6 +4,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { Option } from "./SelectInput";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface MultipleSelectFieldProps {
     id: string;
@@ -64,9 +65,7 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <Typography variant="body1" gutterBottom>
-                {prompt}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false}/>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
@@ -81,7 +80,12 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
                     className="d-flex align-items-center my-4"
                 >
                     <FormControl fullWidth required={required}>
-                        <InputLabel id={(id as string) + "-" + index + "-label"}>{label}</InputLabel>
+                        <InputLabel 
+                            id={(id as string) + "-" + index + "-label"}
+                            sx={{ "& .MuiInputLabel-asterisk": { display: "none" } }} // Hide the asterisk
+                        >
+                            {label}
+                        </InputLabel>
                         <Select
                             labelId={(id as string) + "-" + index + "-label"}
                             id={(id as string) + "-" + index}

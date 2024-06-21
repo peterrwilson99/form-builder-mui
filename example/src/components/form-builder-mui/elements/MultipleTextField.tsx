@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Typography } from "@mui/material";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface MultipleTextFieldProps {
     id: string;
@@ -51,9 +52,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <Typography variant="body1" gutterBottom>
-                {prompt}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false}/>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>

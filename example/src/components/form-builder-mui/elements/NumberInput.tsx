@@ -1,5 +1,6 @@
 import { Typography, TextField as MUITextField, Box } from "@mui/material";
 import { FC, useState, ChangeEvent } from "react";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface NumberInputProps {
     id: string;
@@ -25,9 +26,7 @@ const NumberInput: FC<NumberInputProps> = (props) => {
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <Typography variant="body1" gutterBottom>
-                {prompt}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false}/>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
