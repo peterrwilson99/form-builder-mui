@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FC } from "react";
 import { Typography, Checkbox, FormControlLabel, Box, FormControl, FormLabel, FormGroup, FormHelperText } from "@mui/material";
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
 
 export interface OptionType {
     value: string;
@@ -33,14 +34,17 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value,
 
     return (
         <Box sx={{ marginY: "2.5rem", maxWidth: "400px" }}>
-            <Typography variant="body1" gutterBottom>
-                {prompt}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false}/>
             <Typography variant="subtitle2" gutterBottom>
                 {additional}
             </Typography>
-            <FormControl fullWidth error={error} required={true}>
-                <FormLabel component="legend">{label}</FormLabel>
+            <FormControl fullWidth error={error} required={required}>
+                <FormLabel 
+                    component="legend"
+                    sx={{ "& .MuiFormLabel-asterisk": { display: "none" } }} // Hide the asterisk
+                >
+                    {label}
+                </FormLabel>
                 <FormGroup>
                     {(options ?? []).map((option, index) => (
                         <FormControlLabel
