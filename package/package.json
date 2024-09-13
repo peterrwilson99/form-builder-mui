@@ -1,6 +1,6 @@
 {
   "name": "form-builder-mui",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Form builder and viewer for users to be able to build forms, save them as JSON, and serve them to users all through the UI. Built with React and MaterialUI components.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -24,6 +24,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "deploy": "npm run build && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
