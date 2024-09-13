@@ -30,7 +30,6 @@ const Builder: FC<BuilderProps> = (props) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
-    const [insertAtIndex, setInsertAtIndex] = useState(-1);
 
     const moveElementUp = (index: any) => {
         if (index === 0) {
