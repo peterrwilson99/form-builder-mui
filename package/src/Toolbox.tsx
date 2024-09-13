@@ -10,12 +10,8 @@ export interface ToolboxProps {
 const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
     const [open, setOpen] = useState(false);
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleOpen = () => {
-        setOpen(true);
+    const handleToggle = () => {
+        setOpen(!open);
     };
 
     return (
@@ -23,8 +19,7 @@ const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
             ariaLabel="SpeedDial"
             className="toolbox"
             icon={<SpeedDialIcon />}
-            onClose={handleClose}
-            onOpen={handleOpen}
+            onClick={handleToggle}
             open={open}
             direction="down"
         >
@@ -34,7 +29,10 @@ const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
                     icon={<Add />}
                     tooltipTitle={component}
                     tooltipOpen
-                    onClick={() => onAddComponent(component as keyof typeof Components)}
+                    onClick={() => {
+                        onAddComponent(component as keyof typeof Components);
+                        setOpen(false); // Close the SpeedDial after adding a component
+                    }}
                 />
             ))}
         </SpeedDial>
