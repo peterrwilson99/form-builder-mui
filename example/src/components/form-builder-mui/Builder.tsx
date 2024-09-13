@@ -53,17 +53,33 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
 
-    const getNewComponent = (componentType: keyof typeof Components) => {
-        const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
-        // generate random id
+    const generateNextId = () => {
         let nextId = Math.floor(Math.random() * 1000000000);
         // ensure no duplicate ids
         while (elements.map((element) => element.id).includes(nextId)) {
             nextId = Math.floor(Math.random() * 1000000000);
         }
+        return nextId;
+    };
+
+    const findIndexOfElementOrThrow = (id: number) => {
+        const index = elements.findIndex((element) => element.id === id);
+        if (index === -1) {
+            throw new Error(`Element with id ${id} not found`);
+        }
+        return index;
+    };
+
+    const getCopyOfElementOrThrow = (id: number) => {
+        const index = findIndexOfElementOrThrow(id);
+        return { ...elements[index] };
+    };
+
+    const getNewComponent = (componentType: keyof typeof Components) => {
+        const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
 
         return {
-            id: nextId,
+            id: generateNextId(),
             type: componentType,
             ...componentPropertiesCurrent,
         };
@@ -91,18 +107,9 @@ const Builder: FC<BuilderProps> = (props) => {
 
     const duplicateComponent = (id: number) => {
         const newElements = [...elements];
-        const index = newElements.findIndex((element) => element.id === id);
-        if (index === -1) {
-            console.log("Element not found! Returning...");
-            return;
-        }
-        const elementToDuplicate: any = { ...newElements[index] };
-        // generate random id
-        let nextId = Math.floor(Math.random() * 1000000000);
-        // ensure no duplicate ids
-        while (elements.map((element) => element.id).includes(nextId)) {
-            nextId = Math.floor(Math.random() * 1000000000);
-        }
+        const index = findIndexOfElementOrThrow(id);
+        const elementToDuplicate: any = getCopyOfElementOrThrow(id);
+        const nextId = generateNextId();
         const newElement: Element = elementToDuplicate;
         newElement.id = nextId;
         newElements.splice(index + 1, 0, newElement);
@@ -111,12 +118,8 @@ const Builder: FC<BuilderProps> = (props) => {
 
     const editElement = (id: number, properties: any) => {
         const newElements = [...elements];
-        const index = newElements.findIndex((element) => element.id === id);
-        if (index === -1) {
-            console.log("Element not found! Returning...");
-            return;
-        }
-        const elementToEdit = newElements[index];
+        const index = findIndexOfElementOrThrow(id);
+        const elementToEdit = getCopyOfElementOrThrow(id);
 
         for (const [key, value] of Object.entries(properties)) {
             elementToEdit[key] = value;
@@ -127,21 +130,13 @@ const Builder: FC<BuilderProps> = (props) => {
 
     const deleteElement = (id: number) => {
         const newElements = [...elements];
-        const index = newElements.findIndex((element) => element.id === id);
-        if (index === -1) {
-            console.log("Element not found! Returning...");
-            return;
-        }
+        const index = findIndexOfElementOrThrow(id);
         newElements.splice(index, 1);
         setElements(newElements);
     };
 
     const openDrawer = (elementId: number) => {
-        const index = elements.findIndex((element) => element.id === elementId);
-        if (index === -1) {
-            console.log("Element not found! Returning...");
-            return;
-        }
+        const index = findIndexOfElementOrThrow(elementId);
         setActiveElement(index);
         setDrawerOpen(true);
     };
@@ -154,8 +149,6 @@ const Builder: FC<BuilderProps> = (props) => {
 
     const insertAtIndexHandler = (index: number, component: keyof typeof Components) => {
         const ComponentToAdd = getNewComponent(component);
-        console.log("Insert at index: ", index);
-        console.log("ComponentToAdd: ", ComponentToAdd);
         const newElements = [...elements];
         newElements.splice(index + 1, 0, ComponentToAdd);
         setElements(newElements);
@@ -175,8 +168,8 @@ const Builder: FC<BuilderProps> = (props) => {
                                         const Component = Components[element.type as keyof typeof Components];
                                         const isLastElement = index === elements.length - 1;
                                         return (
-                                            <React.Fragment>
-                                                <Paper elevation={2} sx={{ p: 1, my: 1 }} key={index} id={element.id ? element.id.toString() : ""}>
+                                            <React.Fragment key={index}>
+                                                <Paper elevation={2} sx={{ p: 1, my: 1 }} id={element.id ? element.id.toString() : ""}>
                                                     <Box>
                                                         <Box
                                                             sx={{
