@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, useState, useEffect, ChangeEvent } from "react";
 import { ComponentKeys, ComponentProperties, Components } from "./elements/Components";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,6 +27,7 @@ export interface OptionType {
 export interface PropertiesProps {
     element: { id: number; type: string; [key: string]: any };
     editElement: (id: number, properties: { [key: string]: any }) => void;
+    allElements: { id: number; type: string; [key: string]: any }[];
 }
 
 export interface ComponentDetails {
@@ -49,6 +51,83 @@ const SelectComponent = (label: string, options: OptionType[] | undefined, value
             </Select>
         </FormControl>
     );
+};
+
+const DependentDisplayProperties = (
+    currentElement: { id: number; type: string; [key: string]: any },
+    allElements: { id: number; type: string; [key: string]: any }[],
+    handleChange: (event: ChangeEvent<HTMLInputElement>) => void
+) => {
+    const [enableDependentDisplay, setEnableDependentDisplay] = useState(currentElement.dependentProperties?.isDependentDisplay ?? false);
+    const [dependentDisplayId, setDependentDisplayId] = useState(currentElement.dependentProperties?.dependsOnId ?? -1);
+    const [dependentDisplayValue, setDependentDisplayValue] = useState<any>(currentElement.dependentProperties?.dependsOnValue ?? undefined);
+    console.log("Dependent Display Properties", currentElement);
+    const updateFormProperties = () => {
+        const dependentProperties = {
+            isDependentDisplay: enableDependentDisplay,
+            dependsOnId: dependentDisplayId,
+            dependsOnValue: dependentDisplayValue,
+        };
+        if (dependentDisplayId === -1) {
+            return;
+        }
+        handleChange(onChangeConverter(String(currentElement.id), dependentProperties));
+    };
+
+    useEffect(() => {
+        updateFormProperties();
+    }, [enableDependentDisplay, dependentDisplayId, dependentDisplayValue]);
+
+    return (
+        <Box>
+            <Typography variant="h6">Display based on other value</Typography>
+            <FormControlLabel
+                sx={{ marginY: "16px" }}
+                control={<Checkbox checked={enableDependentDisplay} onChange={(e) => setEnableDependentDisplay(e.target.checked)} />}
+                label="Enable Dependent Display"
+            />
+            {enableDependentDisplay ? (
+                <FormControl sx={{ marginY: "16px" }} fullWidth>
+                    <InputLabel id={`dependent-${currentElement.id}-label`}>Display based on response from question</InputLabel>
+                    <Select
+                        labelId={`dependent-${currentElement.id}-label`}
+                        value={dependentDisplayId}
+                        variant="standard"
+                        onChange={(e) => setDependentDisplayId(e.target.value)}
+                    >
+                        {allElements.map((formElement, index) => {
+                            return (
+                                <MenuItem key={index} value={formElement.id}>
+                                    {formElement.prompt ?? formElement.text}
+                                </MenuItem>
+                            );
+                        })}
+                    </Select>
+                </FormControl>
+            ) : (
+                <></>
+            )}
+            {dependentDisplayId !== -1 ? (
+                <Box>
+                    <Typography variant="h6">Display When Value Contains</Typography>
+                    {getDependentValueComponent(dependentDisplayId, allElements, (id: string, value: any) => setDependentDisplayValue(value))}
+                </Box>
+            ) : (
+                <></>
+            )}
+        </Box>
+    );
+};
+
+const getDependentValueComponent = (
+    elementId: number,
+    allElements: { id: number; type: string; [key: string]: any }[],
+    onChange: (id: string, value: any) => void
+) => {
+    const element = allElements.find((element) => element.id === elementId);
+    if (element === undefined) return <></>;
+    const Component = Components[element.type as ComponentKeys] as FC<any>;
+    return <Component onChange={onChange} inPropertyPanel={true} {...element} />;
 };
 
 const BooleanComponent = (label: string, value: boolean, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
@@ -162,7 +241,15 @@ const DefaultComponent = (label: string, componentProps: any, handleChange: (eve
     );
 };
 
-const getComponent = (details: ComponentDetails, value: any, handleChange: (event: any) => void, min: number | undefined, max: number | undefined) => {
+const getComponent = (
+    details: ComponentDetails,
+    value: any,
+    handleChange: (event: any) => void,
+    min: number | undefined,
+    max: number | undefined,
+    allElements: { id: number; type: string; [key: string]: any }[],
+    currentElement: { id: number; type: string; [key: string]: any }
+) => {
     const { type, label, options } = details;
     switch (type) {
         case "select":
@@ -177,12 +264,14 @@ const getComponent = (details: ComponentDetails, value: any, handleChange: (even
             return NumberComponent(label, value, handleChange, min, max);
         case "default":
             return DefaultComponent(label, value, handleChange);
+        case "dependent":
+            return DependentDisplayProperties(currentElement, allElements, handleChange);
         default:
             return <></>;
     }
 };
 
-const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
+const Properties: FC<PropertiesProps> = ({ element, editElement, allElements }) => {
     const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
     const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== "id")));
 
@@ -203,6 +292,8 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
             default:
                 break;
         }
+
+        console.log(key, val);
 
         setProperties({
             ...properties,
@@ -228,7 +319,7 @@ const Properties: FC<PropertiesProps> = ({ element, editElement }) => {
                         const component_props = value.type === "default" ? properties : properties[key];
                         const max: number | undefined = properties.max ?? undefined;
                         const min: number | undefined = properties.min ?? undefined;
-                        const component = getComponent(value as ComponentDetails, component_props, handleChange(key), min, max);
+                        const component = getComponent(value as ComponentDetails, component_props, handleChange(key), min, max, allElements, element);
                         return <React.Fragment key={key}>{component}</React.Fragment>;
                     })}
                 </form>

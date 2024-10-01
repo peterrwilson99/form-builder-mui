@@ -248,7 +248,11 @@ const Builder: FC<BuilderProps> = (props) => {
                                                 <CloseIcon />
                                             </IconButton>
                                         </Box>
-                                        {elements[activeElement] ? <Properties element={elements[activeElement]} editElement={editElement} /> : <></>}
+                                        {elements[activeElement] ? (
+                                            <Properties element={elements[activeElement]} editElement={editElement} allElements={elements} />
+                                        ) : (
+                                            <></>
+                                        )}
                                     </Box>
                                 </Drawer>
                             </React.Fragment>

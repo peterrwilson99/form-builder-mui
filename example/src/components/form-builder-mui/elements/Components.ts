@@ -131,6 +131,7 @@ export const ComponentProperties = {
         },
         multiline: { type: "boolean", label: "Multiline?" },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     RadioInput: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -153,19 +154,7 @@ export const ComponentProperties = {
         variant: {
             type: "select",
             label: "Variant",
-            options: [
-                "h1",
-                "h2",
-                "h3",
-                "h4",
-                "h5",
-                "h6",
-                "body1",
-                "body2",
-                "subtitle1",
-                "subtitle2",
-                "p",
-            ],
+            options: ["h1", "h2", "h3", "h4", "h5", "h6", "body1", "body2", "subtitle1", "subtitle2", "p"],
         },
         bold: { type: "boolean", label: "Bold" },
         italic: { type: "boolean", label: "Italic" },
