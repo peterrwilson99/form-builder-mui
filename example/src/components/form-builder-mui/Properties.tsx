@@ -61,14 +61,19 @@ const DependentDisplayProperties = (
     const [enableDependentDisplay, setEnableDependentDisplay] = useState(currentElement.dependentProperties?.enabled ?? false);
     const [dependentDisplayId, setDependentDisplayId] = useState(currentElement.dependentProperties?.parentId ?? -1);
     const [dependentDisplayValue, setDependentDisplayValue] = useState<any>(currentElement.dependentProperties?.parentValue ?? undefined);
+    const dependableElements = allElements.filter((element) => {
+        return element.id !== currentElement.id && element.type !== "Header" && element.type !== "Divider";
+    });
+
     const updateFormProperties = () => {
         const dependentProperties = {
             enabled: enableDependentDisplay,
-            parentId: dependentDisplayId,
-            parentValue: dependentDisplayValue,
+            parentId: enableDependentDisplay ? dependentDisplayId : -1,
+            parentValue: enableDependentDisplay ? dependentDisplayValue : undefined,
         };
-        if (dependentDisplayId === -1) {
-            return;
+        if (!enableDependentDisplay) {
+            setDependentDisplayId(-1);
+            setDependentDisplayValue(undefined);
         }
         handleChange(onChangeConverter(String(currentElement.id), dependentProperties));
     };
@@ -94,7 +99,7 @@ const DependentDisplayProperties = (
                         variant="standard"
                         onChange={(e) => setDependentDisplayId(e.target.value)}
                     >
-                        {allElements.map((formElement, index) => {
+                        {dependableElements.map((formElement, index) => {
                             return (
                                 <MenuItem key={index} value={formElement.id}>
                                     {formElement.prompt ?? formElement.text}
@@ -106,10 +111,12 @@ const DependentDisplayProperties = (
             ) : (
                 <></>
             )}
-            {dependentDisplayId !== -1 ? (
+            {enableDependentDisplay && dependentDisplayId !== -1 ? (
                 <Box>
                     <Typography variant="h6">Display When Value Contains</Typography>
-                    {getDependentValueComponent(dependentDisplayId, allElements, (id: string, value: any) => setDependentDisplayValue(value))}
+                    {getDependentValueComponent(dependentDisplayId, dependableElements, dependentDisplayValue, (id: string, value: any) =>
+                        setDependentDisplayValue(value)
+                    )}
                 </Box>
             ) : (
                 <></>
@@ -121,12 +128,13 @@ const DependentDisplayProperties = (
 const getDependentValueComponent = (
     elementId: number,
     allElements: { id: number; type: string; [key: string]: any }[],
+    value: any,
     onChange: (id: string, value: any) => void
 ) => {
     const element = allElements.find((element) => element.id === elementId);
     if (element === undefined) return <></>;
     const Component = Components[element.type as ComponentKeys] as FC<any>;
-    return <Component onChange={onChange} inPropertyPanel={true} {...element} />;
+    return <Component onChange={onChange} inPropertyPanel={true} {...element} value={value} />;
 };
 
 const BooleanComponent = (label: string, value: boolean, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
