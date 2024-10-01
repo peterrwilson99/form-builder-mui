@@ -58,15 +58,14 @@ const DependentDisplayProperties = (
     allElements: { id: number; type: string; [key: string]: any }[],
     handleChange: (event: ChangeEvent<HTMLInputElement>) => void
 ) => {
-    const [enableDependentDisplay, setEnableDependentDisplay] = useState(currentElement.dependentProperties?.isDependentDisplay ?? false);
-    const [dependentDisplayId, setDependentDisplayId] = useState(currentElement.dependentProperties?.dependsOnId ?? -1);
-    const [dependentDisplayValue, setDependentDisplayValue] = useState<any>(currentElement.dependentProperties?.dependsOnValue ?? undefined);
-    console.log("Dependent Display Properties", currentElement);
+    const [enableDependentDisplay, setEnableDependentDisplay] = useState(currentElement.dependentProperties?.enabled ?? false);
+    const [dependentDisplayId, setDependentDisplayId] = useState(currentElement.dependentProperties?.parentId ?? -1);
+    const [dependentDisplayValue, setDependentDisplayValue] = useState<any>(currentElement.dependentProperties?.parentValue ?? undefined);
     const updateFormProperties = () => {
         const dependentProperties = {
-            isDependentDisplay: enableDependentDisplay,
-            dependsOnId: dependentDisplayId,
-            dependsOnValue: dependentDisplayValue,
+            enabled: enableDependentDisplay,
+            parentId: dependentDisplayId,
+            parentValue: dependentDisplayValue,
         };
         if (dependentDisplayId === -1) {
             return;

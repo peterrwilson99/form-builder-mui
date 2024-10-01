@@ -48,6 +48,10 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         setTriggerAutosave(true);
     };
 
+    const findElementById = (id: number) => {
+        return elements.find((element) => element.id === id);
+    };
+
     const autoSave = React.useMemo(() => {
         return debounce(() => handleAutosave(undefined, formValuesRef.current), autoSaveInterval ?? 3000);
     }, []);
@@ -110,6 +114,13 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         <form onSubmit={handleSubmit}>
             {elements.map((element, index) => {
                 const Component = Components[element.type] as FC<any>;
+                // check for conditional display
+                if (element.dependentProperties?.enabled && findElementById(element.dependentProperties?.parentId) !== undefined) {
+                    const parentElement = formValues[element.dependentProperties.parentId];
+                    if (parentElement !== element.dependentProperties.parentValue) {
+                        return <></>;
+                    }
+                }
                 return <Component key={index} onChange={handleChange} disabled={disabled} {...element} />;
             })}
 
