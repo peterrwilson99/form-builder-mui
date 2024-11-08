@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { Option } from "./SelectInput";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
 
 export interface MultipleSelectFieldProps {
     id: string;
@@ -65,10 +66,8 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" gutterBottom>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             {values.map((localValue, index) => (
                 <Box
                     key={index}
@@ -80,7 +79,7 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
                     className="d-flex align-items-center my-4"
                 >
                     <FormControl fullWidth required={required}>
-                        <InputLabel 
+                        <InputLabel
                             id={(id as string) + "-" + index + "-label"}
                             sx={{ "& .MuiInputLabel-asterisk": { display: "none" } }} // Hide the asterisk
                         >

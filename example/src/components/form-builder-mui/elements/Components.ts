@@ -8,6 +8,7 @@ import MultipleTextField from "./MultipleTextField";
 import NumberInput from "./NumberInput";
 import Divider from "./Divider";
 import MultipleSelectField from "./MultipleSelectField";
+import Markdown from "./Markdown";
 
 export type { TextFieldProps } from "./TextField";
 export type { RadioInputProps } from "./RadioInput";
@@ -100,6 +101,9 @@ export const ComponentDefaults = {
         required: false,
         variant: "standard",
     },
+    Markdown: {
+        text: "**Markdown** text here",
+    },
 };
 
 export const Components = {
@@ -113,6 +117,7 @@ export const Components = {
     MultipleTextField: MultipleTextField,
     NumberInput: NumberInput,
     MultipleSelectField: MultipleSelectField,
+    Markdown: Markdown,
 };
 
 // make type of keys in components
@@ -248,5 +253,8 @@ export const ComponentProperties = {
             options: ["standard", "filled", "outlined"],
         },
         value: { type: "default", label: "Default Value" },
+    },
+    Markdown: {
+        text: { type: "string", label: "Markdown Text" },
     },
 };

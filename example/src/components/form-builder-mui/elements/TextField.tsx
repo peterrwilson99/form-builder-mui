@@ -1,6 +1,7 @@
 import { Typography, TextField as MUITextField, Box } from "@mui/material";
 import { FC, useState, ChangeEvent } from "react";
-import QuestionPromptText from "../helperComponents/QuestionPromptText"
+import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
 
 export interface TextFieldProps {
     id: string;
@@ -26,10 +27,8 @@ const TextField: FC<TextFieldProps> = (props) => {
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" gutterBottom>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             <MUITextField
                 id={prompt}
                 label={label}

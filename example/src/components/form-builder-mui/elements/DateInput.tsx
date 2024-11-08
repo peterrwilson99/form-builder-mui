@@ -2,6 +2,7 @@ import React, { useState, useEffect, ChangeEvent, FC } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { Box, Typography } from '@mui/material';
 import QuestionPromptText from '../helperComponents/QuestionPromptText';
+import RenderMarkdown from '../helperComponents/RenderMarkdown';
 
 export interface DateInputProps {
     id: string | number;
@@ -47,9 +48,7 @@ const DateInput: FC<DateInputProps> = ({ id, prompt, additional, label, required
     return (
         <Box sx={{marginY: "2.5rem"}}>
             <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" sx={{marginBottom: "16px"}}>
-                {additional}
-            </Typography>
+            <RenderMarkdown markdown={additional} />
             <TextField
                 label={label}
                 type={type}

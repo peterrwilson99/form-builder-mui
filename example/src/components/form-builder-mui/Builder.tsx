@@ -8,6 +8,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import Properties from "./Properties";
 import Viewer from "./Viewer";
 import InsertAt from "./helperComponents/InsertAt";
@@ -98,6 +99,19 @@ const Builder: FC<BuilderProps> = (props) => {
         }, 50);
     };
 
+    // const addDependentElement = (parentId: number, componentType: keyof typeof Components) => {
+    //     const newElements = [...elements];
+    //     const newElement = getNewComponent(componentType);
+    //     newElement.dependentProperties = {
+    //         enabled: true,
+    //         parentId: parentId,
+    //         parentValue: "",
+    //     };
+
+    //     newElements.splice(parentIndex + 1, 0, newElement);
+    //     setElements(newElements);
+    // };
+
     const scrollToElement = (id: number) => {
         const element = document.getElementById(id ? id.toString() : "");
         if (element) {
@@ -129,10 +143,20 @@ const Builder: FC<BuilderProps> = (props) => {
     };
 
     const deleteElement = (id: number) => {
-        const newElements = [...elements];
+        let newElements = [...elements];
         const index = findIndexOfElementOrThrow(id);
         newElements.splice(index, 1);
+        newElements = checkForDependencies(id, newElements);
         setElements(newElements);
+    };
+
+    const checkForDependencies = (id: number, newElements: any) => {
+        for (const element of newElements) {
+            if (element.dependentProperties?.enabled && element.dependentProperties?.parentId === id) {
+                element.dependentProperties.enabled = false;
+            }
+        }
+        return newElements;
     };
 
     const openDrawer = (elementId: number) => {
@@ -192,6 +216,13 @@ const Builder: FC<BuilderProps> = (props) => {
                                                                     </IconButton>
                                                                 </span>
                                                             </Tooltip>
+                                                            {/* <Tooltip title="Add Dependent Element" placement="top">
+                                                                <span>
+                                                                    <IconButton onClick={() => addDependentElement(element.id)}>
+                                                                        <AccountTreeIcon />
+                                                                    </IconButton>
+                                                                </span>
+                                                            </Tooltip> */}
                                                             <Tooltip title="Move Up" placement="top">
                                                                 <span>
                                                                     <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
