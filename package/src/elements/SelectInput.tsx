@@ -1,6 +1,7 @@
 import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
 
 export interface Option {
     value: string;
@@ -31,12 +32,10 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" sx={{ marginBottom: "16px" }}>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             <FormControl fullWidth required={required}>
-                <InputLabel 
+                <InputLabel
                     id={id + "-label"}
                     sx={{ "& .MuiInputLabel-asterisk": { display: "none" } }} // Hide the asterisk
                 >

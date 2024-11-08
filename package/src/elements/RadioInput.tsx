@@ -1,6 +1,7 @@
 import { Typography, RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from "@mui/material";
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
 
 export interface Option {
     value: string;
@@ -31,12 +32,10 @@ const RadioInput: FC<RadioInputProps> = (props) => {
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" gutterBottom>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             <FormControl fullWidth required={required}>
-                <FormLabel 
+                <FormLabel
                     component="legend"
                     sx={{ "& .MuiFormLabel-asterisk": { display: "none" } }} // Hide the asterisk
                 >
