@@ -6,6 +6,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typo
 import { Option } from "./SelectInput";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { DependentProps } from "./Components";
 
 export interface MultipleSelectFieldProps {
     id: string;
@@ -20,6 +21,7 @@ export interface MultipleSelectFieldProps {
     disabled?: boolean;
     min?: string;
     max?: string;
+    dependentProperties?: DependentProps;
 }
 
 const MultipleSelectField: FC<MultipleSelectFieldProps> = ({

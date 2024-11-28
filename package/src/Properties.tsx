@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, useState, useEffect, ChangeEvent } from "react";
-import { ComponentKeys, ComponentProperties, Components } from "./elements/Components";
+import { ComponentKeys, ComponentProperties, Components, Element } from "./elements/Components";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
     Box,
@@ -18,6 +18,7 @@ import {
     SelectChangeEvent,
     IconButton,
 } from "@mui/material";
+import { isDependableComponent } from "./helperComponents/DependentComponentHelpers";
 
 export interface OptionType {
     label?: string | number;
@@ -25,9 +26,9 @@ export interface OptionType {
 }
 
 export interface PropertiesProps {
-    element: { id: number; type: string; [key: string]: any };
+    element: Element;
     editElement: (id: number, properties: { [key: string]: any }) => void;
-    allElements: { id: number; type: string; [key: string]: any }[];
+    allElements: Element[];
 }
 
 export interface ComponentDetails {
@@ -53,17 +54,11 @@ const SelectComponent = (label: string, options: OptionType[] | undefined, value
     );
 };
 
-const DependentDisplayProperties = (
-    currentElement: { id: number; type: string; [key: string]: any },
-    allElements: { id: number; type: string; [key: string]: any }[],
-    handleChange: (event: ChangeEvent<HTMLInputElement>) => void
-) => {
+const DependentDisplayProperties = (currentElement: Element, allElements: Element[], handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
     const [enableDependentDisplay, setEnableDependentDisplay] = useState(currentElement.dependentProperties?.enabled ?? false);
     const [dependentDisplayId, setDependentDisplayId] = useState(currentElement.dependentProperties?.parentId ?? -1);
     const [dependentDisplayValue, setDependentDisplayValue] = useState<any>(currentElement.dependentProperties?.parentValue ?? undefined);
-    const dependableElements = allElements.filter((element) => {
-        return element.id !== currentElement.id && element.type !== "Header" && element.type !== "Divider";
-    });
+    const dependableElements = allElements.filter((element) => isDependableComponent(element));
 
     const updateFormProperties = () => {
         const dependentProperties = {
@@ -97,12 +92,12 @@ const DependentDisplayProperties = (
                         labelId={`dependent-${currentElement.id}-label`}
                         value={dependentDisplayId}
                         variant="standard"
-                        onChange={(e) => setDependentDisplayId(e.target.value)}
+                        onChange={(e) => setDependentDisplayId(e.target.value as number)}
                     >
                         {dependableElements.map((formElement, index) => {
                             return (
                                 <MenuItem key={index} value={formElement.id}>
-                                    {formElement.prompt ?? formElement.text}
+                                    {formElement.type} - {formElement.prompt ?? formElement.text}
                                 </MenuItem>
                             );
                         })}
@@ -125,12 +120,7 @@ const DependentDisplayProperties = (
     );
 };
 
-const getDependentValueComponent = (
-    elementId: number,
-    allElements: { id: number; type: string; [key: string]: any }[],
-    value: any,
-    onChange: (id: string, value: any) => void
-) => {
+const getDependentValueComponent = (elementId: number, allElements: Element[], value: any, onChange: (id: string, value: any) => void) => {
     const element = allElements.find((element) => element.id === elementId);
     if (element === undefined) return <></>;
     const Component = Components[element.type as ComponentKeys] as FC<any>;
@@ -254,8 +244,8 @@ const getComponent = (
     handleChange: (event: any) => void,
     min: number | undefined,
     max: number | undefined,
-    allElements: { id: number; type: string; [key: string]: any }[],
-    currentElement: { id: number; type: string; [key: string]: any }
+    allElements: Element[],
+    currentElement: Element
 ) => {
     const { type, label, options } = details;
     switch (type) {

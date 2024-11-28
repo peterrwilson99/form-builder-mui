@@ -1,7 +1,8 @@
-import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { DependentProps } from "./Components";
 
 export interface Option {
     value: string;
@@ -19,6 +20,7 @@ export interface SelectInputProps {
     options: Option[];
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
+    dependentProperties?: DependentProps;
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {

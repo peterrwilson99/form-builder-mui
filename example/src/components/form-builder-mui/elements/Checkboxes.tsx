@@ -1,7 +1,8 @@
-import React, { useState, ChangeEvent, FC } from "react";
-import { Typography, Checkbox, FormControlLabel, Box, FormControl, FormLabel, FormGroup, FormHelperText } from "@mui/material";
+import { useState, ChangeEvent, FC } from "react";
+import { Checkbox, FormControlLabel, Box, FormControl, FormLabel, FormGroup, FormHelperText } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { DependentProps } from "./Components";
 
 export interface OptionType {
     value: string;
@@ -18,6 +19,7 @@ export interface CheckboxesProps {
     onChange: (id: string | number, value: Record<string, boolean>) => void;
     disabled?: boolean;
     required?: boolean;
+    dependentProperties?: DependentProps;
 }
 
 const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value, options, onChange, disabled, required }) => {

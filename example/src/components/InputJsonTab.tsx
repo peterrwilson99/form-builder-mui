@@ -1,7 +1,8 @@
 import { Box, TextField } from "@mui/material";
 import React, { useState } from "react";
-import Viewer, { Element } from "./form-builder-mui/Viewer";
+import Viewer from "./form-builder-mui/Viewer";
 import Builder from "./form-builder-mui/Builder";
+import { Element } from "./form-builder-mui/elements/Components";
 
 interface InputJsonTabProps {
     viewer?: boolean;
@@ -18,6 +19,7 @@ function InputJsonTab(props: InputJsonTabProps) {
             setRawText(e.target.value);
             setFormValues(JSON.parse(e.target.value) as Element[]);
         } catch (error) {
+            console.log("Error parsing JSON", error);
             setRawText(e.target.value);
             setFormValues([]);
         }

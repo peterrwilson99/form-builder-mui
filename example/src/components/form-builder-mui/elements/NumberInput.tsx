@@ -1,7 +1,8 @@
-import { Typography, TextField as MUITextField, Box } from "@mui/material";
+import { TextField as MUITextField, Box } from "@mui/material";
 import { FC, useState, ChangeEvent } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { DependentProps } from "./Components";
 
 export interface NumberInputProps {
     id: string;
@@ -13,6 +14,7 @@ export interface NumberInputProps {
     value: string;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
+    dependentProperties?: DependentProps;
 }
 
 const NumberInput: FC<NumberInputProps> = (props) => {

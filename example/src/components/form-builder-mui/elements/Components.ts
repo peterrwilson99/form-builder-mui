@@ -19,6 +19,19 @@ export type { DateInputProps } from "./DateInput";
 export type { MultipleTextFieldProps } from "./MultipleTextField";
 export type { NumberInputProps } from "./NumberInput";
 
+export type DependentProps = {
+    enabled: boolean;
+    parentId: number;
+    parentValue: any;
+};
+
+export interface Element {
+    id: number;
+    type: keyof typeof Components;
+    [key: string]: any; // This can be improved by defining more explicit types
+    dependentProperties?: DependentProps;
+}
+
 export const ComponentDefaults = {
     TextField: {
         prompt: "Question text here",
@@ -120,6 +133,20 @@ export const Components = {
     Markdown: Markdown,
 };
 
+export const DependableComponents = {
+    TextField: TextField,
+    RadioInput: RadioInput,
+    SelectInput: SelectInput,
+    Checkboxes: Checkboxes,
+    DateInput: DateInput,
+    NumberInput: NumberInput,
+};
+
+// method to get type of component based on type
+export const getComponentType = (type: string) => {
+    return Components[type as ComponentKeys];
+};
+
 // make type of keys in components
 export type ComponentKeys = keyof typeof Components;
 
@@ -145,6 +172,7 @@ export const ComponentProperties = {
         required: { type: "boolean", label: "Required Field?" },
         options: { type: "array", label: "Options" },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     SelectInput: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -153,6 +181,7 @@ export const ComponentProperties = {
         required: { type: "boolean", label: "Required Field?" },
         options: { type: "array", label: "Options" },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     Header: {
         text: { type: "string", label: "Header Text" },
@@ -165,6 +194,7 @@ export const ComponentProperties = {
         italic: { type: "boolean", label: "Italic" },
         divider: { type: "boolean", label: "Divider" },
         border: { type: "boolean", label: "Bottom Border" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     Divider: {
         variant: {
@@ -178,6 +208,7 @@ export const ComponentProperties = {
             label: "Text Align",
             options: ["left", "center", "right"],
         },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     Checkboxes: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -196,6 +227,7 @@ export const ComponentProperties = {
             },
         },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     DateInput: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -212,6 +244,7 @@ export const ComponentProperties = {
             ],
         },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     MultipleTextField: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -226,6 +259,7 @@ export const ComponentProperties = {
         min: { type: "number", label: "Minimum Amount of Lines" },
         max: { type: "number", label: "Maximum Amount of Lines" },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     MultipleSelectField: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -241,6 +275,7 @@ export const ComponentProperties = {
         min: { type: "number", label: "Minimum Amount of Lines" },
         max: { type: "number", label: "Maximum Amount of Lines" },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     NumberInput: {
         prompt: { type: "string", label: "Question Prompt" },
@@ -253,8 +288,10 @@ export const ComponentProperties = {
             options: ["standard", "filled", "outlined"],
         },
         value: { type: "default", label: "Default Value" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
     Markdown: {
         text: { type: "string", label: "Markdown Text" },
+        dependentProperties: { type: "dependent", label: "Dependent Properties" },
     },
 };

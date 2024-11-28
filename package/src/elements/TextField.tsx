@@ -1,7 +1,8 @@
-import { Typography, TextField as MUITextField, Box } from "@mui/material";
+import { TextField as MUITextField, Box } from "@mui/material";
 import { FC, useState, ChangeEvent } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { DependentProps } from "./Components";
 
 export interface TextFieldProps {
     id: string;
@@ -14,6 +15,7 @@ export interface TextFieldProps {
     multiline?: boolean;
     onChange: (id: string, value: string) => void;
     disabled?: boolean;
+    dependentProperties?: DependentProps;
 }
 
 const TextField: FC<TextFieldProps> = (props) => {
