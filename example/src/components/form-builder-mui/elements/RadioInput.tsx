@@ -10,14 +10,14 @@ export interface Option {
 }
 
 export interface RadioInputProps {
-    id: string;
+    id: number;
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     value: string;
     options: Option[];
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
     dependentProperties?: DependentProps;
 }
@@ -43,7 +43,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
                 >
                     {label}
                 </FormLabel>
-                <RadioGroup id={id} value={localValue}>
+                <RadioGroup id={String(id)} value={localValue}>
                     {(options ?? []).map((option, index) => (
                         <FormControlLabel
                             key={index}

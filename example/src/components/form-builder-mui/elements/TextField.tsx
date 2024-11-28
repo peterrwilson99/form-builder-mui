@@ -5,7 +5,7 @@ import RenderMarkdown from "../helperComponents/RenderMarkdown";
 import { DependentProps } from "./Components";
 
 export interface TextFieldProps {
-    id: string;
+    id: number;
     prompt: string;
     additional?: string;
     label?: string;
@@ -13,7 +13,7 @@ export interface TextFieldProps {
     variant: "standard" | "filled" | "outlined";
     value: string;
     multiline?: boolean;
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
     dependentProperties?: DependentProps;
 }

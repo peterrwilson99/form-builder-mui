@@ -9,14 +9,14 @@ import RenderMarkdown from "../helperComponents/RenderMarkdown";
 import { DependentProps } from "./Components";
 
 export interface MultipleTextFieldProps {
-    id: string;
+    id: number;
     value: string[];
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     variant?: "standard" | "filled" | "outlined";
-    onChange: (id: string, values: string[]) => void;
+    onChange: (id: number, values: string[]) => void;
     disabled?: boolean;
     min?: string;
     max?: string;

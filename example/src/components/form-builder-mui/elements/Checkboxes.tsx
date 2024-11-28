@@ -10,13 +10,13 @@ export interface OptionType {
 }
 
 export interface CheckboxesProps {
-    id: string | number;
+    id: number;
     prompt: string;
     additional?: string;
     label?: string;
     options?: OptionType[];
     value?: Record<string, boolean>;
-    onChange: (id: string | number, value: Record<string, boolean>) => void;
+    onChange: (id: number, value: Record<string, boolean>) => void;
     disabled?: boolean;
     required?: boolean;
     dependentProperties?: DependentProps;

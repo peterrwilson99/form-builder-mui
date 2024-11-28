@@ -10,7 +10,7 @@ export interface Option {
 }
 
 export interface SelectInputProps {
-    id: string;
+    id: number;
     prompt: string;
     additional?: string;
     label?: string;
@@ -18,7 +18,7 @@ export interface SelectInputProps {
     value: string;
     variant?: "standard" | "filled" | "outlined";
     options: Option[];
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
     dependentProperties?: DependentProps;
 }
@@ -45,7 +45,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                 </InputLabel>
                 <Select
                     labelId={id + "-label"}
-                    id={id}
+                    id={String(id)}
                     value={localValue}
                     variant={variant ?? "standard"}
                     onChange={handleChange}

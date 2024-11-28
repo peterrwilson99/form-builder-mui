@@ -30,7 +30,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         formValuesRef.current = formValues;
     }, [formValues]);
 
-    const handleChange = (id: string, value: any) => {
+    const handleChange = (id: number, value: any) => {
         setErrorText("");
         setFormValues((prevValues) => {
             const updatedValues = {

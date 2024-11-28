@@ -5,14 +5,14 @@ import RenderMarkdown from "../helperComponents/RenderMarkdown";
 import { DependentProps } from "./Components";
 
 export interface NumberInputProps {
-    id: string;
+    id: number;
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     variant: "standard" | "outlined" | "filled";
     value: string;
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
     dependentProperties?: DependentProps;
 }

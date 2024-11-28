@@ -189,7 +189,6 @@ const Builder: FC<BuilderProps> = (props) => {
                             <React.Fragment>
                                 <Box className="form-preview">
                                     {elements.map((element, index) => {
-                                        console.log("In element", element.type);
                                         const Component = Components[element.type as keyof typeof Components];
                                         const isLastElement = index === elements.length - 1;
                                         return (
