@@ -5,6 +5,7 @@ import Builder from "./components/form-builder-mui/Builder";
 import { Form1, FormExamples, FormExamplesKeys } from "./components/FormExamples";
 import { Components } from "./components/form-builder-mui/elements/Components";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import InputJsonTab from "./components/InputJsonTab";
 
 interface Element {
     id: number;
@@ -55,7 +56,7 @@ function App() {
 
     return (
         <div className="App">
-            <Container maxWidth="md" sx={{ marginTop: "3rem" }}>
+            <Container maxWidth="lg" sx={{ marginTop: "3rem" }}>
                 <FormControl sx={{ minWidth: "300px" }}>
                     <InputLabel id="form-select">Select Form</InputLabel>
                     <Select labelId="Select Form" value={formSelect} onChange={handleFormChange} label="Select Form">
@@ -72,6 +73,8 @@ function App() {
                         <Tab label="Viewer disabled" />
                         <Tab label="Builder" />
                         <Tab label="Builder of old Form" />
+                        <Tab label="Builder with JSON Input" />
+                        <Tab label="Viewer with JSON Input" />
                     </Tabs>
                 </Box>
                 <Box>
@@ -79,6 +82,8 @@ function App() {
                     {value === 1 && <Viewer form={form} disabled={true} />}
                     {value === 2 && <Builder saveForm={saveForm} />}
                     {value === 3 && <Builder form={form} saveForm={saveForm} />}
+                    {value === 4 && <InputJsonTab viewer={false} saveForm={saveForm} />}
+                    {value === 5 && <InputJsonTab viewer={true} saveForm={saveForm} />}
                 </Box>
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity={alert} variant="filled" sx={{ width: "100%" }}>

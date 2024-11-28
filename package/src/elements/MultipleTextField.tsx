@@ -3,18 +3,19 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { Element } from "./Components";
 
-export interface MultipleTextFieldProps {
-    id: string;
+export interface MultipleTextFieldProps extends Element {
     value: string[];
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     variant?: "standard" | "filled" | "outlined";
-    onChange: (id: string, values: string[]) => void;
+    onChange: (id: number, values: string[]) => void;
     disabled?: boolean;
     min?: string;
     max?: string;
@@ -52,10 +53,8 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" gutterBottom>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             {values.map((value, index) => (
                 <Box
                     key={index}

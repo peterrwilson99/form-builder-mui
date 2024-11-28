@@ -1,6 +1,6 @@
 {
   "name": "form-tester",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -19,7 +19,9 @@
     "form-tester": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
     "react-scripts": "^5.0.1",
+    "remark-gfm": "^4.0.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },

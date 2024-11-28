@@ -1,16 +1,17 @@
-import { Typography, TextField as MUITextField, Box } from "@mui/material";
+import { TextField as MUITextField, Box } from "@mui/material";
 import { FC, useState, ChangeEvent } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { Element } from "./Components";
 
-export interface NumberInputProps {
-    id: string;
+export interface NumberInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     variant: "standard" | "outlined" | "filled";
     value: string;
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
@@ -26,10 +27,8 @@ const NumberInput: FC<NumberInputProps> = (props) => {
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" gutterBottom>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             <MUITextField
                 id={prompt}
                 label={label}

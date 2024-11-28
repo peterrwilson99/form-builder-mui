@@ -1,14 +1,15 @@
-import { Typography, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
+import RenderMarkdown from "../helperComponents/RenderMarkdown";
+import { DependentProps, Element } from "./Components";
 
 export interface Option {
     value: string;
     label: string;
 }
 
-export interface SelectInputProps {
-    id: string;
+export interface SelectInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -16,7 +17,7 @@ export interface SelectInputProps {
     value: string;
     variant?: "standard" | "filled" | "outlined";
     options: Option[];
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
@@ -31,12 +32,10 @@ const SelectInput: FC<SelectInputProps> = (props) => {
 
     return (
         <Box sx={{ marginY: "2.5rem" }}>
-            <QuestionPromptText prompt={prompt} required={required ?? false}/>
-            <Typography variant="subtitle2" sx={{ marginBottom: "16px" }}>
-                {additional}
-            </Typography>
+            <QuestionPromptText prompt={prompt} required={required ?? false} />
+            <RenderMarkdown markdown={additional} />
             <FormControl fullWidth required={required}>
-                <InputLabel 
+                <InputLabel
                     id={id + "-label"}
                     sx={{ "& .MuiInputLabel-asterisk": { display: "none" } }} // Hide the asterisk
                 >
@@ -44,7 +43,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                 </InputLabel>
                 <Select
                     labelId={id + "-label"}
-                    id={id}
+                    id={String(id)}
                     value={localValue}
                     variant={variant ?? "standard"}
                     onChange={handleChange}

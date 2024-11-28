@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Typography } from '@mui/material';
+import { FC } from "react";
+import { Typography } from "@mui/material";
 
 interface QuestionPromptTextProps {
     prompt: string;
@@ -8,7 +8,7 @@ interface QuestionPromptTextProps {
 
 const QuestionPromptText: FC<QuestionPromptTextProps> = ({ prompt, required }) => (
     <Typography variant="body1" gutterBottom>
-        {prompt} {required && <span style={{ color: 'red' }}>*</span>}
+        {prompt} {required && <span style={{ color: "red" }}>*</span>}
     </Typography>
 );
 

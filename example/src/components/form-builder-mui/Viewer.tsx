@@ -1,13 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Typography, debounce } from "@mui/material";
-import { Components } from "./elements/Components";
-
-export interface Element {
-    id: number;
-    type: keyof typeof Components;
-    [key: string]: any;
-}
+import { Components, Element } from "./elements/Components";
 
 export interface ViewerProps {
     form?: Element[];
@@ -36,7 +30,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         formValuesRef.current = formValues;
     }, [formValues]);
 
-    const handleChange = (id: string, value: any) => {
+    const handleChange = (id: number, value: any) => {
         setErrorText("");
         setFormValues((prevValues) => {
             const updatedValues = {
@@ -46,6 +40,10 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
             return updatedValues;
         });
         setTriggerAutosave(true);
+    };
+
+    const findElementById = (id: number) => {
+        return elements.find((element) => element.id === id);
     };
 
     const autoSave = React.useMemo(() => {
@@ -81,6 +79,19 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         return true;
     };
 
+    const isDependentElement = (element: Element): boolean => {
+        if (!element.dependentProperties) return false;
+        return element.dependentProperties?.enabled && findElementById(element.dependentProperties?.parentId) !== undefined;
+    };
+    const isDependentElementEqual = (element: Element): boolean => {
+        if (!element.dependentProperties) return false;
+        return formValues[element.dependentProperties.parentId] === element.dependentProperties.parentValue;
+    };
+
+    const shouldHideElement = (element: Element): boolean => {
+        return isDependentElement(element) && !isDependentElementEqual(element);
+    };
+
     const handleSubmit = (e: FormEvent | undefined) => {
         if (e) e.preventDefault();
         setErrorText("");
@@ -110,6 +121,10 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         <form onSubmit={handleSubmit}>
             {elements.map((element, index) => {
                 const Component = Components[element.type] as FC<any>;
+                // check for conditional display
+                if (shouldHideElement(element)) {
+                    return <></>;
+                }
                 return <Component key={index} onChange={handleChange} disabled={disabled} {...element} />;
             })}
 

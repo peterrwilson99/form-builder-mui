@@ -1,7 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Toolbox from "./Toolbox";
-import { ComponentDefaults, Components } from "./elements/Components";
-import { Box, Button, Drawer, Grid, IconButton, List, ListItem, Paper, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
+import { ComponentDefaults, Components, Element } from "./elements/Components";
+import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -11,12 +11,8 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Properties from "./Properties";
 import Viewer from "./Viewer";
 import InsertAt from "./helperComponents/InsertAt";
-
-export interface Element {
-    id: number;
-    type: keyof typeof Components;
-    [key: string]: any; // This can be improved by defining more explicit types
-}
+import InsertDependentElement from "./helperComponents/InsertDependentElement";
+import { isDependableComponent } from "./helperComponents/DependentComponentHelpers";
 
 export interface BuilderProps {
     form?: Element[];
@@ -30,6 +26,10 @@ const Builder: FC<BuilderProps> = (props) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [activeElement, setActiveElement] = useState(-1);
     const [mode, setMode] = useState("builder");
+
+    useEffect(() => {
+        setElements(form ?? []);
+    }, [form]);
 
     const moveElementUp = (index: any) => {
         if (index === 0) {
@@ -98,6 +98,20 @@ const Builder: FC<BuilderProps> = (props) => {
         }, 50);
     };
 
+    const addDependentElement = (parentId: number, componentType: keyof typeof Components) => {
+        const newElements = [...elements];
+        const newElement = getNewComponent(componentType) as Element;
+        newElement.dependentProperties = {
+            enabled: true,
+            parentId: parentId,
+            parentValue: undefined,
+        };
+
+        const parentIndex = findIndexOfElementOrThrow(parentId);
+        newElements.splice(parentIndex + 1, 0, newElement);
+        setElements(newElements);
+    };
+
     const scrollToElement = (id: number) => {
         const element = document.getElementById(id ? id.toString() : "");
         if (element) {
@@ -129,10 +143,20 @@ const Builder: FC<BuilderProps> = (props) => {
     };
 
     const deleteElement = (id: number) => {
-        const newElements = [...elements];
+        let newElements = [...elements];
         const index = findIndexOfElementOrThrow(id);
         newElements.splice(index, 1);
+        newElements = removeDependencies(id, newElements);
         setElements(newElements);
+    };
+
+    const removeDependencies = (id: number, newElements: any) => {
+        for (const element of newElements) {
+            if (element.dependentProperties?.enabled && element.dependentProperties?.parentId === id) {
+                element.dependentProperties = undefined;
+            }
+        }
+        return newElements;
     };
 
     const openDrawer = (elementId: number) => {
@@ -192,6 +216,9 @@ const Builder: FC<BuilderProps> = (props) => {
                                                                     </IconButton>
                                                                 </span>
                                                             </Tooltip>
+                                                            {isDependableComponent(element) && (
+                                                                <InsertDependentElement parentId={element.id} handleAddDependentElement={addDependentElement} />
+                                                            )}
                                                             <Tooltip title="Move Up" placement="top">
                                                                 <span>
                                                                     <IconButton onClick={() => moveElementUp(index)} disabled={index === 0}>
@@ -248,7 +275,11 @@ const Builder: FC<BuilderProps> = (props) => {
                                                 <CloseIcon />
                                             </IconButton>
                                         </Box>
-                                        {elements[activeElement] ? <Properties element={elements[activeElement]} editElement={editElement} /> : <></>}
+                                        {elements[activeElement] ? (
+                                            <Properties element={elements[activeElement]} editElement={editElement} allElements={elements} />
+                                        ) : (
+                                            <></>
+                                        )}
                                     </Box>
                                 </Drawer>
                             </React.Fragment>
