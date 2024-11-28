@@ -1,15 +1,14 @@
 import { Box, Divider, Typography, TypographyProps } from "@mui/material";
 import React, { FC } from "react";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface HeaderProps {
+export interface HeaderProps extends Element {
     text: string;
     variant?: TypographyProps["variant"];
     bold?: boolean;
     italic?: boolean;
     divider?: boolean;
     border?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const Header: FC<HeaderProps> = ({ text, variant = "h6", bold, italic, divider, border }) => {

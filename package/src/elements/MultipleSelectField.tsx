@@ -2,14 +2,13 @@ import { FC, useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { Option } from "./SelectInput";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface MultipleSelectFieldProps {
-    id: string;
+export interface MultipleSelectFieldProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -17,11 +16,10 @@ export interface MultipleSelectFieldProps {
     value: string[];
     variant?: "standard" | "filled" | "outlined";
     options: Option[];
-    onChange: (id: string, values: string[]) => void;
+    onChange: (id: number, values: string[]) => void;
     disabled?: boolean;
     min?: string;
     max?: string;
-    dependentProperties?: DependentProps;
 }
 
 const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
@@ -82,14 +80,14 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
                 >
                     <FormControl fullWidth required={required}>
                         <InputLabel
-                            id={(id as string) + "-" + index + "-label"}
+                            id={id + "-" + index + "-label"}
                             sx={{ "& .MuiInputLabel-asterisk": { display: "none" } }} // Hide the asterisk
                         >
                             {label}
                         </InputLabel>
                         <Select
-                            labelId={(id as string) + "-" + index + "-label"}
-                            id={(id as string) + "-" + index}
+                            labelId={id + "-" + index + "-label"}
+                            id={id + "-" + index}
                             value={localValue}
                             variant={variant ?? "standard"}
                             onChange={(event) => handleChange(index, event)}

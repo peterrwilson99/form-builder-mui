@@ -3,19 +3,17 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { Box } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface DateInputProps {
-    id: string | number;
+export interface DateInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     value?: string;
     format?: "time" | "datetime-local";
-    onChange: (id: string | number, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const DateInput: FC<DateInputProps> = ({ id, prompt, additional, label, required, value, format, onChange, disabled }) => {

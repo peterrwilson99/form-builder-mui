@@ -2,24 +2,22 @@ import { RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
 export interface Option {
     value: string;
     label: string;
 }
 
-export interface RadioInputProps {
-    id: string;
+export interface RadioInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
     required?: boolean;
     value: string;
     options: Option[];
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {
@@ -43,7 +41,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
                 >
                     {label}
                 </FormLabel>
-                <RadioGroup id={id} value={localValue}>
+                <RadioGroup id={String(id)} value={localValue}>
                     {(options ?? []).map((option, index) => (
                         <FormControlLabel
                             key={index}

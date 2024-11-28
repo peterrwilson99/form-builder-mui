@@ -2,15 +2,14 @@ import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } fro
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { DependentProps, Element } from "./Components";
 
 export interface Option {
     value: string;
     label: string;
 }
 
-export interface SelectInputProps {
-    id: string;
+export interface SelectInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -18,9 +17,8 @@ export interface SelectInputProps {
     value: string;
     variant?: "standard" | "filled" | "outlined";
     options: Option[];
-    onChange: (id: string, value: string) => void;
+    onChange: (id: number, value: string) => void;
     disabled?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
@@ -45,7 +43,7 @@ const SelectInput: FC<SelectInputProps> = (props) => {
                 </InputLabel>
                 <Select
                     labelId={id + "-label"}
-                    id={id}
+                    id={String(id)}
                     value={localValue}
                     variant={variant ?? "standard"}
                     onChange={handleChange}
