@@ -1,12 +1,11 @@
-import React, { useState, useEffect, ChangeEvent, FC } from "react";
+import { useState, useEffect, ChangeEvent, FC } from "react";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface DateInputProps {
-    id: number;
+export interface DateInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -15,7 +14,6 @@ export interface DateInputProps {
     format?: "time" | "datetime-local";
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const DateInput: FC<DateInputProps> = ({ id, prompt, additional, label, required, value, format, onChange, disabled }) => {

@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { DependentProps, Element } from "./Components";
 
-export interface MarkdownProps {
+export interface MarkdownProps extends Element {
     text: string;
     dependentProperties?: DependentProps;
 }

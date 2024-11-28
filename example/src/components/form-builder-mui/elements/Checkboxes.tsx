@@ -2,15 +2,14 @@ import { useState, ChangeEvent, FC } from "react";
 import { Checkbox, FormControlLabel, Box, FormControl, FormLabel, FormGroup, FormHelperText } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
 export interface OptionType {
     value: string;
     label: string;
 }
 
-export interface CheckboxesProps {
-    id: number;
+export interface CheckboxesProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -19,7 +18,6 @@ export interface CheckboxesProps {
     onChange: (id: number, value: Record<string, boolean>) => void;
     disabled?: boolean;
     required?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value, options, onChange, disabled, required }) => {

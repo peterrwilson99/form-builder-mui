@@ -6,10 +6,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface MultipleTextFieldProps {
-    id: number;
+export interface MultipleTextFieldProps extends Element {
     value: string[];
     prompt: string;
     additional?: string;
@@ -20,7 +19,6 @@ export interface MultipleTextFieldProps {
     disabled?: boolean;
     min?: string;
     max?: string;
-    dependentProperties?: DependentProps;
 }
 
 const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, additional, label, variant, required, onChange, disabled, max, min }) => {

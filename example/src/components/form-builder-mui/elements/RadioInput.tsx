@@ -2,15 +2,14 @@ import { RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from
 import { FC, useState } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
 export interface Option {
     value: string;
     label: string;
 }
 
-export interface RadioInputProps {
-    id: number;
+export interface RadioInputProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -19,7 +18,6 @@ export interface RadioInputProps {
     options: Option[];
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
-    dependentProperties?: DependentProps;
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {

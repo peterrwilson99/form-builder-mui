@@ -2,14 +2,13 @@ import { FC, useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { Option } from "./SelectInput";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface MultipleSelectFieldProps {
-    id: number;
+export interface MultipleSelectFieldProps extends Element {
     prompt: string;
     additional?: string;
     label?: string;
@@ -21,7 +20,6 @@ export interface MultipleSelectFieldProps {
     disabled?: boolean;
     min?: string;
     max?: string;
-    dependentProperties?: DependentProps;
 }
 
 const MultipleSelectField: FC<MultipleSelectFieldProps> = ({

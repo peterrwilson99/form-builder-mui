@@ -1,12 +1,11 @@
 import { Box, Divider as MUIDivider, Chip } from "@mui/material";
 import { FC } from "react";
-import { DependentProps } from "./Components";
+import { Element } from "./Components";
 
-export interface DividerProps {
+export interface DividerProps extends Element {
     variant?: "fullWidth" | "inset" | "middle";
     text?: string;
     textAlign?: "left" | "center" | "right";
-    dependentProperties?: DependentProps;
 }
 
 const Divider: FC<DividerProps> = ({ variant = "fullWidth", text, textAlign }) => {
