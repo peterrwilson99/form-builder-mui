@@ -1,9 +1,2 @@
-import Builder from "./Builder";
-import Viewer from "./Viewer";
-
-const FormBuilderMUI = {
-    Builder: Builder,
-    Viewer: Viewer,
-};
-
-export default FormBuilderMUI;
+export { default as Viewer } from './Viewer';
+export { default as Builder } from './Builder';
