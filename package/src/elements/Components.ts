@@ -37,7 +37,7 @@ export const ComponentDefaults = {
         prompt: "Question text here",
         additional: "Additional question text here",
         required: false,
-        variant: "standard",
+        variant: "outlined",
         value: "",
         multiline: false,
     },
@@ -94,6 +94,7 @@ export const ComponentDefaults = {
     MultipleTextField: {
         prompt: "Question text here",
         additional: "Additional question text here",
+        variant: "outlined",
         required: false,
     },
     MultipleSelectField: {
@@ -112,7 +113,7 @@ export const ComponentDefaults = {
         prompt: "Question text here",
         additional: "Additional question text here",
         required: false,
-        variant: "standard",
+        variant: "outlined",
     },
     Markdown: {
         text: "**Markdown** text here",

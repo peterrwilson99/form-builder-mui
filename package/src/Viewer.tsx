@@ -28,6 +28,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
     // Update the ref whenever formValues changes
     useEffect(() => {
         formValuesRef.current = formValues;
+        console.log(formValues);
     }, [formValues]);
 
     const handleChange = (id: number, value: any) => {
@@ -50,7 +51,22 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         return debounce(() => handleAutosave(undefined, formValuesRef.current), autoSaveInterval ?? 3000);
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
+        loadFormValues();
+    }, [form]);
+
+    const loadFormValues = () => {
+        // loads form values from form into formValues for dependent elements
+        if(!form) return;
+        const values: FormValues = {};
+        form.forEach((element) => {
+            if(element.value == null) return;
+            values[element.id] = element.value;
+        })
+        setFormValues(values);
+    }
+
+    useEffect(() => {
         if (triggerAutosave && !preview && !disabled && onAutoSave) {
             autoSave();
             setTriggerAutosave(false);
