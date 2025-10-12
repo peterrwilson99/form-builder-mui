@@ -3,8 +3,8 @@ import { Tabs, Tab, Box, Container, Snackbar, Alert } from "@mui/material";
 import Viewer from "../components/form-builder-mui/Viewer";
 import Builder from "../components/form-builder-mui/Builder";
 import { Form1, FormExamples, FormExamplesKeys } from "../components/FormExamples";
-import { ComponentKeys, Components, Element } from "../components/form-builder-mui/elements/Components";
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Element } from "../components/form-builder-mui/elements/Components";
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 import InputJsonTab from "../components/InputJsonTab";
 
 export default function Home() {
@@ -26,20 +26,20 @@ export default function Home() {
         setOpen(true);
     };
 
-    const handleFormChange = (e: any) => {
+    const handleFormChange = (e: SelectChangeEvent<string>) => {
         setFormSelect(e.target.value);
 
         const selectedForm = (FormExamples[e.target.value as FormExamplesKeys] as Element[]) ?? [];
         setForm(selectedForm);
     };
 
-    const handleSubmit = (formSubmission: any) => {
+    const handleSubmit = (formSubmission: Element[]) => {
         console.log(JSON.stringify(formSubmission));
         setAlert("success");
         setOpen(true);
     };
 
-    const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 

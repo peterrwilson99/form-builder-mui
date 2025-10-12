@@ -145,7 +145,7 @@ export type Element =
 export type ElementByType<T extends ComponentKeys> = Extract<Element, { type: T }>;
 
 // Type for form input elements (elements that can have values)
-export type FormInputElementType = Extract<Element, { value: any }>;
+export type FormInputElementType = Extract<Element, { value: unknown }>;
 
 // Type for elements that can be required
 export type RequiredElementType = Extract<Element, { required?: boolean }>;
@@ -154,7 +154,7 @@ export type RequiredElementType = Extract<Element, { required?: boolean }>;
 export type OptionsElementType = Extract<Element, { options: OptionType[] }>;
 
 // Type for elements that can have variants
-export type VariantElementType = Extract<Element, { variant: any }>;
+export type VariantElementType = Extract<Element, { variant: string }>;
 
 // Type guard functions
 export const isFormInputElement = (element: Element): element is FormInputElementType => {
@@ -287,6 +287,16 @@ export const DependableComponents = {
 
 // make type of keys in components
 export type ComponentKeys = keyof typeof Components;
+
+// Common props that all form components accept
+export interface BaseComponentProps {
+    onChange?: (id: number | string, value: unknown) => void;
+    disabled?: boolean;
+    inPropertyPanel?: boolean;
+}
+
+// Type for component props that extends Element with common props
+export type ComponentProps = Element & BaseComponentProps;
 
 
 // Properties for the component properties config

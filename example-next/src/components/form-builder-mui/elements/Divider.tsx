@@ -3,7 +3,7 @@ import { FC } from "react";
 import { DividerElement } from "./Components";
 
 export interface DividerProps extends DividerElement {
-    // No additional props needed for Divider
+    disabled?: boolean;
 }
 
 const Divider: FC<DividerProps> = ({ variant = "fullWidth", text, textAlign }) => {

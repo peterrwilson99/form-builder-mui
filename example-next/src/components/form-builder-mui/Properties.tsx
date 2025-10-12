@@ -23,7 +23,7 @@ import { isDependableComponent } from "./helperComponents/DependentComponentHelp
 
 export interface PropertiesProps {
     element: Element;
-    editElement: (id: number, properties: { [key: string]: any }) => void;
+    editElement: (id: number, properties: Record<string, unknown>) => void;
     allElements: Element[];
 }
 
@@ -33,11 +33,11 @@ export interface ComponentDetails {
     options?: OptionType[] | string[];
 }
 
-const SelectComponent = (label: string, options: OptionType[] | string[] | undefined, value: any, handleChange: (event: SelectChangeEvent) => void) => {
+const SelectComponent = (label: string, options: OptionType[] | string[] | undefined, value: unknown, handleChange: (event: SelectChangeEvent) => void) => {
     return (
         <FormControl sx={{ marginY: "16px" }} fullWidth>
             <InputLabel id={`${label}-label`}>{label}</InputLabel>
-            <Select labelId={`${label}-label`} value={value} variant="standard" onChange={handleChange}>
+            <Select labelId={`${label}-label`} value={value as string} variant="standard" onChange={handleChange}>
                 {(options ?? []).map((option, index) => {
                     return (
                         <MenuItem key={index} value={option instanceof Object ? option.value : option}>
@@ -53,7 +53,7 @@ const SelectComponent = (label: string, options: OptionType[] | string[] | undef
 const DependentDisplayProperties = (currentElement: Element, allElements: Element[], handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
     const [enableDependentDisplay, setEnableDependentDisplay] = useState(currentElement.dependentProperties?.enabled ?? false);
     const [dependentDisplayId, setDependentDisplayId] = useState(currentElement.dependentProperties?.parentId ?? -1);
-    const [dependentDisplayValue, setDependentDisplayValue] = useState<any>(currentElement.dependentProperties?.parentValue ?? undefined);
+    const [dependentDisplayValue, setDependentDisplayValue] = useState<unknown>(currentElement.dependentProperties?.parentValue ?? undefined);
     const dependableElements = allElements.filter((element) => isDependableComponent(element));
 
     const updateFormProperties = () => {
@@ -105,7 +105,7 @@ const DependentDisplayProperties = (currentElement: Element, allElements: Elemen
             {enableDependentDisplay && dependentDisplayId !== -1 ? (
                 <Box>
                     <Typography variant="h6">Display When Value Contains</Typography>
-                    {getDependentValueComponent(dependentDisplayId, dependableElements, dependentDisplayValue, (id: string, value: any) =>
+                    {getDependentValueComponent(dependentDisplayId, dependableElements, dependentDisplayValue, (id: string, value: unknown) =>
                         setDependentDisplayValue(value)
                     )}
                 </Box>
@@ -116,11 +116,13 @@ const DependentDisplayProperties = (currentElement: Element, allElements: Elemen
     );
 };
 
-const getDependentValueComponent = (elementId: number, allElements: Element[], value: any, onChange: (id: string, value: any) => void) => {
+const getDependentValueComponent = (elementId: number, allElements: Element[], value: unknown, onChange: (id: string, value: unknown) => void) => {
     const element = allElements.find((element) => element.id === elementId);
     if (element === undefined) return <></>;
+    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     const Component = Components[element.type as ComponentKeys] as FC<any>;
-    return <Component onChange={onChange} inPropertyPanel={true} {...element} value={value} />;
+    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+    return <Component onChange={onChange} inPropertyPanel={true} {...element} value={value as any} />;
 };
 
 const BooleanComponent = (label: string, value: boolean, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
@@ -163,16 +165,16 @@ const NumberComponent = (
     );
 };
 
-const ArrayComponent = (label: string, value: OptionType[] | undefined, handleChange: (event: any) => void): any => {
+const ArrayComponent = (label: string, value: OptionType[] | undefined, handleChange: (event: ChangeEvent<HTMLInputElement>) => void): React.JSX.Element => {
     const [options, setOptions] = useState(value ?? ([""] as OptionType[]));
 
     const handleOptionChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const newOptions = [...options];
         newOptions[index] = { label: event.target.value, value: index }; // Ensure this is an OptionType object
         setOptions(newOptions);
-        const keyedOptions = newOptions.map((option, index) => ({ value: option.label, label: option.label ?? "" }));
+        const keyedOptions = newOptions.map((option) => ({ value: option.label, label: option.label ?? "" }));
 
-        handleChange({ target: keyedOptions }); // Mimic event object structure for consistency
+        handleChange({ target: { value: keyedOptions } } as unknown as ChangeEvent<HTMLInputElement>); // Mimic event object structure for consistency
     };
 
     const handleAddOption = () => {
@@ -183,15 +185,15 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
         const newOptions = [...options];
         newOptions.splice(index, 1);
         setOptions(newOptions);
-        const keyedOptions = newOptions.map((option, index) => ({ value: option.label, label: option.label ?? "" }));
-        handleChange({ target: keyedOptions }); // Mimic event object structure for consistency
+        const keyedOptions = newOptions.map((option) => ({ value: option.label, label: option.label ?? "" }));
+        handleChange({ target: { value: keyedOptions } } as unknown as ChangeEvent<HTMLInputElement>); // Mimic event object structure for consistency
     };
 
     return (
         <Box>
             <InputLabel>{label}</InputLabel>
             {(options ?? []).map((option, index) => (
-                <Box sx={{ display: "flex", maxWidth: "400px", width: "100%" }}>
+                <Box key={index} sx={{ display: "flex", maxWidth: "400px", width: "100%" }}>
                     <TextField
                         key={index}
                         sx={{ flex: 1, marginY: "16px", overflowWrap: "break-word" }}
@@ -212,19 +214,20 @@ const ArrayComponent = (label: string, value: OptionType[] | undefined, handleCh
     );
 };
 
-const onChangeConverter = (id: string, value: any) => {
+const onChangeConverter = (id: string, value: unknown) => {
     return { target: { id, value } } as ChangeEvent<HTMLInputElement>;
 };
 
-const DefaultComponent = (label: string, componentProps: any, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
+const DefaultComponent = (label: string, componentProps: Element, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
     const componentType: ComponentKeys = componentProps.type ?? "TextField";
+    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     const Component = Components[componentType] as FC<any>;
     return (
         <Box>
             <Divider sx={{ marginY: "16px" }} />
             <Typography variant="h5">Set Default Value</Typography>
             <Component
-                onChange={(id: string, value: any) => {
+                onChange={(id: string, value: unknown) => {
                     handleChange(onChangeConverter(id, value));
                 }}
                 inPropertyPanel={true}
@@ -236,8 +239,8 @@ const DefaultComponent = (label: string, componentProps: any, handleChange: (eve
 
 const getComponent = (
     details: ComponentDetails,
-    value: any,
-    handleChange: (event: any) => void,
+    value: unknown,
+    handleChange: (event: ChangeEvent<HTMLInputElement>) => void,
     min: number | undefined,
     max: number | undefined,
     allElements: Element[],
@@ -246,17 +249,17 @@ const getComponent = (
     const { type, label, options } = details;
     switch (type) {
         case "select":
-            return SelectComponent(label, options, value, handleChange);
+            return SelectComponent(label, options, value, handleChange as unknown as (event: SelectChangeEvent) => void);
         case "boolean":
-            return BooleanComponent(label, value, handleChange);
+            return BooleanComponent(label, value as boolean, handleChange);
         case "string":
-            return StringComponent(label, value, handleChange);
+            return StringComponent(label, value as string, handleChange);
         case "array":
-            return ArrayComponent(label, value, handleChange);
+            return ArrayComponent(label, value as OptionType[], handleChange);
         case "number":
-            return NumberComponent(label, value, handleChange, min, max);
+            return NumberComponent(label, value as number, handleChange, min, max);
         case "default":
-            return DefaultComponent(label, value, handleChange);
+            return DefaultComponent(label, value as Element, handleChange);
         case "dependent":
             return DependentDisplayProperties(currentElement, allElements, handleChange);
         default:
@@ -266,7 +269,7 @@ const getComponent = (
 
 const Properties: FC<PropertiesProps> = ({ element, editElement, allElements }) => {
     const componentProperties = ComponentProperties[element.type as keyof typeof ComponentProperties];
-    const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key, value]) => key !== "id")));
+    const [properties, setProperties] = useState(Object.fromEntries(Object.entries(element).filter(([key]) => key !== "id")));
 
     const handleChange = (key: string) => (event: ChangeEvent<HTMLInputElement>) => {
         let val: string | boolean | OptionType[] = event.target.value ?? event.target;

@@ -2,7 +2,7 @@ import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } fro
 import { FC, useState, useEffect } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { SelectInputElement, OptionType } from "./Components";
+import { SelectInputElement } from "./Components";
 
 export interface SelectInputProps extends SelectInputElement {
     onChange: (id: number, value: string) => void;

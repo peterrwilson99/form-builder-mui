@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { MultipleSelectFieldElement, OptionType } from "./Components";
+import { MultipleSelectFieldElement } from "./Components";
 
 export interface MultipleSelectFieldProps extends MultipleSelectFieldElement {
     onChange: (id: number, values: string[]) => void;

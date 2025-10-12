@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { HeaderElement } from "./Components";
 
 export interface HeaderProps extends HeaderElement {
-    // No additional props needed for Header
+    disabled?: boolean;
 }
 
 const Header: FC<HeaderProps> = ({ text, variant = "h6" as TypographyProps["variant"], bold, italic, divider, border }) => {

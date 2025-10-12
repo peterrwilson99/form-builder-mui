@@ -3,7 +3,7 @@ import RenderMarkdown from "../helperComponents/RenderMarkdown";
 import { MarkdownElement } from "./Components";
 
 export interface MarkdownProps extends MarkdownElement {
-    // No additional props needed for Markdown
+    disabled?: boolean;
 }
 
 const Markdown: FC<MarkdownProps> = ({ text }) => {
