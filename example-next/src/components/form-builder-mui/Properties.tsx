@@ -122,7 +122,7 @@ const getDependentValueComponent = (elementId: number, allElements: Element[], v
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
     const Component = Components[element.type as ComponentKeys] as FC<any>;
     {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-    return <Component onChange={onChange} inPropertyPanel={true} {...element} value={value as any} />;
+    return <Component onChange={onChange} {...element} value={value as any} />;
 };
 
 const BooleanComponent = (label: string, value: boolean, handleChange: (event: ChangeEvent<HTMLInputElement>) => void) => {
@@ -230,7 +230,6 @@ const DefaultComponent = (label: string, componentProps: Element, handleChange: 
                 onChange={(id: string, value: unknown) => {
                     handleChange(onChangeConverter(id, value));
                 }}
-                inPropertyPanel={true}
                 {...componentProps}
             />
         </Box>

@@ -292,7 +292,6 @@ export type ComponentKeys = keyof typeof Components;
 export interface BaseComponentProps {
     onChange?: (id: number | string, value: unknown) => void;
     disabled?: boolean;
-    inPropertyPanel?: boolean;
 }
 
 // Type for component props that extends Element with common props
