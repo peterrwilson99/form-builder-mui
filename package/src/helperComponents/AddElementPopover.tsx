@@ -18,7 +18,9 @@ function AddElementPopover(props: AddElementPopoverProps) {
 
     const handleClose = () => {
         setAnchorEl(null);
-        anchorChange && anchorChange(null);
+        if (anchorChange) {
+            anchorChange(null);
+        }
     };
 
     const handleMenuButtonClick = (component: ComponentKeys) => {

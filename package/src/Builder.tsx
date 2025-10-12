@@ -31,7 +31,7 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(form ?? []);
     }, [form]);
 
-    const moveElementUp = (index: any) => {
+    const moveElementUp = (index: number) => {
         if (index === 0) {
             return; // Already at the top
         }
@@ -42,7 +42,7 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
 
-    const moveElementDown = (index: any) => {
+    const moveElementDown = (index: number) => {
         if (index === elements.length - 1) {
             return; // Already at the bottom
         }
@@ -132,7 +132,7 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
 
-    const editElement = (id: number, properties: { [key: string]: any }) => {
+    const editElement = (id: number, properties: Record<string, unknown>) => {
         const newElements = [...elements];
         const index = findIndexOfElementOrThrow(id);
         const elementToEdit = getCopyOfElementOrThrow(id);
@@ -255,7 +255,8 @@ const Builder: FC<BuilderProps> = (props) => {
                                                                 cursor: "pointer",
                                                             }}
                                                         >
-                                                            <Component {...(element as any)} disabled={true} />
+                                                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                                            <Component {...(element as any)} />
                                                         </Box>
                                                     </Box>
                                                 </Paper>
@@ -317,7 +318,11 @@ const Builder: FC<BuilderProps> = (props) => {
                         <Button
                             sx={{ marginY: "16px" }}
                             onClick={() => {
-                                saveForm ? saveForm(elements) : console.log(elements);
+                                if (saveForm) {
+                                    saveForm(elements);
+                                } else {
+                                    console.log(elements);
+                                }
                             }}
                             variant="outlined"
                         >

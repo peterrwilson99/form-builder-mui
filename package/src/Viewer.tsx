@@ -8,17 +8,16 @@ import {
     isRequiredElement,
     FormInputElementType,
     RequiredElementType,
-    ElementByType,
     ComponentKeys
 } from "./elements/Components";
 
 export interface ViewerProps {
     form?: Element[];
-    onSubmit?: (formValues: any) => void;
-    onSubmitPartial?: (formValues: any) => void;
-    onAutoSave?: (formValues: any) => void;
+    onSubmit?: (formValues: Element[]) => void;
+    onSubmitPartial?: (formValues: Element[]) => void;
+    onAutoSave?: (formValues: Element[]) => void;
     autoSaveInterval?: number;
-    preview?: Boolean;
+    preview?: boolean;
     disabled?: boolean;
     submitText?: string;
     saveText?: string;
@@ -135,7 +134,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         
         // Handle array comparison for multiple select fields
         if (Array.isArray(expectedValue) && Array.isArray(actualValue)) {
-            return expectedValue.every((val: any) => (actualValue as any[]).includes(val));
+            return expectedValue.every((val: unknown) => (actualValue as unknown[]).includes(val));
         }
         
         return actualValue === expectedValue;
@@ -174,6 +173,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         <form onSubmit={handleSubmit}>
             {elements.map((element, index) => {
                 // Type-safe component access
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 const Component = Components[element.type as ComponentKeys] as FC<any>;
                 
                 // check for conditional display

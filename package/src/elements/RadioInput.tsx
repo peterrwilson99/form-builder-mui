@@ -2,7 +2,7 @@ import { RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from
 import { FC, useState, useEffect } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { RadioInputElement, OptionType } from "./Components";
+import { RadioInputElement } from "./Components";
 
 export interface RadioInputProps extends RadioInputElement {
     onChange: (id: number, value: string) => void;
@@ -21,7 +21,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
         setValue(newStringValue);
     }, [value]);
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value === localValue ? "" : e.target.value;
         setValue(newValue);
         onChange(id, newValue);
@@ -44,7 +44,7 @@ const RadioInput: FC<RadioInputProps> = (props) => {
                             key={index}
                             value={option.value}
                             disabled={disabled}
-                            control={<Radio disabled={disabled} onClick={handleChange} />}
+                            control={<Radio disabled={disabled} onChange={handleChange} />}
                             label={option.label}
                             sx={{
                                 maxWidth: "400px",

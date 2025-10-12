@@ -1,6 +1,6 @@
 import { Divider, IconButton, Tooltip } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { ComponentKeys, Components } from "../elements/Components";
+import { ComponentKeys } from "../elements/Components";
 import { useState } from "react";
 import AddElementPopover from "./AddElementPopover";
 
