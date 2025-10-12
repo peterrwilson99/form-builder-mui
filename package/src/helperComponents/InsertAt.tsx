@@ -1,11 +1,11 @@
 import { Divider, IconButton, Tooltip } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import { Components } from "../elements/Components";
+import { ComponentKeys, Components } from "../elements/Components";
 import { useState } from "react";
 import AddElementPopover from "./AddElementPopover";
 
 export interface InsertAtProps {
-    handleAddComponentAtIndex: (component: keyof typeof Components) => void;
+    handleAddComponentAtIndex: (component: ComponentKeys) => void;
 }
 
 function InsertAt(props: InsertAtProps) {

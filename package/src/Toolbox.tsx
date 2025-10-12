@@ -1,10 +1,10 @@
 import React, { FC, useState } from "react";
-import { Components } from "./elements/Components";
+import { ComponentKeys, Components } from "./elements/Components";
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 export interface ToolboxProps {
-    onAddComponent: (component: keyof typeof Components) => void;
+    onAddComponent: (component: ComponentKeys) => void;
 }
 
 const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
@@ -30,7 +30,7 @@ const Toolbox: FC<ToolboxProps> = ({ onAddComponent }) => {
                     tooltipTitle={component}
                     tooltipOpen
                     onClick={() => {
-                        onAddComponent(component as keyof typeof Components);
+                        onAddComponent(component as ComponentKeys);
                         setOpen(false); // Close the SpeedDial after adding a component
                     }}
                 />

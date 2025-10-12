@@ -1,11 +1,9 @@
 import { Box, Divider as MUIDivider, Chip } from "@mui/material";
 import { FC } from "react";
-import { Element } from "./Components";
+import { DividerElement } from "./Components";
 
-export interface DividerProps extends Element {
-    variant?: "fullWidth" | "inset" | "middle";
-    text?: string;
-    textAlign?: "left" | "center" | "right";
+export interface DividerProps extends DividerElement {
+    // No additional props needed for Divider
 }
 
 const Divider: FC<DividerProps> = ({ variant = "fullWidth", text, textAlign }) => {

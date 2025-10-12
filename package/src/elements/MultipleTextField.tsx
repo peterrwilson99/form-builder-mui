@@ -6,30 +6,25 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { MultipleTextFieldElement } from "./Components";
 
-export interface MultipleTextFieldProps extends Element {
-    value: string[];
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    variant?: "standard" | "filled" | "outlined";
+export interface MultipleTextFieldProps extends MultipleTextFieldElement {
     onChange: (id: number, values: string[]) => void;
     disabled?: boolean;
-    min?: string;
-    max?: string;
 }
 
 const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, additional, label, variant, required, onChange, disabled, max, min }) => {
     const defaultValues = () => {
         if (!min) return [""];
-        return Array(parseInt(min)).fill("");
+        return Array(parseInt(String(min))).fill("");
     };
-    const [values, setValues] = useState<string[]>(defaultValues);
+    // Ensure value is a string array for MultipleTextField component
+    const arrayValue = Array.isArray(value) ? value : defaultValues();
+    const [values, setValues] = useState<string[]>(arrayValue);
 
     useEffect(() => {
-        setValues(value ?? defaultValues);
+        const newArrayValue = Array.isArray(value) ? value : defaultValues();
+        setValues(newArrayValue);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, min]);
 
@@ -76,7 +71,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
                     />
                     {index === values.length - 1 && (
                         // strict comparison is not working for some reason
-                        <IconButton color="primary" disabled={disabled || (max && values.length >= parseInt(max)) || undefined} onClick={handleAddField}>
+                        <IconButton color="primary" disabled={disabled || (max && values.length >= parseInt(String(max))) || undefined} onClick={handleAddField}>
                             <AddCircleOutlineIcon />
                         </IconButton>
                     )}
@@ -84,7 +79,7 @@ const MultipleTextField: FC<MultipleTextFieldProps> = ({ id, value, prompt, addi
                         // same as above, strict comparison not working
                         <IconButton
                             color="secondary"
-                            disabled={disabled || (min && values.length <= parseInt(min)) || undefined}
+                            disabled={disabled || (min && values.length <= parseInt(String(min))) || undefined}
                             onClick={() => handleRemoveField(index)}
                         >
                             <DeleteIcon />

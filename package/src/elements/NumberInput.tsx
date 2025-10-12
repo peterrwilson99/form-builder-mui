@@ -1,23 +1,25 @@
 import { TextField as MUITextField, Box } from "@mui/material";
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, ChangeEvent, useEffect } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { NumberInputElement } from "./Components";
 
-export interface NumberInputProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    variant: "standard" | "outlined" | "filled";
-    value: string;
+export interface NumberInputProps extends NumberInputElement {
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
 const NumberInput: FC<NumberInputProps> = (props) => {
     const { id, prompt, additional, label, required, variant, value, onChange, disabled } = props;
-    const [localValue, setValue] = useState<string>(value);
+    // Ensure value is a string for NumberInput component
+    const stringValue = typeof value === 'string' ? value : '';
+    const [localValue, setValue] = useState<string>(stringValue);
+
+    // Sync local state with external value prop
+    useEffect(() => {
+        const newStringValue = typeof value === 'string' ? value : '';
+        setValue(newStringValue);
+    }, [value]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = String(Number(e.target.value));

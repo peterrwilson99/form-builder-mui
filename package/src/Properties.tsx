@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, useState, useEffect, ChangeEvent } from "react";
-import { ComponentKeys, ComponentProperties, Components, Element } from "./elements/Components";
+import { ComponentKeys, ComponentProperties, Components, Element, isFormInputElement, OptionType } from "./elements/Components";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
     Box,
@@ -20,10 +20,6 @@ import {
 } from "@mui/material";
 import { isDependableComponent } from "./helperComponents/DependentComponentHelpers";
 
-export interface OptionType {
-    label?: string | number;
-    value?: string | number;
-}
 
 export interface PropertiesProps {
     element: Element;
@@ -32,12 +28,12 @@ export interface PropertiesProps {
 }
 
 export interface ComponentDetails {
-    type: string;
+    type: "string" | "boolean" | "select" | "array" | "number" | "default" | "dependent";
     label: string;
-    options?: OptionType[];
+    options?: OptionType[] | string[];
 }
 
-const SelectComponent = (label: string, options: OptionType[] | undefined, value: any, handleChange: (event: SelectChangeEvent) => void) => {
+const SelectComponent = (label: string, options: OptionType[] | string[] | undefined, value: any, handleChange: (event: SelectChangeEvent) => void) => {
     return (
         <FormControl sx={{ marginY: "16px" }} fullWidth>
             <InputLabel id={`${label}-label`}>{label}</InputLabel>
@@ -97,7 +93,7 @@ const DependentDisplayProperties = (currentElement: Element, allElements: Elemen
                         {dependableElements.map((formElement, index) => {
                             return (
                                 <MenuItem key={index} value={formElement.id}>
-                                    {formElement.type} - {formElement.prompt ?? formElement.text}
+                                    {formElement.type} - {isFormInputElement(formElement) ? formElement.prompt : formElement.text}
                                 </MenuItem>
                             );
                         })}

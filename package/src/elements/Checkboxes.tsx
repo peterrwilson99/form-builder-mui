@@ -1,31 +1,33 @@
-import { useState, ChangeEvent, FC } from "react";
+import { useState, ChangeEvent, FC, useEffect } from "react";
 import { Checkbox, FormControlLabel, Box, FormControl, FormLabel, FormGroup, FormHelperText } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { CheckboxesElement, OptionType } from "./Components";
 
-export interface OptionType {
-    value: string;
-    label: string;
-}
-
-export interface CheckboxesProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    options?: OptionType[];
-    value?: Record<string, boolean>;
+export interface CheckboxesProps extends CheckboxesElement {
     onChange: (id: number, value: Record<string, boolean>) => void;
     disabled?: boolean;
-    required?: boolean;
 }
 
 const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value, options, onChange, disabled, required }) => {
     const [valuesChanged, setValuesChanged] = useState<boolean>(false);
-    const [localValue, setValue] = useState<Record<string, boolean>>(value ?? {});
+    // Ensure value is a Record<string, boolean> for Checkboxes component
+    const recordValue = typeof value === 'object' && value !== null && !Array.isArray(value) 
+        ? value as Record<string, boolean> 
+        : {};
+    const [localValue, setValue] = useState<Record<string, boolean>>(recordValue);
+
+    // Sync local state with external value prop
+    useEffect(() => {
+        const newRecordValue = typeof value === 'object' && value !== null && !Array.isArray(value) 
+            ? value as Record<string, boolean> 
+            : {};
+        setValue(newRecordValue);
+    }, [value]);
 
     const handleChange = (option: OptionType) => (event: ChangeEvent<HTMLInputElement>) => {
-        const newValue = { ...localValue, [option.value]: event.target.checked };
+        const optionValue = String(option.value ?? '');
+        const newValue = { ...localValue, [optionValue]: event.target.checked };
         setValuesChanged(true);
         setValue(newValue);
         onChange(id, newValue);
@@ -51,14 +53,14 @@ const Checkboxes: FC<CheckboxesProps> = ({ id, prompt, additional, label, value,
                             disabled={disabled}
                             control={
                                 <Checkbox
-                                    checked={localValue[option.value] || false}
+                                    checked={localValue[String(option.value ?? '')] || false}
                                     onChange={handleChange(option)}
-                                    name={option.label}
+                                    name={String(option.label ?? '')}
                                     disabled={disabled}
                                     color="primary"
                                 />
                             }
-                            label={option.label}
+                            label={String(option.label ?? '')}
                             sx={{
                                 maxWidth: "400px",
                                 width: "90%",

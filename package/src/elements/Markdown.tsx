@@ -1,10 +1,9 @@
 import React, { FC } from "react";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps, Element } from "./Components";
+import { MarkdownElement } from "./Components";
 
-export interface MarkdownProps extends Element {
-    text: string;
-    dependentProperties?: DependentProps;
+export interface MarkdownProps extends MarkdownElement {
+    // No additional props needed for Markdown
 }
 
 const Markdown: FC<MarkdownProps> = ({ text }) => {

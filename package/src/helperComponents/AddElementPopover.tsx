@@ -1,9 +1,9 @@
 import { MenuItem, MenuList, Popover } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Components } from "../elements/Components";
+import { ComponentKeys, Components } from "../elements/Components";
 
 export interface AddElementPopoverProps {
-    handleAddComponentAtIndex: (component: keyof typeof Components) => void;
+    handleAddComponentAtIndex: (component: ComponentKeys) => void;
     anchorElement: HTMLButtonElement | null;
     anchorChange?: (element: HTMLButtonElement | null) => void;
 }
@@ -21,7 +21,7 @@ function AddElementPopover(props: AddElementPopoverProps) {
         anchorChange && anchorChange(null);
     };
 
-    const handleMenuButtonClick = (component: keyof typeof Components) => {
+    const handleMenuButtonClick = (component: ComponentKeys) => {
         handleAddComponentAtIndex(component);
         handleClose();
     };
@@ -41,7 +41,7 @@ function AddElementPopover(props: AddElementPopoverProps) {
         >
             <MenuList>
                 {Object.keys(Components).map((component, index) => (
-                    <MenuItem key={index} onClick={() => handleMenuButtonClick(component as keyof typeof Components)}>
+                    <MenuItem key={index} onClick={() => handleMenuButtonClick(component as ComponentKeys)}>
                         {component}
                     </MenuItem>
                 ))}

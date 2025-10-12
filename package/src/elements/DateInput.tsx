@@ -3,24 +3,22 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { Box } from "@mui/material";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { DateInputElement } from "./Components";
 
-export interface DateInputProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    value?: string;
-    format?: "time" | "datetime-local";
+export interface DateInputProps extends DateInputElement {
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
 const DateInput: FC<DateInputProps> = ({ id, prompt, additional, label, required, value, format, onChange, disabled }) => {
-    const [localValue, setValue] = useState<string>(value ?? "");
+    // Ensure value is a string for DateInput component
+    const stringValue = typeof value === 'string' ? value : '';
+    const [localValue, setValue] = useState<string>(stringValue);
 
+    // Sync local state with external value prop
     useEffect(() => {
-        setValue(value ?? "");
+        const newStringValue = typeof value === 'string' ? value : '';
+        setValue(newStringValue);
     }, [value]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

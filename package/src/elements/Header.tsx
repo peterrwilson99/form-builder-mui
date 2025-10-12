@@ -1,22 +1,17 @@
 import { Box, Divider, Typography, TypographyProps } from "@mui/material";
 import React, { FC } from "react";
-import { Element } from "./Components";
+import { HeaderElement } from "./Components";
 
-export interface HeaderProps extends Element {
-    text: string;
-    variant?: TypographyProps["variant"];
-    bold?: boolean;
-    italic?: boolean;
-    divider?: boolean;
-    border?: boolean;
+export interface HeaderProps extends HeaderElement {
+    // No additional props needed for Header
 }
 
-const Header: FC<HeaderProps> = ({ text, variant = "h6", bold, italic, divider, border }) => {
+const Header: FC<HeaderProps> = ({ text, variant = "h6" as TypographyProps["variant"], bold, italic, divider, border }) => {
     return (
         <React.Fragment>
             <Box sx={{ marginY: "2.5rem", borderBottom: border ? "1px solid black" : "" }}>
                 <Typography
-                    variant={variant}
+                    variant={variant as TypographyProps["variant"]}
                     fontStyle={italic ? "italic" : ""}
                     fontWeight={bold ? "bold" : ""}
                     sx={{

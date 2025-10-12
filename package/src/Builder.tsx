@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import Toolbox from "./Toolbox";
-import { ComponentDefaults, Components, Element } from "./elements/Components";
+import { ComponentDefaults, ComponentKeys, Components, Element } from "./elements/Components";
 import { Box, Button, Drawer, Grid, IconButton, Paper, ToggleButton, ToggleButtonGroup, Tooltip } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -75,17 +75,17 @@ const Builder: FC<BuilderProps> = (props) => {
         return { ...elements[index] };
     };
 
-    const getNewComponent = (componentType: keyof typeof Components) => {
+    const getNewComponent = (componentType: ComponentKeys): Element => {
         const componentPropertiesCurrent = ComponentDefaults[componentType as keyof typeof ComponentDefaults];
 
         return {
             id: generateNextId(),
             type: componentType,
             ...componentPropertiesCurrent,
-        };
+        } as Element;
     };
 
-    const onAddComponent = (componentType: keyof typeof Components) => {
+    const onAddComponent = (componentType: ComponentKeys) => {
         const newElement = getNewComponent(componentType);
         const nextId = newElement.id;
 
@@ -98,7 +98,7 @@ const Builder: FC<BuilderProps> = (props) => {
         }, 50);
     };
 
-    const addDependentElement = (parentId: number, componentType: keyof typeof Components) => {
+    const addDependentElement = (parentId: number, componentType: ComponentKeys) => {
         const newElements = [...elements];
         const newElement = getNewComponent(componentType) as Element;
         newElement.dependentProperties = {
@@ -122,23 +122,28 @@ const Builder: FC<BuilderProps> = (props) => {
     const duplicateComponent = (id: number) => {
         const newElements = [...elements];
         const index = findIndexOfElementOrThrow(id);
-        const elementToDuplicate: any = getCopyOfElementOrThrow(id);
+        const elementToDuplicate = getCopyOfElementOrThrow(id);
         const nextId = generateNextId();
-        const newElement: Element = elementToDuplicate;
-        newElement.id = nextId;
+        const newElement: Element = {
+            ...elementToDuplicate,
+            id: nextId,
+        };
         newElements.splice(index + 1, 0, newElement);
         setElements(newElements);
     };
 
-    const editElement = (id: number, properties: any) => {
+    const editElement = (id: number, properties: { [key: string]: any }) => {
         const newElements = [...elements];
         const index = findIndexOfElementOrThrow(id);
         const elementToEdit = getCopyOfElementOrThrow(id);
 
-        for (const [key, value] of Object.entries(properties)) {
-            elementToEdit[key] = value;
-        }
-        newElements[index] = elementToEdit;
+        // Create a new element with updated properties
+        const updatedElement = {
+            ...elementToEdit,
+            ...properties,
+        } as Element;
+
+        newElements[index] = updatedElement;
         setElements(newElements);
     };
 
@@ -150,13 +155,16 @@ const Builder: FC<BuilderProps> = (props) => {
         setElements(newElements);
     };
 
-    const removeDependencies = (id: number, newElements: any) => {
-        for (const element of newElements) {
+    const removeDependencies = (id: number, newElements: Element[]): Element[] => {
+        return newElements.map(element => {
             if (element.dependentProperties?.enabled && element.dependentProperties?.parentId === id) {
-                element.dependentProperties = undefined;
+                return {
+                    ...element,
+                    dependentProperties: undefined,
+                };
             }
-        }
-        return newElements;
+            return element;
+        });
     };
 
     const openDrawer = (elementId: number) => {
@@ -171,10 +179,10 @@ const Builder: FC<BuilderProps> = (props) => {
         }
     };
 
-    const insertAtIndexHandler = (index: number, component: keyof typeof Components) => {
-        const ComponentToAdd = getNewComponent(component);
+    const insertAtIndexHandler = (index: number, component: ComponentKeys) => {
+        const componentToAdd = getNewComponent(component);
         const newElements = [...elements];
-        newElements.splice(index + 1, 0, ComponentToAdd);
+        newElements.splice(index + 1, 0, componentToAdd);
         setElements(newElements);
     };
 
@@ -189,7 +197,7 @@ const Builder: FC<BuilderProps> = (props) => {
                             <React.Fragment>
                                 <Box className="form-preview">
                                     {elements.map((element, index) => {
-                                        const Component = Components[element.type as keyof typeof Components];
+                                        const Component = Components[element.type as ComponentKeys];
                                         const isLastElement = index === elements.length - 1;
                                         return (
                                             <React.Fragment key={index}>

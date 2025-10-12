@@ -3,23 +3,13 @@ import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Option } from "./SelectInput";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { MultipleSelectFieldElement, OptionType } from "./Components";
 
-export interface MultipleSelectFieldProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    value: string[];
-    variant?: "standard" | "filled" | "outlined";
-    options: Option[];
+export interface MultipleSelectFieldProps extends MultipleSelectFieldElement {
     onChange: (id: number, values: string[]) => void;
     disabled?: boolean;
-    min?: string;
-    max?: string;
 }
 
 const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
@@ -38,12 +28,15 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
 }) => {
     const defaultValues = () => {
         if (!min) return [""];
-        return Array(parseInt(min)).fill("");
+        return Array(parseInt(String(min))).fill("");
     };
-    const [values, setValues] = useState<string[]>(defaultValues);
+    // Ensure value is a string array for MultipleSelectField component
+    const arrayValue = Array.isArray(value) ? value : defaultValues();
+    const [values, setValues] = useState<string[]>(arrayValue);
 
     useEffect(() => {
-        setValues(value ?? defaultValues);
+        const newArrayValue = Array.isArray(value) ? value : defaultValues();
+        setValues(newArrayValue);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, min]);
 
@@ -105,7 +98,7 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
                     </FormControl>
                     {index === values.length - 1 && (
                         // strict comparison is not working for some reason
-                        <IconButton color="primary" disabled={disabled || (max && values.length >= parseInt(max)) || undefined} onClick={handleAddField}>
+                        <IconButton color="primary" disabled={disabled || (max && values.length >= parseInt(String(max))) || undefined} onClick={handleAddField}>
                             <AddCircleOutlineIcon />
                         </IconButton>
                     )}
@@ -113,7 +106,7 @@ const MultipleSelectField: FC<MultipleSelectFieldProps> = ({
                         // same as above, strict comparison not working
                         <IconButton
                             color="secondary"
-                            disabled={disabled || (min && values.length <= parseInt(min)) || undefined}
+                            disabled={disabled || (min && values.length <= parseInt(String(min))) || undefined}
                             onClick={() => handleRemoveField(index)}
                         >
                             <DeleteIcon />

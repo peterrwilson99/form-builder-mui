@@ -1,28 +1,25 @@
 import { RadioGroup, FormControlLabel, Radio, Box, FormControl, FormLabel } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { RadioInputElement, OptionType } from "./Components";
 
-export interface Option {
-    value: string;
-    label: string;
-}
-
-export interface RadioInputProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    value: string;
-    options: Option[];
+export interface RadioInputProps extends RadioInputElement {
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
 const RadioInput: FC<RadioInputProps> = (props) => {
     const { id, prompt, additional, label, required, value, options, onChange, disabled } = props;
-    const [localValue, setValue] = useState<string>(value);
+    // Ensure value is a string for RadioInput component
+    const stringValue = typeof value === 'string' ? value : '';
+    const [localValue, setValue] = useState<string>(stringValue);
+
+    // Sync local state with external value prop
+    useEffect(() => {
+        const newStringValue = typeof value === 'string' ? value : '';
+        setValue(newStringValue);
+    }, [value]);
 
     const handleChange = (e: any) => {
         const newValue = e.target.value === localValue ? "" : e.target.value;

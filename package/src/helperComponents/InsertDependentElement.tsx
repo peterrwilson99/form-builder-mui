@@ -1,12 +1,12 @@
 import { IconButton, Tooltip } from "@mui/material";
 import { AccountTree } from "@mui/icons-material";
-import { Components } from "../elements/Components";
+import { ComponentKeys } from "../elements/Components";
 import { useState } from "react";
 import AddElementPopover from "./AddElementPopover";
 
 export interface InsertDependentElementProps {
     parentId: number;
-    handleAddDependentElement: (parentId: number, component: keyof typeof Components) => void;
+    handleAddDependentElement: (parentId: number, component: ComponentKeys) => void;
 }
 
 function InsertDependentElement(props: InsertDependentElementProps) {
@@ -17,7 +17,7 @@ function InsertDependentElement(props: InsertDependentElementProps) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleAddComponentAtIndex = (component: keyof typeof Components) => {
+    const handleAddComponentAtIndex = (component: ComponentKeys) => {
         handleAddDependentElement(parentId, component);
     };
 

@@ -1,24 +1,25 @@
 import { TextField as MUITextField, Box } from "@mui/material";
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, ChangeEvent, useEffect } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { Element } from "./Components";
+import { TextFieldElement } from "./Components";
 
-export interface TextFieldProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    variant: "standard" | "filled" | "outlined";
-    value: string;
-    multiline?: boolean;
+export interface TextFieldProps extends TextFieldElement {
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
 const TextField: FC<TextFieldProps> = (props) => {
     const { id, prompt, additional, label, required, variant, value, multiline, onChange, disabled } = props;
-    const [localValue, setValue] = useState<string>(value);
+    // Ensure value is a string for TextField component
+    const stringValue = typeof value === 'string' ? value : '';
+    const [localValue, setValue] = useState<string>(stringValue);
+
+    // Sync local state with external value prop
+    useEffect(() => {
+        const newStringValue = typeof value === 'string' ? value : '';
+        setValue(newStringValue);
+    }, [value]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);

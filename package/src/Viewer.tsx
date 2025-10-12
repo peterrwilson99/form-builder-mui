@@ -1,7 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Typography, debounce } from "@mui/material";
-import { Components, Element } from "./elements/Components";
+import { 
+    Components, 
+    Element, 
+    isFormInputElement, 
+    isRequiredElement,
+    FormInputElementType,
+    RequiredElementType,
+    ElementByType,
+    ComponentKeys
+} from "./elements/Components";
 
 export interface ViewerProps {
     form?: Element[];
@@ -14,8 +23,9 @@ export interface ViewerProps {
     submitText?: string;
     saveText?: string;
 }
+// Type-safe form values interface
 interface FormValues {
-    [key: string]: any;
+    [elementId: string]: string | number | boolean | string[] | number[] | boolean[] | Record<string, boolean> | undefined;
 }
 
 const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, autoSaveInterval, preview, disabled, submitText, saveText }) => {
@@ -31,17 +41,17 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
         console.log(formValues);
     }, [formValues]);
 
-    const handleChange = (id: number, value: any) => {
+    const handleChange = React.useCallback((id: number, value: FormValues[string]) => {
         setErrorText("");
         setFormValues((prevValues) => {
-            const updatedValues = {
+            const updatedValues: FormValues = {
                 ...prevValues,
                 [id]: value,
             };
             return updatedValues;
         });
         setTriggerAutosave(true);
-    };
+    }, []);
 
     const findElementById = (id: number) => {
         return elements.find((element) => element.id === id);
@@ -49,7 +59,7 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
 
     const autoSave = React.useMemo(() => {
         return debounce(() => handleAutosave(undefined, formValuesRef.current), autoSaveInterval ?? 3000);
-    }, []);
+    }, [autoSaveInterval]);
 
     useEffect(() => {
         loadFormValues();
@@ -57,38 +67,54 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
 
     const loadFormValues = () => {
         // loads form values from form into formValues for dependent elements
-        if(!form) return;
+        if (!form) return;
         const values: FormValues = {};
         form.forEach((element) => {
-            if(element.value == null) return;
-            values[element.id] = element.value;
-        })
+            if (!isFormInputElement(element)) return;
+            // Type-safe access to element.value since we know it's a FormInputElementType
+            const inputElement = element as FormInputElementType;
+            values[inputElement.id] = inputElement.value;
+        });
         setFormValues(values);
-    }
+    };
 
     useEffect(() => {
         if (triggerAutosave && !preview && !disabled && onAutoSave) {
             autoSave();
             setTriggerAutosave(false);
         }
-    }, [triggerAutosave, autoSave, handleChange]);
+    }, [triggerAutosave, autoSave, preview, disabled, onAutoSave]);
 
-    const getCompletedForm = (formValuesProp: FormValues | undefined) => {
-        const completedForm = form ?? [];
+    const getCompletedForm = (formValuesProp: FormValues | undefined): Element[] => {
+        const completedForm = [...(form ?? [])]; // Create a copy to avoid mutations
         const curFormValues = formValuesProp ?? formValues;
+        
         for (const id in curFormValues) {
             const index = completedForm.findIndex((element) => String(element.id) === id);
-            completedForm[index].value = curFormValues[id];
+            if (index !== -1 && isFormInputElement(completedForm[index])) {
+                // Type-safe update of element value
+                const inputElement = completedForm[index] as FormInputElementType;
+                completedForm[index] = {
+                    ...inputElement,
+                    value: curFormValues[id] as FormInputElementType['value'],
+                };
+            }
         }
         return completedForm;
     };
 
-    const isComplete = (completedForm: Element[]) => {
-        const requiredElements = completedForm.filter((element) => element.required);
+    const isComplete = (completedForm: Element[]): boolean => {
+        const requiredElements = completedForm.filter((element) => isRequiredElement(element)) as RequiredElementType[];
+        
         for (const element of requiredElements) {
-            if (element.value === false || element.value === 0) continue;
-
-            if (!element.value) {
+            if (!isFormInputElement(element)) continue;
+            
+            const inputElement = element as FormInputElementType;
+            // Handle special cases where falsy values are valid (false, 0)
+            if (inputElement.value === false || inputElement.value === 0) continue;
+            
+            // Check if the value is empty/null/undefined
+            if (!inputElement.value) {
                 return false;
             }
         }
@@ -96,12 +122,23 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
     };
 
     const isDependentElement = (element: Element): boolean => {
-        if (!element.dependentProperties) return false;
-        return element.dependentProperties?.enabled && findElementById(element.dependentProperties?.parentId) !== undefined;
+        if (!element.dependentProperties?.enabled) return false;
+        const parentElement = findElementById(element.dependentProperties.parentId);
+        return parentElement !== undefined;
     };
+
     const isDependentElementEqual = (element: Element): boolean => {
-        if (!element.dependentProperties) return false;
-        return formValues[element.dependentProperties.parentId] === element.dependentProperties.parentValue;
+        if (!element.dependentProperties?.enabled) return false;
+        const parentId = element.dependentProperties.parentId;
+        const expectedValue = element.dependentProperties.parentValue;
+        const actualValue = formValues[parentId];
+        
+        // Handle array comparison for multiple select fields
+        if (Array.isArray(expectedValue) && Array.isArray(actualValue)) {
+            return expectedValue.every((val: any) => (actualValue as any[]).includes(val));
+        }
+        
+        return actualValue === expectedValue;
     };
 
     const shouldHideElement = (element: Element): boolean => {
@@ -136,12 +173,22 @@ const Viewer: FC<ViewerProps> = ({ form, onSubmit, onSubmitPartial, onAutoSave, 
     return (
         <form onSubmit={handleSubmit}>
             {elements.map((element, index) => {
-                const Component = Components[element.type] as FC<any>;
+                // Type-safe component access
+                const Component = Components[element.type as ComponentKeys] as FC<any>;
+                
                 // check for conditional display
                 if (shouldHideElement(element)) {
-                    return <></>;
+                    return <React.Fragment key={index} />;
                 }
-                return <Component key={index} onChange={handleChange} disabled={disabled} {...element} />;
+                
+                return (
+                    <Component 
+                        key={element.id} 
+                        onChange={handleChange} 
+                        disabled={disabled} 
+                        {...element} 
+                    />
+                );
             })}
 
             {!preview && !disabled ? (

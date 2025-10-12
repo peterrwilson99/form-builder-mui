@@ -1,29 +1,25 @@
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import QuestionPromptText from "../helperComponents/QuestionPromptText";
 import RenderMarkdown from "../helperComponents/RenderMarkdown";
-import { DependentProps, Element } from "./Components";
+import { SelectInputElement, OptionType } from "./Components";
 
-export interface Option {
-    value: string;
-    label: string;
-}
-
-export interface SelectInputProps extends Element {
-    prompt: string;
-    additional?: string;
-    label?: string;
-    required?: boolean;
-    value: string;
-    variant?: "standard" | "filled" | "outlined";
-    options: Option[];
+export interface SelectInputProps extends SelectInputElement {
     onChange: (id: number, value: string) => void;
     disabled?: boolean;
 }
 
 const SelectInput: FC<SelectInputProps> = (props) => {
     const { id, prompt, additional, label, required, value, variant, options, onChange, disabled } = props;
-    const [localValue, setValue] = useState<string>(value);
+    // Ensure value is a string for SelectInput component
+    const stringValue = typeof value === 'string' ? value : '';
+    const [localValue, setValue] = useState<string>(stringValue);
+
+    // Sync local state with external value prop
+    useEffect(() => {
+        const newStringValue = typeof value === 'string' ? value : '';
+        setValue(newStringValue);
+    }, [value]);
 
     const handleChange = (e: SelectChangeEvent) => {
         setValue(e.target.value);

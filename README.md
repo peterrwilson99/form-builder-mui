@@ -26,17 +26,19 @@ npm install form-builder-mui
 ```
 
 ### Local Install
+
 1. Clone the repository:
 
    ```shell
    git clone https://github.com/peterrwilson99/form-builder-ts
    ```
+
 2. Install the dependencies:
 
-    ```
-    cd form-builder-mui/package
-    npm install
-    ```
+   ```
+   cd form-builder-mui/package
+   npm install
+   ```
 
 ## Usage
 
@@ -48,7 +50,8 @@ The Builder component is responsible for creating and customizing forms. Here ar
 - `saveForm`: A callback function that takes one argument—an array containing the form's elements. If not provided, the form will be logged to the console upon saving.
 - `scrollToNewElement`: A boolean indicating whether the page should scroll to the newly added form element, defaults to true.
 
-*Example usage*
+_Example usage_
+
 ```js
 import { Box } from "@mui/material";
 import Builder from "form-builder-mui/build/Builder";
@@ -71,6 +74,7 @@ export default FormBuilderExample;
 ```
 
 ### Viewer
+
 The Viewer component displays and interacts with the forms created using the Builder. It accepts the following props:
 
 - `form`: The input for the form designed in the Builder.
@@ -83,7 +87,7 @@ The Viewer component displays and interacts with the forms created using the Bui
 - `submitText`: A string representing the text to be displayed on the submit button.
 - `saveText`: A string representing the text to be displayed on the save button.
 
-*Example usage*
+_Example usage_
 
 ```js
 import { Box } from "@mui/material";
@@ -120,4 +124,3 @@ export default FormViewerExample;
 ## Contributing
 
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
-
