@@ -1,6 +1,6 @@
 {
   "name": "form-builder-mui",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "type": "module",
   "engines": {
     "node": ">=18"
@@ -16,8 +16,7 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "build:r": "rollup -c",
+    "build": "rollup -c",
     "deploy": "npm run build && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
